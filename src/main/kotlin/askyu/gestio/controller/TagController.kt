@@ -57,8 +57,11 @@ class TagController {
 
     @PutMapping("/{i}")
     fun putInTag(@RequestBody prioridadeTag: DadosAdicionaisTag, @PathVariable i:Int):ResponseEntity<Tag>{
-        sistema[i].prioridade = prioridadeTag.prioridade
-        return ResponseEntity.status(200).body(sistema[i])
+        if(existeTag(i)) {
+            sistema[i].prioridade = prioridadeTag.prioridade
+            return ResponseEntity.status(200).body(sistema[i])
+        }
+        throw ResponseStatusException(HttpStatusCode.valueOf(404), "Tag não encontrado!")
     }
 
 
@@ -68,7 +71,7 @@ class TagController {
             sistema[i].nome = novoNome.nome
             return ResponseEntity.status(200).body("Nome do Tag atualizado para ${sistema[i].nome}")
         }
-        throw ResponseStatusException(HttpStatusCode.valueOf(400), "Tag não encontrado!")
+        throw ResponseStatusException(HttpStatusCode.valueOf(404), "Tag não encontrado!")
     }
 
     @DeleteMapping("/{i}")

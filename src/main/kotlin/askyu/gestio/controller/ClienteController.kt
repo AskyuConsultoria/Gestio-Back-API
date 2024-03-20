@@ -56,9 +56,8 @@ class ClienteController {
     }
 
     @PutMapping("/{i}")
-    fun putInClient(@RequestBody DadosAdicionais: DadosAdicionais, @PathVariable i:Int):ResponseEntity<Cliente>{
-        var putIn = sistema[i]
-        putIn.CEP = DadosAdicionais.CEP
+    fun putInClient(@RequestBody cep: DadosAdicionais, @PathVariable i:Int):ResponseEntity<Cliente>{
+        sistema[i].cep = cep.cep
         return ResponseEntity.status(200).body(sistema[i])
     }
 
