@@ -12,8 +12,8 @@ data class Endereco(
     @field:Id @field:GeneratedValue(strategy = GenerationType.IDENTITY)
     var idEndereco:Int?,
     @field:NotBlank var CEP:String?,
-    @field:NotBlank var logradouro:String?,
-    @field:NotBlank var bairro:String?,
-    @field:NotBlank var localidade:String?,
-    @field:NotBlank @field:Size(min = 2, max = 2) var uf:String?
+    var logradouro:String?,
+    var bairro:String?,
+    var localidade:String?,
+    @field:Size(min = 2, max = 2) var uf:String?
 )
