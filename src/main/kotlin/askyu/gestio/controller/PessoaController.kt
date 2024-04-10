@@ -1,28 +1,25 @@
-//package askyu.gestio.controller
-//
-//import askyu.gestio.Patch.NovoNome
-//import askyu.gestio.dominio.funcionario.Funcionario
-//import org.springframework.http.ResponseEntity
-//import org.springframework.web.bind.annotation.DeleteMapping
-//import org.springframework.web.bind.annotation.GetMapping
-//import org.springframework.web.bind.annotation.PatchMapping
-//import org.springframework.web.bind.annotation.PathVariable
-//import org.springframework.web.bind.annotation.PostMapping
-//import org.springframework.web.bind.annotation.PutMapping
-//import org.springframework.web.bind.annotation.RequestBody
-//import org.springframework.web.bind.annotation.RequestMapping
-//import org.springframework.web.bind.annotation.RestController
-//
-//@RestController
-//@RequestMapping("/pessoa")
-//class PessoaController {
-//
-//    var sistema = mutableListOf<Funcionario>()
-//
-//    @GetMapping
-//    fun getList():ResponseEntity<List<Funcionario>>{
-//        return ResponseEntity.status(200).body(sistema)
-//    }
+package askyu.gestio.controller
+
+import askyu.gestio.dominio.funcionario.Funcionario
+import askyu.gestio.dominio.pessoa.Pessoa
+import askyu.gestio.repository.PessoaRepository
+import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.http.ResponseEntity
+import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RestController
+
+@RestController
+@RequestMapping("/pessoa")
+class PessoaController {
+
+    @Autowired
+    lateinit var repository: PessoaRepository
+
+    @GetMapping
+    fun getList(): ResponseEntity<List<Pessoa>> {
+        return ResponseEntity.status(200).body(repository.findAll())
+    }
 //    @GetMapping("/{i}")
 //    fun getListId(@PathVariable i:Int):ResponseEntity<Funcionario>{
 //        if(existeUsuario(i)) {
@@ -59,4 +56,4 @@
 //    fun existeUsuario(i:Int):Boolean{
 //        return i >= 0 && i < sistema.size
 //    }
-//}
+}

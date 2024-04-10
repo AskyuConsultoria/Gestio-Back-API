@@ -1,28 +1,24 @@
-//package askyu.gestio.controller
-//
-//import askyu.gestio.dominio.pessoa.Pessoa
-//import askyu.gestio.repository.PessoaRepository
-//import org.springframework.beans.factory.annotation.Autowired
-//import org.springframework.http.HttpStatusCode
-//import org.springframework.http.ResponseEntity
-//import org.springframework.web.bind.annotation.*
-//import org.springframework.web.server.ResponseStatusException
-//
-//@RestController
-//@RequestMapping("/cliente")
-//class ClienteController {
-//
-//    var sistema = mutableListOf<Pessoa>()
-//
-//    @Autowired
-//    lateinit var repository:PessoaRepository
-//    @GetMapping
-//    fun getList():ResponseEntity<List<Pessoa>>{
-//        if(sistema.isEmpty()){
-//            throw ResponseStatusException(HttpStatusCode.valueOf(204), "Não existem tags cadastradas")
-//        }
-//        return ResponseEntity.status(200).body(sistema)
-//    }
+package askyu.gestio.controller
+
+import askyu.gestio.dominio.evento.Tag
+import askyu.gestio.dominio.funcionario.Funcionario
+import askyu.gestio.repository.FuncionarioRepository
+import askyu.gestio.repository.PessoaRepository
+import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.http.ResponseEntity
+import org.springframework.web.bind.annotation.*
+
+@RestController
+@RequestMapping("/cliente")
+class ClienteController {
+
+    @Autowired
+    lateinit var repository: FuncionarioRepository
+
+    @GetMapping
+    fun getList(): ResponseEntity<List<Funcionario>> {
+        return ResponseEntity.status(200).body(repository.findAll())
+    }
 //    @GetMapping("/{i}")
 //    fun getListId(@PathVariable i:Int):ResponseEntity<Pessoa>{
 //        if(existeClient(i)) {
@@ -82,4 +78,4 @@
 //    fun existeClient(i:Int):Boolean{
 //        return i >= 0 && i < sistema.size
 //    }
-//}
+}

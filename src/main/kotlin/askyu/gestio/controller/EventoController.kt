@@ -1,31 +1,22 @@
-//package askyu.gestio.controller
-//
-//import askyu.gestio.Patch.DadosAdicionaisTag
-//import askyu.gestio.Patch.NovoNome
-//import askyu.gestio.dominio.evento.Tag
-//import askyu.gestio.repository.EventoRepository
-//import org.springframework.beans.factory.annotation.Autowired
-//import org.springframework.http.HttpStatusCode
-//import org.springframework.http.ResponseEntity
-//import org.springframework.web.bind.annotation.*
-//import org.springframework.web.server.ResponseStatusException
-//
-//@RestController
-//@RequestMapping("/evento")
-//class EventoController {
-//
-//    var sistema = mutableListOf<Tag>()
-//
-//    @Autowired
-//    lateinit var repository:EventoRepository
-//
-//    @GetMapping
-//    fun getList():ResponseEntity<List<Tag>>{
-//        if(sistema.isEmpty()){
-//            throw ResponseStatusException(HttpStatusCode.valueOf(204), "Não existem tags cadastradas")
-//        }
-//        return ResponseEntity.status(200).body(sistema)
-//    }
+package askyu.gestio.controller
+
+import askyu.gestio.dominio.evento.Tag
+import askyu.gestio.repository.EventoRepository
+import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.http.ResponseEntity
+import org.springframework.web.bind.annotation.*
+
+@RestController
+@RequestMapping("/evento")
+class EventoController {
+
+    @Autowired
+    lateinit var repository:EventoRepository
+
+    @GetMapping
+    fun getList(): ResponseEntity<List<Tag>> {
+        return ResponseEntity.status(200).body(repository.findAll())
+    }
 //    @GetMapping("/{i}")
 //    fun getListId(@PathVariable i:Int):ResponseEntity<Tag>{
 //        if(existeTag(i)) {
@@ -90,4 +81,4 @@
 //    fun existeTag(i:Int):Boolean{
 //        return i >= 0 && i < sistema.size
 //    }
-//}
+}
