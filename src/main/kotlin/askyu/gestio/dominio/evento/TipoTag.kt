@@ -12,4 +12,6 @@ data class TipoTag(
     var idTipo:Int?,
     @field:NotBlank var nome:String?,
     @field:NotBlank var descricao:String?
-)
+){
+    constructor() : this(null, null, null)
+}

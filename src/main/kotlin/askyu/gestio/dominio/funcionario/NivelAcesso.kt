@@ -9,4 +9,6 @@ data class NivelAcesso(
     var idNivelAcesso:Int?,
     @field:NotBlank var nome: String?,
     @field:NotBlank var descricao: String?
-)
+){
+    constructor() : this(null, null, null)
+}

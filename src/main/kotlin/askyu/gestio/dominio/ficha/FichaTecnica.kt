@@ -11,4 +11,6 @@ data class FichaTecnica(
     @field:NotBlank @ManyToOne var fkMedida: MetricaMedida?,
     @field:NotBlank var valorMedida:String?
 
-)
+){
+    constructor() : this(null, null, null)
+}

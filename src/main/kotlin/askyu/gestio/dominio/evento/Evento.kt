@@ -18,4 +18,6 @@ data class Evento(
     @field:NotBlank var localizacao:String?,
     @field:NotBlank var descricao:String?,
     @field:NotBlank var ativo:Boolean?
-)
+) {
+    constructor() : this(null, null, null,null, null, null, null)
+}

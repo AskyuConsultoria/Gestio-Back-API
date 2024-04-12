@@ -11,9 +11,12 @@ import jakarta.validation.constraints.Size
 data class Endereco(
     @field:Id @field:GeneratedValue(strategy = GenerationType.IDENTITY)
     var idEndereco:Int?,
-    @field:NotBlank var CEP:String?,
+    @field:NotBlank var cep:String?,
     var logradouro:String?,
     var bairro:String?,
     var localidade:String?,
     @field:Size(min = 2, max = 2) var uf:String?
-)
+){
+    constructor() : this(null, null, null,null, null, null)
+}
+

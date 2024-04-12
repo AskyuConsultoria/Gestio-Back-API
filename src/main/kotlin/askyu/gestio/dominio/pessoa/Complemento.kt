@@ -19,4 +19,6 @@ data class Complemento(
     @field:NotBlank var numero:Int?,
     var complemento: String?,
     @field:NotBlank var ativo:Boolean?
-)
+){
+    constructor() : this(null, null, null,null, null, null)
+}

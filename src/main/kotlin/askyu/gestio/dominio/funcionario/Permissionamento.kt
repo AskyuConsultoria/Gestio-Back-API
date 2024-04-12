@@ -14,4 +14,6 @@ data class Permissionamento(
     var fkTipoAcesso: TipoAcesso?,
 
     var permitido:Boolean?
-)
+){
+    constructor() : this(null, null, null, null)
+}

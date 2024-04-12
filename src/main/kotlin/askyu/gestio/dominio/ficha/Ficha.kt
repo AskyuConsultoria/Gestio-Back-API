@@ -16,4 +16,6 @@ data class Ficha(
     @field:NotBlank var ativo:Boolean?
 
 
-)
+){
+    constructor() : this(null, null, null,null, null, null)
+}

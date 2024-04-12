@@ -13,4 +13,6 @@ data class TipoTelefone(
     @field:NotBlank var nome:String?,
     @field:NotBlank var digitos:Int?
 
-)
+){
+    constructor() : this(null, null, null)
+}

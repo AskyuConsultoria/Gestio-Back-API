@@ -12,4 +12,6 @@ data class MetricaMedida(
     var idMetrica:Int?,
     @field:NotBlank var local:String?,
     @field:NotBlank var unidadeMedida:String?
-)
+){
+    constructor() : this(null, null, null)
+}

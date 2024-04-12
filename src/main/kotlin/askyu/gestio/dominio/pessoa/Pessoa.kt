@@ -18,4 +18,6 @@ data class Pessoa(
     var fkResponsavel: Pessoa?,
 
     @field:NotBlank var ativo:Boolean?
-)
+){
+    constructor() : this(null, null, null,null, null, null, null)
+}

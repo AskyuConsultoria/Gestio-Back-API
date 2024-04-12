@@ -10,4 +10,6 @@ data class Tag(
     @field:NotBlank var nome:String?,
     var cor:String?,
     @field:NotBlank @ManyToOne var fkTipo: TipoTag?,
-)
+){
+    constructor() : this(null, null, null,null)
+}

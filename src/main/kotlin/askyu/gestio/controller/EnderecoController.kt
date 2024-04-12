@@ -21,11 +21,16 @@ class EnderecoController {
 
     @GetMapping
     fun getList(): ResponseEntity<List<Endereco>> {
-        return ResponseEntity.status(200).body(repository.findAll())
+        val lista = repository.findAll()
+
+        if (lista.isNotEmpty()) {
+            return ResponseEntity.status(200).body(lista)
+        }
+        return ResponseEntity.status(204).build()
     }
 
     @PostMapping
-    fun cadastrarPorCEP(@RequestParam cep:String) {
+    fun cadastrarPorCEP(@RequestParam cep:String):Boolean {
         try {
             val restTemplate = RestTemplate()
             val url = "https://viacep.com.br/ws/${cep}/json/?fields=cep,logradouro,bairro,localidade,uf"
@@ -33,8 +38,16 @@ class EnderecoController {
             val request = RequestEntity<Any>(null, method, UriComponentsBuilder.fromUriString(url).build().toUri())
             val response = restTemplate.exchange(request, Endereco::class.java)
             repository.save(response.body!!)
+            return true
         } catch (erro:Exception){
             throw ResponseStatusException(HttpStatusCode.valueOf(404), "Esse CEP não existe")
         }
     }
+    @GetMapping("/cep")
+    fun getEndereco(@RequestParam cep:String):ResponseEntity<Endereco> {
+
+        return ResponseEntity.of(repository.findByCep(cep))
+
+    }
+
 }
