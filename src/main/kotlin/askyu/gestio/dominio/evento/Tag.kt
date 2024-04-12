@@ -9,5 +9,5 @@ data class Tag(
     var idTag:Int?,
     @field:NotBlank var nome:String?,
     var cor:String?,
-    @field:NotBlank @ManyToOne var fkTipo: TipoTag?,
+    @field:NotBlank @ManyToOne var fkTipo: Int?,
 )
