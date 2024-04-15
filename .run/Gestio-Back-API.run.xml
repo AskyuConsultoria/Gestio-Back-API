@@ -1,0 +1,9 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="Gestio-Back-API" type="Application" factoryName="Application">
+    <option name="MAIN_CLASS_NAME" value="askyu.gestio.GestioApplicationKt" />
+    <module name="gestio" />
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>
