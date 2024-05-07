@@ -1,4 +1,4 @@
-package askyu.gestio
+package consultoria.askyu.gestio
 
 import org.junit.jupiter.api.Test
 import org.springframework.boot.test.context.SpringBootTest

@@ -1,4 +1,4 @@
-package askyu.gestio
+package consultoria.askyu.gestio
 
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
@@ -7,5 +7,5 @@ import org.springframework.boot.runApplication
 class GestioApplication
 
 fun main(args: Array<String>) {
-	runApplication<GestioApplication>(*args)
+	val runApplication = runApplication<GestioApplication>(*args)
 }
