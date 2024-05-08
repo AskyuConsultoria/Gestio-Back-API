@@ -9,7 +9,7 @@ import jakarta.validation.constraints.NotBlank
 @Entity
 data class TipoTelefone(
     @field:Id @field:GeneratedValue(strategy = GenerationType.IDENTITY)
-    var idTipoTelefone:Int?,
+    var id:Int?,
     @field:NotBlank var nome:String?,
     @field:NotBlank var digitos:Int?
 

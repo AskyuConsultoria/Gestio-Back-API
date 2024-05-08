@@ -8,7 +8,7 @@ import java.time.LocalDate
 data class Pessoa(
 
     @field:Id @field:GeneratedValue(strategy = GenerationType.IDENTITY)
-    var idCliente:Int?,
+    var id:Int?,
     @field:NotBlank var nome:String?,
     @field:NotBlank var sobrenome: String?,
     @field:NotBlank var dtNasc:LocalDate?,
