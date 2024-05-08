@@ -28,7 +28,7 @@ class EmpresaService(
     }
 
     fun existenceValidation(id:Int){
-        if(repository.existsById(id)) {
+        if(!repository.existsById(id)) {
             throw ResponseStatusException(HttpStatusCode.valueOf(404), "Empresa não encontrada!")
         }
     }
@@ -55,7 +55,7 @@ class EmpresaService(
     fun attTelefone(id:Int, novoTelefone:TelefoneDTO):Empresa{
         existenceValidation(id)
         var empresa = repository.findById(id).get()
-        if(empresa.telefone != novoTelefone.telefone){
+        if(empresa.telefone == novoTelefone.telefone){
             throw ResponseStatusException(HttpStatusCode.valueOf(409), "Esse ja é o telefone cadastrado nessa empresa!")
         }
         empresa.telefone = novoTelefone.telefone
@@ -65,7 +65,7 @@ class EmpresaService(
     fun attEmail(id:Int, novoEmail:EmailDTO):Empresa{
         existenceValidation(id)
         var empresa = repository.findById(id).get()
-        if(empresa.email != novoEmail.email){
+        if(empresa.email == novoEmail.email){
             throw ResponseStatusException(HttpStatusCode.valueOf(409), "Esse ja é o email cadastrado nessa empresa!")
         }
         empresa.email = novoEmail.email
