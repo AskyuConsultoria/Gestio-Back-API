@@ -1,12 +1,9 @@
-package askyu.gestio.service
+package consultoria.askyu.gestio
 
-import askyu.gestio.dominio.ficha.Tecido
 import askyu.gestio.dto.TecidoCadastroRequest
-import askyu.gestio.repository.TecidoRepository
 import jakarta.validation.Valid
 import org.modelmapper.ModelMapper
 import org.springframework.http.HttpStatusCode
-import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Service
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.server.ResponseStatusException
@@ -35,7 +32,7 @@ class TecidoService(
         return listaTecido
     }
 
-    fun buscarTecidoPorId(id: Int): Tecido{
+    fun buscarTecidoPorId(id: Int): Tecido {
         validarSeExistePorId(id)
         val tecido = tecidoRepository.findById(id).get()
         return tecido

@@ -1,8 +1,7 @@
-package askyu.gestio.repository
+package consultoria.askyu.gestio
 
-import askyu.gestio.dominio.ficha.Tecido
+import consultoria.askyu.gestio.Tecido
 import org.springframework.data.jpa.repository.JpaRepository
-import org.springframework.data.jpa.repository.Query
 
 interface TecidoRepository: JpaRepository<Tecido, Int> {
 
