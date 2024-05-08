@@ -17,6 +17,7 @@ class TecidoService(
     val mapper: ModelMapper = ModelMapper()
 ){
 
+
     fun salvar(@Valid tecido: TecidoCadastroRequest){
         val dto = mapper.map(tecido, Tecido::class.java)
         tecidoRepository.save(dto)
