@@ -13,7 +13,7 @@ data class Complemento(
 //    var fkPessoa: Pessoa?,
 
     @field:ManyToOne
-    var fkEndereco: Endereco?,
+    var endereco_id: Endereco?,
 
     @field:NotBlank var numero:Int?,
     var complemento: String?,
