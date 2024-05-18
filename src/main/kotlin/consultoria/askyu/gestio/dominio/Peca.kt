@@ -16,4 +16,10 @@ data class Peca (
     var usuario: Usuario? = null,
 
     var ativo: Boolean? = true
-)
+){
+    constructor(
+        paramNome: String,
+        paramDescricao: String,
+        paramUsuario: Usuario,
+    ): this(nome = paramNome, descricao = paramDescricao, usuario = paramUsuario)
+}

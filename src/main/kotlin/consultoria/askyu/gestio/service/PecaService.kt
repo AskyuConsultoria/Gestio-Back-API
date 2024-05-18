@@ -38,7 +38,7 @@ class PecaService(
 
     fun postByUsuarioId(id: Int, novaPeca: PecaCadastroRequest): Peca{
         validarSeUsuarioExiste(id)
-        novaPeca.usuario = usuarioService.repository.findById(id).get()
+        novaPeca.usuario!!.id = id
         val peca = mapper.map(novaPeca, Peca::class.java)
         peca.ativo = true
         return pecaRepository.save(peca)
@@ -47,7 +47,7 @@ class PecaService(
     fun putByUsuarioId(usuarioId: Int, pecaId: Int, pecaAtualizada: Peca): Peca{
         validarSeUsuarioExiste(usuarioId)
         validarSeAPecaExiste(usuarioId, pecaId)
-        pecaAtualizada.usuario = usuarioService.repository.findById(usuarioId).get()
+        pecaAtualizada.usuario!!.id = usuarioId
         pecaAtualizada.id = pecaId
         return pecaRepository.save(pecaAtualizada)
     }
