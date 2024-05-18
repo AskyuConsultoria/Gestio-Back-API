@@ -12,6 +12,6 @@ data class Peca (
 
     var descricao: String? = null,
 
-    @ManyToOne
+    @field:ManyToOne
     var usuario: Usuario? = null
 )
