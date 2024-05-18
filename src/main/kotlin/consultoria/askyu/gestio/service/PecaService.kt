@@ -40,6 +40,7 @@ class PecaService(
         validarSeUsuarioExiste(id)
         novaPeca.usuario = usuarioService.repository.findById(id).get()
         val peca = mapper.map(novaPeca, Peca::class.java)
+        peca.ativo = true
         return pecaRepository.save(peca)
     }
 
@@ -49,6 +50,14 @@ class PecaService(
         pecaAtualizada.usuario = usuarioService.repository.findById(usuarioId).get()
         pecaAtualizada.id = pecaId
         return pecaRepository.save(pecaAtualizada)
+    }
+
+    fun deleteByUsuarioIdAndId(usuarioId: Int, pecaId: Int): Peca{
+        validarSeUsuarioExiste(usuarioId)
+        validarSeAPecaExiste(usuarioId, pecaId)
+        val peca = pecaRepository.findByUsuarioIdAndId(usuarioId, pecaId).get()
+        peca.ativo = false
+        return pecaRepository.save(peca)
     }
 
     fun validarSeListaEstaVazia(lista: List<*>): List<*>{

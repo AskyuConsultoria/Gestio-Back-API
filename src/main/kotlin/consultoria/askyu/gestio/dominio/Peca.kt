@@ -13,5 +13,7 @@ data class Peca (
     var descricao: String? = null,
 
     @field:ManyToOne
-    var usuario: Usuario? = null
+    var usuario: Usuario? = null,
+
+    var ativo: Boolean? = true
 )

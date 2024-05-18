@@ -47,6 +47,12 @@ class PecaController(
         return ResponseEntity.status(200).body(peca)
     }
 
+    @DeleteMapping("/{usuarioId}/{pecaId}")
+    fun deleteByUsuarioIdAndId(@PathVariable usuarioId: Int, @PathVariable pecaId: Int): ResponseEntity<Void>{
+        pecaService.deleteByUsuarioIdAndId(usuarioId, pecaId)
+        return ResponseEntity.status(204).build()
+    }
+
 
 
 
