@@ -1,4 +1,4 @@
-package consultoria.askyu.gestio
+package consultoria.askyu.gestio.dominio
 
 import jakarta.persistence.*
 import jakarta.validation.constraints.NotBlank

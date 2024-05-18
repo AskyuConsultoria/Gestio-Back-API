@@ -1,6 +1,8 @@
-package consultoria.askyu.gestio
+package consultoria.askyu.gestio.service
 
 import askyu.gestio.dto.TecidoCadastroRequest
+import consultoria.askyu.gestio.dominio.Tecido
+import consultoria.askyu.gestio.repository.TecidoRepository
 import jakarta.validation.Valid
 import org.modelmapper.ModelMapper
 import org.springframework.http.HttpStatusCode

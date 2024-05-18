@@ -17,7 +17,6 @@ data class EmpresaCadastroRequest(
     var nomeFantasia:String,
 
     @NotBlank(message = "O telefone de contato não pode ser nulo ou vazio e deve ser valido")
-    @field:Size(min = 11, max = 11)
     var telefone:Int,
 
     @NotBlank(message = "O Email não pode ser nulo ou vazio e deve ser valido")

@@ -1,8 +1,13 @@
-package consultoria.askyu.gestio
+package consultoria.askyu.gestio.controller
 
 import askyu.gestio.dto.TecidoCadastroRequest
+import consultoria.askyu.gestio.repository.TecidoRepository
+import consultoria.askyu.gestio.service.TecidoService
+import consultoria.askyu.gestio.dominio.Tecido
 import jakarta.validation.Valid
 import io.swagger.v3.oas.annotations.Operation
+import io.swagger.v3.oas.annotations.media.Content
+import io.swagger.v3.oas.annotations.media.Schema
 import io.swagger.v3.oas.annotations.responses.ApiResponse
 import io.swagger.v3.oas.annotations.responses.ApiResponses
 import org.springframework.http.ResponseEntity
@@ -41,7 +46,7 @@ class TecidoController(
     @ApiResponses(
         value = [
             ApiResponse(responseCode = "200", description = "Exibindo tecidos cadastrados!"),
-            ApiResponse(responseCode = "204", description = "Não há tecidos cadastrados.")
+            ApiResponse(responseCode = "204", description = "Não há tecidos cadastrados.", content = [Content(schema = Schema())])
         ],
     )
     @GetMapping
@@ -56,7 +61,7 @@ class TecidoController(
     @ApiResponses(
         value = [
             ApiResponse(responseCode = "200", description = "Exibindo tecidos pelo nome!"),
-            ApiResponse(responseCode = "204", description = "Nenhum tecido foi encotrado com este nome.")
+            ApiResponse(responseCode = "204", description = "Nenhum tecido foi encotrado com este nome.", content = [Content(schema = Schema())])
         ],
     )
     @GetMapping("/nome")
@@ -71,7 +76,7 @@ class TecidoController(
     @ApiResponses(
         value = [
             ApiResponse(responseCode = "200", description = "Exibindo tecido por código de identificação!"),
-            ApiResponse(responseCode = "404", description = "Nenhum tecido foi encontrado pelo código de identificação.")
+            ApiResponse(responseCode = "404", description = "Nenhum tecido foi encontrado pelo código de identificação.", content = [Content(schema = Schema())])
         ],
     )
     @GetMapping("/{id}")
@@ -85,7 +90,7 @@ class TecidoController(
     @ApiResponses(
         value = [
             ApiResponse(responseCode = "200", description = "Tecido atualizado com Êxito!"),
-            ApiResponse(responseCode = "404", description = "Nenhum tecido foi encontrado pelo código de identificação.")
+            ApiResponse(responseCode = "404", description = "Nenhum tecido foi encontrado pelo código de identificação.", content = [Content(schema = Schema())])
         ],
     )
     @PutMapping()
@@ -103,10 +108,9 @@ class TecidoController(
     @ApiResponses(
         value = [
             ApiResponse(responseCode = "200", description = "Tecido atualizado com Êxito!"),
-            ApiResponse(responseCode = "204", description = "Nenhum tecido foi encontrado pelo código de identificação.")
+            ApiResponse(responseCode = "204", description = "Nenhum tecido foi encontrado pelo código de identificação.", content = [Content(schema = Schema())])
         ],
     )
-
     @DeleteMapping()
     fun desativar(@RequestParam id: Int): ResponseEntity<Void>{
         tecidoService.desativar(id)

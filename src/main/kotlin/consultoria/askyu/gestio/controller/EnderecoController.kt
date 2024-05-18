@@ -74,11 +74,18 @@ class EnderecoController(
             throw ResponseStatusException(HttpStatusCode.valueOf(404), "Esse CEP não existe")
         }
     }
+
+    @Operation(summary = "Busca um endereço pelo CEP.",
+        description = "Retorna um endereço a partir de um CEP.")
+    @ApiResponses(
+        value = [
+            ApiResponse(responseCode = "200", description = "Endereço encontrado com êxito!"),
+            ApiResponse(responseCode = "404", description = "Nenhum tecido foi encontrado pelo CEP inserido.", content = [Content(schema = Schema())])
+        ],
+    )
     @GetMapping("/cep")
     fun getEndereco(@RequestParam cep:String):ResponseEntity<Endereco> {
-
         return ResponseEntity.of(repository.findByCep(cep))
-
     }
 
 }
