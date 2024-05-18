@@ -23,7 +23,7 @@ class FuncionarioService(
 
     fun existenceValidation(id:Int){
         if(!repository.existsById(id)) {
-            throw ResponseStatusException(HttpStatusCode.valueOf(404), "Empresa não encontrada!")
+            throw ResponseStatusException(HttpStatusCode.valueOf(404), "Funcionario não encontrado!")
         }
     }
 
