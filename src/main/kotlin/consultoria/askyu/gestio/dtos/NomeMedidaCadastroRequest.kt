@@ -1,6 +1,7 @@
 package consultoria.askyu.gestio.dtos
 
 import consultoria.askyu.gestio.dominio.Peca
+import consultoria.askyu.gestio.dominio.Usuario
 import jakarta.validation.constraints.NotBlank
 
 data class NomeMedidaCadastroRequest(
@@ -8,6 +9,8 @@ data class NomeMedidaCadastroRequest(
     var nome: String? = null,
 
     var peca: Peca? = null,
+
+    var usuario: Usuario? = null
 ) {
 
 }

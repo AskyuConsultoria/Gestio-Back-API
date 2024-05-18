@@ -13,10 +13,14 @@ data class NomeMedida(
     @ManyToOne
     var peca: Peca? = null,
 
+    @ManyToOne
+    var usuario: Usuario? = null,
+
     var ativo: Boolean? = true
 ){
     constructor(
         paramNome: String?,
-        paramPeca: Peca?
-    ): this(nome = paramNome, peca = paramPeca)
+        paramPeca: Peca?,
+        paramUsuario: Usuario?
+    ): this(nome = paramNome, peca = paramPeca, usuario = paramUsuario)
 }
