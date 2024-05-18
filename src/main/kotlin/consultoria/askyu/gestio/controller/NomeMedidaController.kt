@@ -43,6 +43,17 @@ class NomeMedidaController(
          return ResponseEntity.status(200).body(listaNomeMedida)
      }
 
+     @GetMapping("{usuarioId}/{pecaId}/{nomeMedidaId}")
+         fun getByUsuarioIdAndPecaIdAndId(
+             @PathVariable usuarioId: Int,
+             @PathVariable pecaId: Int,
+             @PathVariable nomeMedidaId: Int,
+         ): ResponseEntity<NomeMedida>{
+             val nomeMedida = nomeMedidaService.getByUsuarioIdAndPecaIdAndId(usuarioId, pecaId, nomeMedidaId)
+             return ResponseEntity.status(200).body(nomeMedida)
+         }
+
+
 
      @PutMapping("{usuarioId}/{pecaId}/{nomeMedidaId}")
      fun putByUsuarioIdAndPecaIdAndId(

@@ -41,6 +41,14 @@ class NomeMedidaService(
         return listaNomeMedida
     }
 
+    fun getByUsuarioIdAndPecaIdAndId(usuarioId: Int, pecaId: Int, nomeMedidaId: Int): NomeMedida{
+        usuarioService.existenceValidation(usuarioId)
+        validarSePecaExiste(usuarioId, pecaId)
+        validarSeNomeMedidaExiste(usuarioId, pecaId, nomeMedidaId)
+        var nomeMedida = nomeMedidaRepository.getByUsuarioIdAndPecaIdAndId(usuarioId, pecaId, nomeMedidaId)
+        return nomeMedida
+    }
+
     fun putByUsuarioIdAndPecaIdAndId(
         usuarioId: Int,
         pecaId: Int,
@@ -65,7 +73,7 @@ class NomeMedidaService(
         usuarioService.existenceValidation(usuarioId)
         validarSePecaExiste(usuarioId, pecaId)
         validarSeNomeMedidaExiste(usuarioId, pecaId, nomeMedidaId)
-        var nomeMedida = nomeMedidaRepository.findById(nomeMedidaId).get()
+        var nomeMedida = nomeMedidaRepository.getByUsuarioIdAndPecaIdAndId(usuarioId, pecaId, nomeMedidaId)
         nomeMedida.ativo = false
         nomeMedidaRepository.save(nomeMedida)
     }

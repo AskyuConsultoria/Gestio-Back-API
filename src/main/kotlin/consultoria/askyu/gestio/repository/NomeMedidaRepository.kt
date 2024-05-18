@@ -8,6 +8,8 @@ interface NomeMedidaRepository: JpaRepository<NomeMedida, Int> {
 
    fun getByUsuarioIdAndPecaIdAndNomeIgnoreCase(usuarioId: Int, pecaId: Int, nome: String): List<NomeMedida>
 
+   fun getByUsuarioIdAndPecaIdAndId(usuarioId: Int, pecaId: Int, nomeMedidaId: Int): NomeMedida
+
    fun existsByUsuarioIdAndPecaIdAndId(usuarioId: Int, pecaId: Int, nomeMedidaId: Int): Boolean
 
 }
