@@ -22,6 +22,13 @@ class PecaService(
         return listaPeca
     }
 
+    fun getByUsuarioIdAndId(usuarioId: Int, pecaId: Int): Peca{
+        validarSeUsuarioExiste(usuarioId)
+        validarSeAPecaExiste(usuarioId, pecaId)
+        val peca = pecaRepository.findByUsuarioIdAndId(usuarioId, pecaId).get()
+        return peca
+    }
+
     fun getByUsuarioIdAndNome(id: Int, nome: String): List<Peca>{
         validarSeUsuarioExiste(id)
         var listaPeca = pecaRepository.findByUsuarioIdAndNomeIgnoreCase(id, nome)
@@ -33,8 +40,15 @@ class PecaService(
         validarSeUsuarioExiste(id)
         novaPeca.usuario = usuarioService.repository.findById(id).get()
         val peca = mapper.map(novaPeca, Peca::class.java)
-        pecaRepository.save(peca)
-        return peca
+        return pecaRepository.save(peca)
+    }
+
+    fun putByUsuarioId(usuarioId: Int, pecaId: Int, pecaAtualizada: Peca): Peca{
+        validarSeUsuarioExiste(usuarioId)
+        validarSeAPecaExiste(usuarioId, pecaId)
+        pecaAtualizada.usuario = usuarioService.repository.findById(usuarioId).get()
+        pecaAtualizada.id = pecaId
+        return pecaRepository.save(pecaAtualizada)
     }
 
     fun validarSeListaEstaVazia(lista: List<*>): List<*>{
@@ -48,5 +62,13 @@ class PecaService(
 
     fun validarSeUsuarioExiste(id: Int){
         usuarioService.existenceValidation(id)
+    }
+
+    fun validarSeAPecaExiste(usuarioId: Int, pecaId: Int){
+        if(pecaRepository.countByUsuarioIdAndId(usuarioId, pecaId) == 0){
+           throw ResponseStatusException(
+               HttpStatusCode.valueOf(404), "Peça não foi encontrada."
+           )
+        }
     }
 }

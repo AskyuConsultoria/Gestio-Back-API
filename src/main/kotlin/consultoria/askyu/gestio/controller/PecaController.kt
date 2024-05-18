@@ -25,10 +25,26 @@ class PecaController(
         return ResponseEntity.status(200).body(listaPeca)
     }
 
+    @GetMapping("/{usuarioId}/{pecaId}")
+    fun getByUsuarioIdAndId(@PathVariable usuarioId: Int, @PathVariable pecaId: Int): ResponseEntity<Peca>{
+        val peca = pecaService.getByUsuarioIdAndId(usuarioId, pecaId)
+        return ResponseEntity.status(200).body(peca)
+    }
+
     @GetMapping("/{id}/filter-nome")
     fun getByUsuarioIdAndNome(@PathVariable id: Int, @RequestParam nome: String): ResponseEntity<List<Peca>>{
         val listaPeca = pecaService.getByUsuarioIdAndNome(id, nome)
         return ResponseEntity.status(200).body(listaPeca)
+    }
+
+    @PutMapping("/{usuarioId}/{pecaId}")
+    fun putByUsuarioIdAndId(
+        @PathVariable usuarioId: Int,
+        @PathVariable pecaId: Int,
+        @RequestBody pecaAtualizada: Peca
+    ): ResponseEntity<Peca>{
+        val peca = pecaService.putByUsuarioId(usuarioId, pecaId, pecaAtualizada)
+        return ResponseEntity.status(200).body(peca)
     }
 
 
