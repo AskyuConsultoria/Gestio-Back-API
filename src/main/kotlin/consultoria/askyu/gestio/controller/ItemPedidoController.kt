@@ -26,4 +26,10 @@ class ItemPedidoController(
         )
         return ResponseEntity.status(200).body(itemPedido)
     }
+
+    @GetMapping("/{usuarioId}")
+    fun buscarPorUsuario(@PathVariable usuarioId: Int): ResponseEntity<List<ItemPedido>>{
+        val listaItemPedido = itemPedidoService.getByUsuarioId(usuarioId)
+        return ResponseEntity.status(200).body(listaItemPedido)
+    }
 }
