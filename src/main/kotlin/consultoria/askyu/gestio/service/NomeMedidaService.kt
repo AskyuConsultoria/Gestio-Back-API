@@ -85,7 +85,7 @@ class NomeMedidaService(
     fun validarSeNomeMedidaExiste(usuarioId: Int, pecaId: Int, nomeMedidaId: Int){
         if(!nomeMedidaRepository.existsByUsuarioIdAndPecaIdAndId(usuarioId, pecaId, nomeMedidaId)){
             throw ResponseStatusException(
-                HttpStatusCode.valueOf(404), "Nenhuma medida com este nome foi encontrada."
+                HttpStatusCode.valueOf(404), "O nome de medida não foi encontrado."
             )
         }
 
