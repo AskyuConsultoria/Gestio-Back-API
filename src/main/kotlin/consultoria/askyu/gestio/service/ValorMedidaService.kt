@@ -4,7 +4,9 @@ import consultoria.askyu.gestio.dominio.ValorMedida
 import consultoria.askyu.gestio.dtos.ValorMedidaCadastroRequest
 import consultoria.askyu.gestio.repository.ValorMedidaRepository
 import org.modelmapper.ModelMapper
+import org.springframework.http.HttpStatusCode
 import org.springframework.stereotype.Service
+import org.springframework.web.server.ResponseStatusException
 
 @Service
 class ValorMedidaService(
@@ -25,6 +27,7 @@ class ValorMedidaService(
         itemPedidoId: Int,
         novoValorMedida: ValorMedidaCadastroRequest
     ): ValorMedida{
+        validarSeValorEstaRegistrado(usuarioId, nomeMedidaId, itemPedidoId)
         itemPedidoService.validateExistence(usuarioId, itemPedidoId)
         nomeMedidaService.validarSeNomeMedidaExiste(usuarioId, pecaId, nomeMedidaId)
         pecaService.validarSeAPecaExiste(usuarioId, pecaId)
@@ -37,4 +40,39 @@ class ValorMedidaService(
         val valorMedida = mapper.map(novoValorMedida, ValorMedida::class.java)
         return valorMedidaRepository.save(valorMedida)
     }
+
+    fun getByUsuarioIdAndItemPedidoId(usuarioId: Int, itemPedidoId: Int): List<ValorMedida>{
+        usuarioService.existenceValidation(usuarioId)
+        itemPedidoService.validateExistence(usuarioId, itemPedidoId)
+        val listaValorMedida = valorMedidaRepository.findByUsuarioIdAndItemPedidoId(
+            usuarioId, itemPedidoId
+        )
+        validarSeListaEstaVazia(listaValorMedida)
+        return listaValorMedida
+    }
+
+    fun validarSeValorEstaRegistrado(usuarioId: Int, nomeMedidaId: Int, itemPedidoId: Int){
+        val existeValorRegistrado =
+            valorMedidaRepository.existsByUsuarioIdAndNomeMedidaIdAndItemPedidoId(
+            usuarioId,
+            nomeMedidaId,
+            itemPedidoId
+        )
+
+        if(existeValorRegistrado){
+            throw ResponseStatusException(
+                HttpStatusCode.valueOf(400), "Não se pode ter mais de um valor cadastrado em nome de medida numa mesma ficha."
+            )
+        }
+    }
+
+    fun validarSeListaEstaVazia(lista: List<*>): List<*>{
+        if(lista.isEmpty()){
+            throw ResponseStatusException(
+                HttpStatusCode.valueOf(204), "Lista de Valores de medidas está vazia."
+            )
+        }
+        return lista
+    }
+
 }

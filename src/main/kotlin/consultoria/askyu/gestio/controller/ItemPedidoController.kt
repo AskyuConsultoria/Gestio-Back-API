@@ -22,7 +22,7 @@ class ItemPedidoController(
         description = "Realiza o cadastro de uma ficha com base no Id do usuário, cliente e peça.")
     @ApiResponses(
         value = [
-            ApiResponse(responseCode = "200", description = "Cadastro de ficha feito com sucesso!"),
+            ApiResponse(responseCode = "201", description = "Cadastro de ficha feito com sucesso!"),
             ApiResponse(responseCode = "404", description = "Cliente ou Peça não existem.", content = [Content(schema = Schema())])
         ],
     )
@@ -37,7 +37,7 @@ class ItemPedidoController(
         val itemPedido = itemPedidoService.postByUsuarioIdAndClienteIdAndPecaId(
             usuarioId, clienteId, pecaId, novoItemPedido
         )
-        return ResponseEntity.status(200).body(itemPedido)
+        return ResponseEntity.status(201).body(itemPedido)
     }
 
     @Operation(summary = "Busca todas as fichas com base no Id do usuário",

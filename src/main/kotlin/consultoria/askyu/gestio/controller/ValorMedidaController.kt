@@ -23,8 +23,17 @@ class ValorMedidaController(
         val valorMedida = valorMedidaService.postByIds(
             usuarioId, clienteId, pecaId, nomeMedidaId, itemPedidoId, novoValorMedida
         )
-        return ResponseEntity.status(200).body(valorMedida)
+        return ResponseEntity.status(201).body(valorMedida)
     }
 
-    
+    @GetMapping("/{usuarioId}/{itemPedidoId}")
+    fun buscarPorItemPedido(
+        @PathVariable usuarioId: Int,
+        @PathVariable itemPedidoId: Int
+    ): ResponseEntity<List<ValorMedida>>{
+        val listaValorMedida = valorMedidaService.getByUsuarioIdAndItemPedidoId(
+            usuarioId, itemPedidoId
+        )
+        return ResponseEntity.status(200).body(listaValorMedida)
+    }
 }

@@ -22,7 +22,7 @@ class PecaController(
         description = "Realiza um cadastro de uma peça de roupa.")
     @ApiResponses(
         value = [
-            ApiResponse(responseCode = "200", description = "Cadastro feito com sucesso!"),
+            ApiResponse(responseCode = "201", description = "Cadastro feito com sucesso!"),
             ApiResponse(responseCode = "404", description = "Usuário não existe.", content = [Content(schema = Schema())])
         ],
     )

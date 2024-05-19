@@ -23,7 +23,7 @@ class NomeMedidaController(
          description = "Realiza um cadastro de um nome de medida de roupa com base no Id de usuário e da peça.")
      @ApiResponses(
          value = [
-             ApiResponse(responseCode = "200", description = "Cadastro feito com sucesso!"),
+             ApiResponse(responseCode = "201", description = "Cadastro feito com sucesso!"),
              ApiResponse(responseCode = "404", description = "Usuário ou Peça não existem.", content = [Content(schema = Schema())])
          ],
      )
@@ -35,7 +35,7 @@ class NomeMedidaController(
          @RequestBody novoNomeMedida: NomeMedidaCadastroRequest
      ): ResponseEntity<NomeMedida>{
          val nomeMedida = nomeMedidaService.postByUsuarioIdAndPecaId(usuarioId, pecaId, novoNomeMedida)
-         return ResponseEntity.status(200).body(nomeMedida)
+         return ResponseEntity.status(201).body(nomeMedida)
      }
 
 
