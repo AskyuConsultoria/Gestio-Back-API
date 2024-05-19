@@ -70,7 +70,7 @@ class PecaController(
             ApiResponse(responseCode = "404", description = "Usuário não existe.", content = [Content(schema = Schema())])
         ],
     )
-    @GetMapping("/{id}/filter-nome")
+    @GetMapping("/{id}/filtro-nome")
     fun getByUsuarioIdAndNome(@PathVariable id: Int, @RequestParam nome: String): ResponseEntity<List<Peca>>{
         val listaPeca = pecaService.getByUsuarioIdAndNome(id, nome)
         return ResponseEntity.status(200).body(listaPeca)

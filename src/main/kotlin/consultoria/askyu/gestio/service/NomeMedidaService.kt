@@ -33,10 +33,10 @@ class NomeMedidaService(
         return listaNomeMedida
     }
 
-    fun getAllByUsuarioIdAndPecaIdAndNome(usuarioId: Int, pecaId: Int, nome: String): List<NomeMedida>{
+    fun getAllByUsuarioIdAndPecaIdAndNomeContains(usuarioId: Int, pecaId: Int, nome: String): List<NomeMedida>{
         usuarioService.existenceValidation(usuarioId)
         validarSePecaExiste(usuarioId, pecaId)
-        var listaNomeMedida = nomeMedidaRepository.getByUsuarioIdAndPecaIdAndNomeIgnoreCase(usuarioId, pecaId, nome)
+        var listaNomeMedida = nomeMedidaRepository.getByUsuarioIdAndPecaIdAndNomeContainsIgnoreCase(usuarioId, pecaId, nome)
         validarSeListaEstaVazia(listaNomeMedida)
         return listaNomeMedida
     }

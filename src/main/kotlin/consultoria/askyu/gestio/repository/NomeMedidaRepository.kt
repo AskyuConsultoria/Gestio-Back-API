@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository
 interface NomeMedidaRepository: JpaRepository<NomeMedida, Int> {
    fun getByUsuarioIdAndPecaId(usuarioId: Int, pecaId: Int): List<NomeMedida>
 
-   fun getByUsuarioIdAndPecaIdAndNomeIgnoreCase(usuarioId: Int, pecaId: Int, nome: String): List<NomeMedida>
+   fun getByUsuarioIdAndPecaIdAndNomeContainsIgnoreCase(usuarioId: Int, pecaId: Int, nome: String): List<NomeMedida>
 
    fun getByUsuarioIdAndPecaIdAndId(usuarioId: Int, pecaId: Int, nomeMedidaId: Int): NomeMedida
 

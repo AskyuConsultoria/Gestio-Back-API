@@ -66,13 +66,13 @@ class NomeMedidaController(
              ApiResponse(responseCode = "404", description = "Nenhum nome de medida foi encontrada com este nome.", content = [Content(schema = Schema())])
          ],
      )
-     @GetMapping("{usuarioId}/{pecaId}/filter-nome")
+     @GetMapping("{usuarioId}/{pecaId}/filtro-nome")
      fun getAllByUsuarioIdAndPecaIdAndNome(
          @PathVariable usuarioId: Int,
          @PathVariable pecaId: Int,
          @RequestParam nome: String,
      ): ResponseEntity<List<NomeMedida>>{
-         val listaNomeMedida = nomeMedidaService.getAllByUsuarioIdAndPecaIdAndNome(usuarioId, pecaId, nome)
+         val listaNomeMedida = nomeMedidaService.getAllByUsuarioIdAndPecaIdAndNomeContains(usuarioId, pecaId, nome)
          return ResponseEntity.status(200).body(listaNomeMedida)
      }
 

@@ -31,7 +31,7 @@ class PecaService(
 
     fun getByUsuarioIdAndNome(id: Int, nome: String): List<Peca>{
         validarSeUsuarioExiste(id)
-        var listaPeca = pecaRepository.findByUsuarioIdAndNomeIgnoreCase(id, nome)
+        var listaPeca = pecaRepository.findByUsuarioIdAndNomeContainsIgnoreCase(id, nome)
         validarSeListaEstaVazia(listaPeca)
         return listaPeca
     }

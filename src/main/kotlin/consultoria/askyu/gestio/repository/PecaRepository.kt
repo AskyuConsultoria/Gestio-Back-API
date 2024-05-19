@@ -6,7 +6,7 @@ import java.util.*
 
 interface PecaRepository:JpaRepository<Peca, Int> {
     fun findByUsuarioId(id: Int): List<Peca>
-    fun findByUsuarioIdAndNomeIgnoreCase(id: Int, nome: String): List<Peca>
+    fun findByUsuarioIdAndNomeContainsIgnoreCase(id: Int, nome: String): List<Peca>
     fun findByUsuarioIdAndId(usuarioId: Int, pecaId: Int): Optional<Peca>
     fun countByUsuarioIdAndId(usuarioId: Int, pecaId: Int): Int
 }
