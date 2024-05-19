@@ -32,4 +32,13 @@ class ItemPedidoController(
         val listaItemPedido = itemPedidoService.getByUsuarioId(usuarioId)
         return ResponseEntity.status(200).body(listaItemPedido)
     }
+
+    @DeleteMapping("/{usuarioId}/{itemPedidoId}")
+    fun excluirPorUsuario(
+        @PathVariable usuarioId: Int,
+        @PathVariable itemPedidoId: Int
+    ): ResponseEntity<Void>{
+        itemPedidoService.deleteByUsuarioIdAndId(usuarioId, itemPedidoId)
+        return ResponseEntity.status(204).build()
+    }
 }

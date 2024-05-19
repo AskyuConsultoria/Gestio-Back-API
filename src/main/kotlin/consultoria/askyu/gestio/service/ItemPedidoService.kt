@@ -40,6 +40,16 @@ class ItemPedidoService(
         return listaItemPedido
     }
 
+    fun deleteByUsuarioIdAndId(usuarioId: Int, itemPedidoId: Int){
+        validateExistence(usuarioId, itemPedidoId)
+        var itemPedido = itemPedidoRepository.findByUsuarioIdAndId(
+            usuarioId, itemPedidoId
+        )
+        itemPedido.usuario!!.id = usuarioId
+        itemPedido.id = itemPedidoId
+        itemPedido.ativo = false
+        itemPedidoRepository.save(itemPedido)
+    }
     fun validarSeListaEstaVazia(lista: List<*>): List<*>{
         if(lista.isEmpty()){
             throw ResponseStatusException(
@@ -47,5 +57,13 @@ class ItemPedidoService(
             )
         }
         return lista
+    }
+
+    fun validateExistence(usuarioId: Int, itemPedidoId: Int){
+        if(!itemPedidoRepository.existsByUsuarioIdAndId(usuarioId, itemPedidoId)){
+            throw ResponseStatusException(
+                HttpStatusCode.valueOf(404), "Ficha não foi encontrada!"
+            )
+        }
     }
 }
