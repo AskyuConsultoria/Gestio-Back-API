@@ -51,6 +51,39 @@ class ValorMedidaService(
         return listaValorMedida
     }
 
+    fun putByUsuarioIdAndItemPedidoIdAndId(
+        usuarioId: Int,
+        itemPedidoId: Int,
+        valorMedidaId: Int,
+        valorMedidaAtualizado: ValorMedidaCadastroRequest
+    ): ValorMedida{
+        usuarioService.existenceValidation(usuarioId)
+        itemPedidoService.validateExistence(usuarioId, itemPedidoId)
+        validarSeValorExiste(usuarioId, itemPedidoId, valorMedidaId)
+        valorMedidaAtualizado.usuario!!.id = usuarioId
+        valorMedidaAtualizado.itemPedido!!.id = itemPedidoId
+        val valorMedida = mapper.map(valorMedidaAtualizado, ValorMedida::class.java)
+        valorMedida.id = valorMedidaId
+        valorMedidaRepository.save(valorMedida)
+        return valorMedida
+    }
+
+    fun validarSeValorExiste(
+        usuarioId: Int,
+        itemPedidoId: Int,
+        valorMedidaId: Int
+    ){
+        val valorNaoExiste =
+            !valorMedidaRepository.existsByUsuarioIdAndItemPedidoIdAndId(
+            usuarioId, itemPedidoId, valorMedidaId
+        )
+
+        if(valorNaoExiste){
+            throw ResponseStatusException(
+                HttpStatusCode.valueOf(404), "Valor de medida não existe."
+            )
+        }
+    }
     fun validarSeValorEstaRegistrado(usuarioId: Int, nomeMedidaId: Int, itemPedidoId: Int){
         val existeValorRegistrado =
             valorMedidaRepository.existsByUsuarioIdAndNomeMedidaIdAndItemPedidoId(

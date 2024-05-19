@@ -11,4 +11,10 @@ interface ValorMedidaRepository: JpaRepository<ValorMedida, Int> {
         nomeMedidaId: Int,
         itemPedidoId: Int,
     ): Boolean
+
+    fun existsByUsuarioIdAndItemPedidoIdAndId(
+        usuarioId: Int,
+        itemPedidoId: Int,
+        valorMedidaId: Int
+    ): Boolean
 }

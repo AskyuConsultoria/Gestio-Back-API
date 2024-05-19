@@ -3,6 +3,7 @@ package consultoria.askyu.gestio.controller
 import consultoria.askyu.gestio.dominio.ValorMedida
 import consultoria.askyu.gestio.dtos.ValorMedidaCadastroRequest
 import consultoria.askyu.gestio.service.ValorMedidaService
+import jakarta.validation.Valid
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 
@@ -35,5 +36,19 @@ class ValorMedidaController(
             usuarioId, itemPedidoId
         )
         return ResponseEntity.status(200).body(listaValorMedida)
+    }
+
+    @PutMapping("/{usuarioId}/{itemPedidoId}/{valorMedidaId}")
+    fun atualizar(
+        @Valid
+        @PathVariable usuarioId: Int,
+        @PathVariable itemPedidoId: Int,
+        @PathVariable valorMedidaId: Int,
+        @RequestBody valorMedidaAtualizado: ValorMedidaCadastroRequest
+    ): ResponseEntity<ValorMedida>{
+        val valorMedida = valorMedidaService.putByUsuarioIdAndItemPedidoIdAndId(
+            usuarioId, itemPedidoId, valorMedidaId, valorMedidaAtualizado
+        )
+        return ResponseEntity.status(200).body(valorMedida)
     }
 }
