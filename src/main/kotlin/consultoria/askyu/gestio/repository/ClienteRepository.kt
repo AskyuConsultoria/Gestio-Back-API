@@ -4,4 +4,5 @@ import consultoria.askyu.gestio.dominio.Cliente
 import org.springframework.data.jpa.repository.JpaRepository
 
 interface ClienteRepository:JpaRepository<Cliente, Int> {
+    fun existsByUsuarioIdAndId(usuarioId: Int, clienteId: Int): Boolean
 }
