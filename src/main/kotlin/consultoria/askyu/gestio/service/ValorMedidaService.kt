@@ -51,6 +51,16 @@ class ValorMedidaService(
         return listaValorMedida
     }
 
+//    fun getSimples(usuarioId: Int, itemPedidoId: Int): List<ValorMedida>{
+//        usuarioService.existenceValidation(usuarioId)
+//        itemPedidoService.validateExistence(usuarioId, itemPedidoId)
+//        val listaValorMedida = valorMedidaRepository.buscarSimples(
+//            usuarioId, itemPedidoId
+//        )
+//        validarSeListaEstaVazia(listaValorMedida)
+//        return listaValorMedida
+//    }
+
     fun putByUsuarioIdAndItemPedidoIdAndId(
         usuarioId: Int,
         itemPedidoId: Int,

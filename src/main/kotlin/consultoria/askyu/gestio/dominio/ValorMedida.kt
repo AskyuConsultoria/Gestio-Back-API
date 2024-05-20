@@ -34,4 +34,8 @@ data class ValorMedida(
         usuario = paramUsuario,
         peca = paramPeca
     )
+    constructor(
+        paramValor: Float?,
+        paramNomeMedida: NomeMedida?
+    ): this(valor = paramValor, nomeMedida = paramNomeMedida)
 }

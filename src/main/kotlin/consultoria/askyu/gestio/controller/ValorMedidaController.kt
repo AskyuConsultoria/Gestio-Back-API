@@ -38,6 +38,17 @@ class ValorMedidaController(
         return ResponseEntity.status(200).body(listaValorMedida)
     }
 
+//    @GetMapping("/simples/{usuarioId}/{itemPedidoId}")
+//    fun buscarSimples(
+//        @PathVariable usuarioId: Int,
+//        @PathVariable itemPedidoId: Int
+//    ): ResponseEntity<List<ValorMedida>>{
+//        val listaValorMedida = valorMedidaService.getSimples(
+//            usuarioId, itemPedidoId
+//        )
+//        return ResponseEntity.status(200).body(listaValorMedida)
+//    }
+
     @PutMapping("/{usuarioId}/{itemPedidoId}/{valorMedidaId}")
     fun atualizar(
         @Valid
@@ -51,4 +62,5 @@ class ValorMedidaController(
         )
         return ResponseEntity.status(200).body(valorMedida)
     }
+
 }
