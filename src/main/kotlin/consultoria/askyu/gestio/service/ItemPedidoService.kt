@@ -17,19 +17,20 @@ class ItemPedidoService(
     var mapper: ModelMapper = ModelMapper()
 ) {
 
-    fun postByUsuarioIdAndClienteIdAndPecaId(
+    fun cadastrar(
         usuarioId: Int,
         clienteId: Int,
         pecaId: Int,
         novoItemPedido: ItemPedidoCadastroRequest
     ): ItemPedido{
         usuarioService.existenceValidation(usuarioId)
-        clienteService.existenceValidation(usuarioId, clienteId)
+        clienteService.validateExistence(usuarioId, clienteId)
         pecaService.validarSeAPecaExiste(usuarioId, pecaId)
         novoItemPedido.usuario!!.id = usuarioId
         novoItemPedido.cliente!!.id = clienteId
         novoItemPedido.peca!!.id = pecaId
         val itemPedido = mapper.map(novoItemPedido, ItemPedido::class.java)
+        validarCadastro(novoItemPedido, itemPedido)
         return itemPedidoRepository.save(itemPedido)
     }
 
@@ -40,7 +41,15 @@ class ItemPedidoService(
         return listaItemPedido
     }
 
-    fun deleteByUsuarioIdAndId(usuarioId: Int, itemPedidoId: Int){
+    fun getByUsuarioIdAndClientId(usuarioId: Int, clienteId: Int): List<ItemPedido>{
+        usuarioService.existenceValidation(usuarioId)
+        clienteService.validateExistence(usuarioId, clienteId)
+        val listaItemPedido = itemPedidoRepository.findByUsuarioIdAndClienteId(usuarioId, clienteId)
+        validarSeListaEstaVazia(listaItemPedido)
+        return listaItemPedido
+    }
+
+    fun deleteByUsuarioIdAndId(usuarioId: Int, itemPedidoId: Int): ItemPedido{
         validateExistence(usuarioId, itemPedidoId)
         var itemPedido = itemPedidoRepository.findByUsuarioIdAndId(
             usuarioId, itemPedidoId
@@ -48,7 +57,7 @@ class ItemPedidoService(
         itemPedido.usuario!!.id = usuarioId
         itemPedido.id = itemPedidoId
         itemPedido.ativo = false
-        itemPedidoRepository.save(itemPedido)
+        return itemPedidoRepository.save(itemPedido)
     }
     fun validarSeListaEstaVazia(lista: List<*>): List<*>{
         if(lista.isEmpty()){
@@ -63,6 +72,18 @@ class ItemPedidoService(
         if(!itemPedidoRepository.existsByUsuarioIdAndId(usuarioId, itemPedidoId)){
             throw ResponseStatusException(
                 HttpStatusCode.valueOf(404), "Ficha não foi encontrada!"
+            )
+        }
+    }
+    fun validarCadastro(novoItemPedido: ItemPedidoCadastroRequest, itemPedido: ItemPedido){
+        val notEqualIO =
+            novoItemPedido.usuario!!.id != itemPedido.usuario!!.id
+                    || novoItemPedido.cliente!!.id != itemPedido.cliente!!.id
+                    || novoItemPedido.peca!!.id != itemPedido.peca!!.id
+
+        if(notEqualIO){
+            throw ResponseStatusException(
+                HttpStatusCode.valueOf(501), "O objeto de saída deve possuir os parâmetros do endpoint"
             )
         }
     }

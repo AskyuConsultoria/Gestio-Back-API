@@ -22,11 +22,13 @@ class ClienteService(
         return clienteRepository.save(cliente)
     }
 
-    fun existenceValidation(usuarioId: Int, clienteId: Int){
-        if(!clienteRepository.existsByUsuarioIdAndId(usuarioId, clienteId)){
+    fun validateExistence(usuarioId: Int, itemPedidoId: Int){
+        if(!clienteRepository.existsByUsuarioIdAndId(usuarioId, itemPedidoId)){
             throw ResponseStatusException(
-                HttpStatusCode.valueOf(404), "Cliente não foi encontrado."
+                HttpStatusCode.valueOf(404), "Cliente não foi encontrado!"
             )
         }
     }
+
+
 }

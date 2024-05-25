@@ -34,7 +34,7 @@ class ItemPedidoController(
        @PathVariable pecaId: Int,
        @RequestBody novoItemPedido: ItemPedidoCadastroRequest
     ): ResponseEntity<ItemPedido>{
-        val itemPedido = itemPedidoService.postByUsuarioIdAndClienteIdAndPecaId(
+        val itemPedido = itemPedidoService.cadastrar(
             usuarioId, clienteId, pecaId, novoItemPedido
         )
         return ResponseEntity.status(201).body(itemPedido)
@@ -52,6 +52,12 @@ class ItemPedidoController(
     @GetMapping("/{usuarioId}")
     fun buscarPorUsuario(@PathVariable usuarioId: Int): ResponseEntity<List<ItemPedido>>{
         val listaItemPedido = itemPedidoService.getByUsuarioId(usuarioId)
+        return ResponseEntity.status(200).body(listaItemPedido)
+    }
+
+    @GetMapping("/{usuarioId}/{clienteId}")
+    fun buscarPorUsuarioECliente(@PathVariable usuarioId: Int, @PathVariable clienteId: Int): ResponseEntity<List<ItemPedido>>{
+        val listaItemPedido = itemPedidoService.getByUsuarioIdAndClientId(usuarioId, clienteId)
         return ResponseEntity.status(200).body(listaItemPedido)
     }
 

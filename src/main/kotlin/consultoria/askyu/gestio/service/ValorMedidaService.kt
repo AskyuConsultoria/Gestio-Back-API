@@ -31,7 +31,7 @@ class ValorMedidaService(
         itemPedidoService.validateExistence(usuarioId, itemPedidoId)
         nomeMedidaService.validarSeNomeMedidaExiste(usuarioId, pecaId, nomeMedidaId)
         pecaService.validarSeAPecaExiste(usuarioId, pecaId)
-        clienteService.existenceValidation(usuarioId, clienteId)
+        clienteService.validateExistence(usuarioId, clienteId)
         usuarioService.existenceValidation(usuarioId)
         novoValorMedida.nomeMedida!!.id = nomeMedidaId
         novoValorMedida.itemPedido!!.id = itemPedidoId

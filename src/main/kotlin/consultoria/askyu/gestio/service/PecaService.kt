@@ -74,7 +74,7 @@ class PecaService(
     }
 
     fun validarSeAPecaExiste(usuarioId: Int, pecaId: Int){
-        if(pecaRepository.countByUsuarioIdAndId(usuarioId, pecaId) == 0){
+        if(!pecaRepository.existsByUsuarioIdAndId(usuarioId, pecaId)){
            throw ResponseStatusException(
                HttpStatusCode.valueOf(404), "Peça não foi encontrada."
            )
