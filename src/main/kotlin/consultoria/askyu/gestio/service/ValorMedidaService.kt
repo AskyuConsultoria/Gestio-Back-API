@@ -26,13 +26,13 @@ class ValorMedidaService(
         nomeMedidaId: Int,
         itemPedidoId: Int,
         novoValorMedida: ValorMedidaCadastroRequest
-    ): ValorMedida{
-        validarSeValorEstaRegistrado(usuarioId, nomeMedidaId, itemPedidoId)
-        itemPedidoService.validateExistence(usuarioId, itemPedidoId)
-        nomeMedidaService.validarSeNomeMedidaExiste(usuarioId, pecaId, nomeMedidaId)
-        pecaService.validarSeAPecaExiste(usuarioId, pecaId)
-        clienteService.validateExistence(usuarioId, clienteId)
+    ): ValorMedida {
         usuarioService.existenceValidation(usuarioId)
+        clienteService.validateExistence(usuarioId, clienteId)
+        pecaService.validarSeAPecaExiste(usuarioId, pecaId)
+        nomeMedidaService.validarSeNomeMedidaExiste(usuarioId, pecaId, nomeMedidaId)
+        itemPedidoService.validateExistence(usuarioId, itemPedidoId)
+        validarSeValorEstaRegistrado(usuarioId, nomeMedidaId, itemPedidoId)
         novoValorMedida.nomeMedida!!.id = nomeMedidaId
         novoValorMedida.itemPedido!!.id = itemPedidoId
         novoValorMedida.cliente!!.id = clienteId
@@ -41,7 +41,7 @@ class ValorMedidaService(
         return valorMedidaRepository.save(valorMedida)
     }
 
-    fun getByUsuarioIdAndItemPedidoId(usuarioId: Int, itemPedidoId: Int): List<ValorMedida>{
+    fun getByUsuarioIdAndItemPedidoId(usuarioId: Int, itemPedidoId: Int): List<ValorMedida> {
         usuarioService.existenceValidation(usuarioId)
         itemPedidoService.validateExistence(usuarioId, itemPedidoId)
         val listaValorMedida = valorMedidaRepository.findByUsuarioIdAndItemPedidoId(
@@ -66,7 +66,7 @@ class ValorMedidaService(
         itemPedidoId: Int,
         valorMedidaId: Int,
         valorMedidaAtualizado: ValorMedidaCadastroRequest
-    ): ValorMedida{
+    ): ValorMedida {
         usuarioService.existenceValidation(usuarioId)
         itemPedidoService.validateExistence(usuarioId, itemPedidoId)
         validarSeValorExiste(usuarioId, itemPedidoId, valorMedidaId)
@@ -82,40 +82,41 @@ class ValorMedidaService(
         usuarioId: Int,
         itemPedidoId: Int,
         valorMedidaId: Int
-    ){
+    ) {
         val valorNaoExiste =
             !valorMedidaRepository.existsByUsuarioIdAndItemPedidoIdAndId(
-            usuarioId, itemPedidoId, valorMedidaId
-        )
+                usuarioId, itemPedidoId, valorMedidaId
+            )
 
-        if(valorNaoExiste){
+        if (valorNaoExiste) {
             throw ResponseStatusException(
                 HttpStatusCode.valueOf(404), "Valor de medida não existe."
             )
         }
     }
-    fun validarSeValorEstaRegistrado(usuarioId: Int, nomeMedidaId: Int, itemPedidoId: Int){
+
+    fun validarSeValorEstaRegistrado(usuarioId: Int, nomeMedidaId: Int, itemPedidoId: Int) {
         val existeValorRegistrado =
             valorMedidaRepository.existsByUsuarioIdAndNomeMedidaIdAndItemPedidoId(
-            usuarioId,
-            nomeMedidaId,
-            itemPedidoId
-        )
+                usuarioId,
+                nomeMedidaId,
+                itemPedidoId
+            )
 
-        if(existeValorRegistrado){
+        if (existeValorRegistrado) {
             throw ResponseStatusException(
-                HttpStatusCode.valueOf(400), "Não se pode ter mais de um valor cadastrado em nome de medida numa mesma ficha."
+                HttpStatusCode.valueOf(400),
+                "Não se pode ter mais de um valor cadastrado em nome de medida numa mesma ficha."
             )
         }
     }
 
-    fun validarSeListaEstaVazia(lista: List<*>): List<*>{
-        if(lista.isEmpty()){
+    fun validarSeListaEstaVazia(lista: List<*>) {
+        if (lista.isEmpty()) {
             throw ResponseStatusException(
                 HttpStatusCode.valueOf(204), "Lista de Valores de medidas está vazia."
             )
         }
-        return lista
     }
 
 }
