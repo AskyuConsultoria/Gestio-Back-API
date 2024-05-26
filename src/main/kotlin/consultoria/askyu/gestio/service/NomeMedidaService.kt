@@ -18,10 +18,10 @@ class NomeMedidaService(
 
     fun postByUsuarioIdAndPecaId(usuarioId: Int, pecaId: Int, novoNomeMedida: NomeMedidaCadastroRequest): NomeMedida{
         usuarioService.existenceValidation(usuarioId)
-        validarSePecaExiste(usuarioId, pecaId)
-        novoNomeMedida.usuario!!.id = usuarioId
-        novoNomeMedida.peca!!.id = pecaId
         val nomeMedida = mapper.map(novoNomeMedida, NomeMedida::class.java)
+        validarSePecaExiste(usuarioId, pecaId)
+        nomeMedida.usuario!!.id = usuarioId
+        nomeMedida.peca!!.id = pecaId
         nomeMedida.ativo = true
         return nomeMedidaRepository.save(nomeMedida)
     }
@@ -58,9 +58,9 @@ class NomeMedidaService(
         usuarioService.existenceValidation(usuarioId)
         validarSePecaExiste(usuarioId, pecaId)
         validarSeNomeMedidaExiste(usuarioId, pecaId, nomeMedidaId)
-        nomeMedidaAtualizada.usuario!!.id = usuarioId
-        nomeMedidaAtualizada.peca!!.id = pecaId
         val nomeMedida = mapper.map(nomeMedidaAtualizada, NomeMedida::class.java)
+        nomeMedida.usuario!!.id = usuarioId
+        nomeMedida.peca!!.id = pecaId
         nomeMedida.id = nomeMedidaId
         return nomeMedidaRepository.save(nomeMedida)
     }
@@ -74,6 +74,9 @@ class NomeMedidaService(
         validarSePecaExiste(usuarioId, pecaId)
         validarSeNomeMedidaExiste(usuarioId, pecaId, nomeMedidaId)
         var nomeMedida = nomeMedidaRepository.getByUsuarioIdAndPecaIdAndId(usuarioId, pecaId, nomeMedidaId)
+        nomeMedida.usuario!!.id = usuarioId
+        nomeMedida.peca!!.id = pecaId
+        nomeMedida.id = nomeMedidaId
         nomeMedida.ativo = false
        return nomeMedidaRepository.save(nomeMedida)
     }
@@ -91,12 +94,11 @@ class NomeMedidaService(
 
     }
 
-    fun validarSeListaEstaVazia(lista: List<*>): List<*>{
+    fun validarSeListaEstaVazia(lista: List<*>){
         if(lista.isEmpty()){
             throw ResponseStatusException(
                 HttpStatusCode.valueOf(204), "Lista de Peça está vazia."
             )
         }
-        return lista
     }
 }

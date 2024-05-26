@@ -32,12 +32,13 @@ class ValorMedidaService(
         pecaService.validarSeAPecaExiste(usuarioId, pecaId)
         nomeMedidaService.validarSeNomeMedidaExiste(usuarioId, pecaId, nomeMedidaId)
         itemPedidoService.validateExistence(usuarioId, itemPedidoId)
-        validarSeValorEstaRegistrado(usuarioId, nomeMedidaId, itemPedidoId)
-        novoValorMedida.nomeMedida!!.id = nomeMedidaId
-        novoValorMedida.itemPedido!!.id = itemPedidoId
-        novoValorMedida.cliente!!.id = clienteId
-        novoValorMedida.peca!!.id = pecaId
         val valorMedida = mapper.map(novoValorMedida, ValorMedida::class.java)
+        validarSeValorEstaRegistrado(usuarioId, nomeMedidaId, itemPedidoId)
+        valorMedida.usuario!!.id = usuarioId
+        valorMedida.cliente!!.id = clienteId
+        valorMedida.peca!!.id = pecaId
+        valorMedida.nomeMedida!!.id = nomeMedidaId
+        valorMedida.itemPedido!!.id = itemPedidoId
         return valorMedidaRepository.save(valorMedida)
     }
 

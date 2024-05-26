@@ -8,8 +8,7 @@ import org.junit.jupiter.api.Assertions.assertThrows
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
-import org.mockito.Mockito.mock
-import org.mockito.Mockito.`when`
+import org.mockito.Mockito.*
 import org.modelmapper.ModelMapper
 import org.springframework.web.server.ResponseStatusException
 
@@ -77,10 +76,6 @@ class ValorMedidaServiceTest {
     @DisplayName("postByIds deve retornar um objeto de saída com os valores dos parâmetros do endpoint.")
     @Test
     fun postByIdsExpectEqualIO(){
-        val usuarioId = 1
-        val itemPedidoId = 1
-        val valorMedidaId = 1
-
         val beforeNomeMedida = NomeMedida(2)
         val beforeItemPedido = ItemPedido(2)
         val beforeCliente = Cliente(2)
@@ -102,19 +97,19 @@ class ValorMedidaServiceTest {
             beforePeca
         )
 
+        val valorMedidaMapeado = ValorMedida(1, 20.2.toFloat(), beforeNomeMedida, beforeItemPedido, beforeCliente, beforeUsuario, beforePeca)
         val esperado =
             ValorMedida(1, 20.2.toFloat(), afterNomeMedida, afterItemPedido, afterCliente, afterUsuario, afterPeca)
 
-        `when`(usuarioRepository.existsById(1)).thenReturn(true)
-        `when`(pecaRepository.existsByUsuarioIdAndId(1, 1)).thenReturn(true)
-        `when`(clienteRepository.existsByUsuarioIdAndId(1, 1)).thenReturn(true)
-        `when`(nomeMedidaRepository.existsByUsuarioIdAndPecaIdAndId(1, 1, 1)).thenReturn(true)
-        `when`(itemPedidoRepository.existsByUsuarioIdAndId(1, 1)).thenReturn(true)
-        `when`(valorMedidaRepository.existsByUsuarioIdAndNomeMedidaIdAndItemPedidoId(1, 1, 1))
+        `when`(usuarioRepository.existsById(anyInt())).thenReturn(true)
+        `when`(pecaRepository.existsByUsuarioIdAndId(anyInt(), anyInt())).thenReturn(true)
+        `when`(clienteRepository.existsByUsuarioIdAndId(anyInt(), anyInt())).thenReturn(true)
+        `when`(nomeMedidaRepository.existsByUsuarioIdAndPecaIdAndId(anyInt(), anyInt(), anyInt())).thenReturn(true)
+        `when`(itemPedidoRepository.existsByUsuarioIdAndId(anyInt(), anyInt())).thenReturn(true)
+        `when`(valorMedidaRepository.existsByUsuarioIdAndNomeMedidaIdAndItemPedidoId(anyInt(), anyInt(), anyInt()))
             .thenReturn(false)
-        `when`(valorMedidaRepository.save(esperado)).thenReturn(esperado)
-        `when`(mapper.map(novoValorMedida, ValorMedida::class.java)).thenReturn(esperado)
-
+        `when`(valorMedidaService.mapper.map(novoValorMedida, ValorMedida::class.java)).thenReturn(valorMedidaMapeado)
+        `when`(valorMedidaRepository.save(valorMedidaMapeado)).thenReturn(valorMedidaMapeado)
 
         val resultado = valorMedidaService.postByIds(1, 1, 1, 1, 1, novoValorMedida)
 

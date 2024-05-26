@@ -26,11 +26,11 @@ class ItemPedidoService(
         usuarioService.existenceValidation(usuarioId)
         clienteService.validateExistence(usuarioId, clienteId)
         pecaService.validarSeAPecaExiste(usuarioId, pecaId)
-        novoItemPedido.usuario!!.id = usuarioId
-        novoItemPedido.cliente!!.id = clienteId
-        novoItemPedido.peca!!.id = pecaId
         val itemPedido = mapper.map(novoItemPedido, ItemPedido::class.java)
-        validarCadastro(novoItemPedido, itemPedido)
+        itemPedido.usuario!!.id = usuarioId
+        itemPedido.cliente!!.id = clienteId
+        itemPedido.peca!!.id = pecaId
+        itemPedido.ativo = true
         return itemPedidoRepository.save(itemPedido)
     }
 
@@ -74,16 +74,6 @@ class ItemPedidoService(
             )
         }
     }
-    fun validarCadastro(novoItemPedido: ItemPedidoCadastroRequest, itemPedido: ItemPedido){
-        val notEqualIO =
-            novoItemPedido.usuario!!.id != itemPedido.usuario!!.id
-                    || novoItemPedido.cliente!!.id != itemPedido.cliente!!.id
-                    || novoItemPedido.peca!!.id != itemPedido.peca!!.id
 
-        if(notEqualIO){
-            throw ResponseStatusException(
-                HttpStatusCode.valueOf(501), "O objeto de saída deve possuir os parâmetros do endpoint"
-            )
-        }
-    }
+
 }

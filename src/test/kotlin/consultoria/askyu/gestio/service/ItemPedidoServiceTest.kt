@@ -14,8 +14,7 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import org.mockito.Mockito
-import org.mockito.Mockito.mock
-import org.mockito.Mockito.`when`
+import org.mockito.Mockito.*
 import org.modelmapper.ModelMapper
 import org.springframework.web.server.ResponseStatusException
 
@@ -75,47 +74,25 @@ class ItemPedidoServiceTest {
         val novoItemPedido =
             ItemPedidoCadastroRequest( "Mangas curtas", beforeCliente, beforeUsuario, beforePeca)
 
+        val itemPedidoMapeado = ItemPedido(2, "Mangas curtas", beforeCliente, beforeUsuario, beforePeca, true)
+
         val esperado = ItemPedido(1, "Mangas curtas", afterCliente, afterUsuario, afterPeca, true)
 
-        `when`(usuarioRepository.existsById(1)).thenReturn(true)
-        `when`(clienteRepository.existsByUsuarioIdAndId(1, 1)).thenReturn(true)
-        `when`(pecaRepository.existsByUsuarioIdAndId(1, 1)).thenReturn(true)
-        `when`(itemPedidoRepository.save(esperado)).thenReturn(esperado)
-        `when`(mapper.map(novoItemPedido, ItemPedido::class.java)).thenReturn(esperado)
+        `when`(usuarioRepository.existsById(anyInt())).thenReturn(true)
+        `when`(clienteRepository.existsByUsuarioIdAndId(anyInt(), anyInt())).thenReturn(true)
+        `when`(pecaRepository.existsByUsuarioIdAndId(anyInt(), anyInt())).thenReturn(true)
+        `when`(itemPedidoService.mapper.map(novoItemPedido, ItemPedido::class.java)).thenReturn(itemPedidoMapeado)
+        `when`(itemPedidoRepository.save(itemPedidoMapeado)).thenReturn(itemPedidoMapeado)
+
 
         val resultado =
             itemPedidoService.cadastrar(1, 1, 1, novoItemPedido)
 
-        assertEquals(novoItemPedido.usuario!!.id, resultado.usuario!!.id)
-        assertEquals(novoItemPedido.cliente!!.id, resultado.cliente!!.id)
-        assertEquals(novoItemPedido.peca!!.id, resultado.peca!!.id)
-
+        assertEquals(esperado.usuario!!.id, resultado.usuario!!.id)
+        assertEquals(esperado.cliente!!.id, resultado.cliente!!.id)
+        assertEquals(esperado.peca!!.id, resultado.peca!!.id)
     }
 
-    @DisplayName("cadastrar deve retornar uma exceção se o objeto de saída não estiver com os valores dos parâmetros do endpoint.")
-    @Test
-    fun cadastrarExpectNotEqualIO(){
-        val beforeCliente: Cliente = Cliente(2)
-        val beforeUsuario: Usuario = Usuario(2)
-        val beforePeca: Peca = Peca(2)
-
-        val afterCliente = Cliente(1)
-        val afterUsuario = Usuario(1)
-        val afterPeca = Peca(1)
-
-        val novoItemPedido =
-            ItemPedidoCadastroRequest( "Mangas curtas", beforeCliente, beforeUsuario, beforePeca)
-
-        val itemPedido = ItemPedido(1, "Mangas curtas", afterCliente, afterUsuario, afterPeca, ativo = true)
-
-        `when`(itemPedidoRepository.save(itemPedido)).thenReturn(itemPedido)
-
-        val excecao = assertThrows(ResponseStatusException::class.java){
-            itemPedidoService.validarCadastro(novoItemPedido, itemPedido)
-        }
-
-        assertEquals(501, excecao.statusCode.value())
-    }
     @DisplayName("findByUsuarioId deve retornar uma exceção com código 204 se não houver conteúdo na lista")
     @Test
     fun findByUsuarioIdExpectNoContent(){
@@ -155,28 +132,35 @@ class ItemPedidoServiceTest {
     @DisplayName("deleteByUsuarioIdAndItemPedidoId deve excluir uma linha equivalente os códigos de identificação passados no endpoint.")
     @Test
     fun deleteByUsuarioIdAndItemPedidoIdExpectEqualIO(){
-        val usuarioId = 2
-        val itemPedidoId = 2
-        val cliente = Cliente(2)
-        val usuario = Usuario(2)
-        val peca = Peca(2)
+        val beforeCliente = Cliente(2)
+        val beforeUsuario = Usuario(2)
+        val beforePeca = Peca(2)
 
-        `when`(itemPedidoRepository.existsByUsuarioIdAndId(1, 1))
+        val afterCliente = Cliente(1)
+        val afterUsuario = Usuario(1)
+        val afterPeca = Peca(1)
+
+
+        val itemPedidoASerDeletado = ItemPedido(2, "Mangas curtas", beforeCliente, beforeUsuario, beforePeca)
+        val esperado = ItemPedido(1, "Mangas curtas", afterCliente, afterUsuario, afterPeca, ativo = false)
+
+        `when`(itemPedidoRepository.existsByUsuarioIdAndId(anyInt(), anyInt()))
             .thenReturn(true)
 
-        val esperado = ItemPedido(2, "Mangas curtas", cliente, usuario, peca, ativo = true)
+        `when`(itemPedidoRepository.findByUsuarioIdAndId(anyInt(), anyInt()))
+            .thenReturn(itemPedidoASerDeletado)
 
-
-        `when`(itemPedidoRepository.findByUsuarioIdAndId(1, 1))
-            .thenReturn(esperado)
-
-        `when`(itemPedidoRepository.save(esperado)).thenReturn(esperado)
+        `when`(itemPedidoRepository.save(itemPedidoASerDeletado)).thenAnswer{
+            invocation ->
+            val itemPedido = invocation.getArgument(0, ItemPedido::class.java)
+            itemPedido
+        }
 
         val resultado = itemPedidoService.deleteByUsuarioIdAndId(1, 1)
 
         assertEquals(esperado.usuario!!.id, resultado.usuario!!.id)
         assertEquals(esperado.id, resultado.id)
-        assertEquals(esperado.ativo, false)
+        assertEquals(esperado.ativo, resultado.ativo)
 
     }
 

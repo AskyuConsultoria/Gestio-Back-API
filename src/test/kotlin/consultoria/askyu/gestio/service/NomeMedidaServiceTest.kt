@@ -12,8 +12,8 @@ import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
-import org.mockito.Mockito.mock
-import org.mockito.Mockito.`when`
+import org.mockito.ArgumentMatchers.anyInt
+import org.mockito.Mockito.*
 import org.modelmapper.ModelMapper
 import org.springframework.web.server.ResponseStatusException
 
@@ -58,6 +58,42 @@ class NomeMedidaServiceTest {
         assertEquals(404, excecao.statusCode.value())
     }
 
+    @DisplayName("postByUsuarioIdAndPecaId deve retonar o objeto de saída com os parâmetros do endpoint")
+    @Test
+    fun postByUsuarioIdAndPecaIdExpectEqualIO(){
+        val usuarioId = 1
+        val pecaId = 1
+        val nomeMedidaId = 1
+
+        val beforePeca = Peca(2)
+        val beforeUsuario = Usuario(2)
+        val afterPeca = Peca(1)
+        val afterUsuario = Usuario(1)
+
+        val novoNomeMedida = NomeMedidaCadastroRequest( "L. Cintura", beforePeca, beforeUsuario)
+        val nomeMedidaMapeado = NomeMedida( 1,"L. Cintura", beforePeca, beforeUsuario, true)
+        val esperado = NomeMedida( 1,"L. Cintura", afterPeca, afterUsuario, true)
+
+
+        `when`(usuarioRepository.existsById(usuarioId)).thenReturn(true)
+        `when`(pecaRepository.existsByUsuarioIdAndId(usuarioId, pecaId)).thenReturn(true)
+        `when`(nomeMedidaRepository.existsByUsuarioIdAndPecaIdAndId(usuarioId, pecaId, nomeMedidaId))
+            .thenReturn(true)
+        `when`(mapper.map(novoNomeMedida, NomeMedida::class.java)).thenReturn(nomeMedidaMapeado)
+        `when`(nomeMedidaRepository.save(nomeMedidaMapeado)).thenAnswer {
+            invocation ->
+            val nomeMedida = invocation.getArgument(0, NomeMedida::class.java)
+            nomeMedida
+        }
+
+        val resultado = nomeMedidaService.postByUsuarioIdAndPecaId(1, 1, novoNomeMedida)
+
+        assertEquals(esperado.usuario!!.id, resultado.usuario!!.id)
+        assertEquals(esperado.peca!!.id, resultado.peca!!.id)
+        assertEquals(esperado.ativo, resultado.ativo)
+    }
+
+
     @DisplayName("getallByUsuarioIdAndPecaId deve retornar uma exceção com código 204 caso a lista esteja vazia.")
     @Test
     fun getallByUsuarioIdAndPecaIdExpectNoContent() {
@@ -78,7 +114,33 @@ class NomeMedidaServiceTest {
         assertEquals(204, excecao.statusCode.value())
     }
 
+    @DisplayName("getallByUsuarioIdAndPecaId deve retornar uma lista de nome de medida")
+    @Test
+    fun getallByUsuarioIdAndPecaIdExpectListOfNomeMedida(){
+        val usuarioId = 1
+        val clienteId = 1
+        val pecaId = 1
 
+        val peca = Peca(1)
+        val usuario = Usuario(1)
+
+        val listaEsperada = listOf<NomeMedida>(
+            NomeMedida( 1,"L. Cintura", peca, usuario, ativo = true),
+            NomeMedida( 2,"L. Cintura", peca, usuario, ativo = true),
+            NomeMedida( 3,"L. Cintura", peca, usuario, ativo = true),
+            NomeMedida( 4,"L. Cintura", peca, usuario, ativo = true),
+            NomeMedida( 5,"L. Cintura", peca, usuario, ativo = true),
+        )
+
+        `when`(usuarioRepository.existsById(usuarioId)).thenReturn(true)
+        `when`(pecaRepository.existsByUsuarioIdAndId(usuarioId, pecaId)).thenReturn(true)
+        `when`(nomeMedidaRepository.getByUsuarioIdAndPecaId(usuarioId, pecaId)).thenReturn(listaEsperada)
+
+       val resultado = nomeMedidaService.getAllByUsuarioIdAndPecaId(usuarioId, pecaId)
+
+        assertInstanceOf(NomeMedida::class.java, resultado[0])
+        assertEquals(listaEsperada.size, resultado.size)
+    }
 
     @DisplayName("getAllByUsuarioIdAndPecaIdAndNomeContains deve retornar uma exeção com código 204 caso a lista esteja vazia.")
     @Test
@@ -106,6 +168,36 @@ class NomeMedidaServiceTest {
         assertEquals(204, excecao.statusCode.value())
     }
 
+    @DisplayName("getAllByUsuarioIdAndPecaIdAndNomeContains deve retornar uma lista de nome de medida")
+    @Test
+    fun getAllByUsuarioIdAndPecaIdAndNomeContainsExpectListOfNomeMedida(){
+        val usuarioId = 1
+        val clienteId = 1
+        val pecaId = 1
+
+        val peca = Peca(1)
+        val usuario = Usuario(1)
+        val nome = "calca"
+
+        val listaEsperada = listOf<NomeMedida>(
+            NomeMedida( 1,"L. Cintura", peca, usuario, ativo = true),
+            NomeMedida( 2,"L. Cintura", peca, usuario, ativo = true),
+            NomeMedida( 3,"L. Cintura", peca, usuario, ativo = true),
+            NomeMedida( 4,"L. Cintura", peca, usuario, ativo = true),
+            NomeMedida( 5,"L. Cintura", peca, usuario, ativo = true),
+        )
+
+        `when`(usuarioRepository.existsById(usuarioId)).thenReturn(true)
+        `when`(pecaRepository.existsByUsuarioIdAndId(usuarioId, pecaId)).thenReturn(true)
+        `when`(nomeMedidaRepository.getByUsuarioIdAndPecaIdAndNomeContainsIgnoreCase(usuarioId, pecaId, nome)).thenReturn(listaEsperada)
+
+        val resultado = nomeMedidaService.getAllByUsuarioIdAndPecaIdAndNomeContains(usuarioId, pecaId, nome)
+
+        assertInstanceOf(NomeMedida::class.java, resultado[0])
+        assertEquals(listaEsperada.size, resultado.size)
+    }
+
+
     @DisplayName("getByUsuarioIdAndPecaIdAndId deve retornar o objeto de saída com os parâmetros do endpoint.")
     @Test
     fun getByUsuarioIdAndPecaIdAndIdExpectEqualIO() {
@@ -117,6 +209,7 @@ class NomeMedidaServiceTest {
         val usuario = Usuario(1)
 
         val nomeMedida = NomeMedida(1, "L. Cintura", peca, usuario, true)
+
 
         `when`(usuarioRepository.existsById(usuarioId)).thenReturn(true)
         `when`(pecaRepository.existsByUsuarioIdAndId(usuarioId, pecaId)).thenReturn(true)
@@ -132,93 +225,66 @@ class NomeMedidaServiceTest {
         assertEquals(nomeMedida.id, resultado.id)
     }
 
-    @DisplayName("postByUsuarioIdAndPecaId deve retonar o objeto de saída com os parâmetros do endpoint")
-    @Test
-    fun postByUsuarioIdAndPecaIdExpectEqualIO(){
-        val usuarioId = 1
-        val pecaId = 1
-        val nomeMedidaId = 1
-
-        val beforePeca = Peca(2)
-        val beforeUsuario = Usuario(2)
-        val afterPeca = Peca(1)
-        val afterUsuario = Usuario(1)
-
-        val novoNomeMedida = NomeMedidaCadastroRequest( "L. Cintura", beforePeca, beforeUsuario)
-        val nomeMedida = NomeMedida( 1,"L. Cintura", afterPeca, afterUsuario, true)
-
-        `when`(usuarioRepository.existsById(usuarioId)).thenReturn(true)
-        `when`(pecaRepository.existsByUsuarioIdAndId(usuarioId, pecaId)).thenReturn(true)
-        `when`(nomeMedidaRepository.existsByUsuarioIdAndPecaIdAndId(usuarioId, pecaId, nomeMedidaId))
-            .thenReturn(true)
-        `when`(mapper.map(novoNomeMedida, NomeMedida::class.java)).thenReturn(nomeMedida)
-        `when`(nomeMedidaRepository.save(nomeMedida)).thenReturn(nomeMedida)
-
-        val resultado = nomeMedidaService.postByUsuarioIdAndPecaId(usuarioId, pecaId, novoNomeMedida)
-
-        assertEquals(nomeMedida.usuario!!.id, resultado.usuario!!.id)
-        assertEquals(nomeMedida.peca!!.id, resultado.peca!!.id)
-        assertEquals(nomeMedida.id, resultado.id)
-        assertEquals(nomeMedida.ativo, resultado.ativo)
-    }
-
     @DisplayName("putByUsuarioIdAndPecaIdAndId deve retonar o objeto de saída com os parâmetros do endpoint")
     @Test
     fun putByUsuarioIdAndPecaIdAndIdExpectEqualIO(){
-        val usuarioId = 1
-        val pecaId = 1
-        val nomeMedidaId = 1
-
         val beforePeca = Peca(2)
         val beforeUsuario = Usuario(2)
         val afterPeca = Peca(1)
         val afterUsuario = Usuario(1)
 
         val nomeMedidaAtualizado = NomeMedidaCadastroRequest( "L. Cintura", beforePeca, beforeUsuario)
-        val nomeMedida = NomeMedida( 1,"L. Cintura", afterPeca, afterUsuario, true)
+        val nomeMedidaMapeado = NomeMedida( 2,"L. Cintura", beforePeca, beforeUsuario)
+        val esperado = NomeMedida( 1,"L. Cintura", afterPeca, afterUsuario)
 
-        `when`(usuarioRepository.existsById(usuarioId)).thenReturn(true)
-        `when`(pecaRepository.existsByUsuarioIdAndId(usuarioId, pecaId)).thenReturn(true)
-        `when`(nomeMedidaRepository.existsByUsuarioIdAndPecaIdAndId(usuarioId, pecaId, nomeMedidaId))
+        `when`(usuarioRepository.existsById(anyInt())).thenReturn(true)
+        `when`(pecaRepository.existsByUsuarioIdAndId(anyInt(), anyInt())).thenReturn(true)
+        `when`(nomeMedidaRepository.existsByUsuarioIdAndPecaIdAndId(anyInt(), anyInt(), anyInt()))
             .thenReturn(true)
-        `when`(mapper.map(nomeMedidaAtualizado, NomeMedida::class.java)).thenReturn(nomeMedida)
-        `when`(nomeMedidaRepository.save(nomeMedida)).thenReturn(nomeMedida)
+        `when`(nomeMedidaService.mapper.map(nomeMedidaAtualizado, NomeMedida::class.java)).thenReturn(nomeMedidaMapeado)
+        `when`(nomeMedidaRepository.save(nomeMedidaMapeado)).thenAnswer {
+            invocation ->
+            val nomeMedida = invocation.getArgument(0, NomeMedida::class.java)
+            nomeMedida
+        }
 
-        val resultado = nomeMedidaService.putByUsuarioIdAndPecaIdAndId(usuarioId, pecaId, nomeMedidaId, nomeMedidaAtualizado)
+        val resultado = nomeMedidaService.putByUsuarioIdAndPecaIdAndId(1, 1, 1, nomeMedidaAtualizado)
 
-        assertEquals(nomeMedida.usuario!!.id, resultado.usuario!!.id)
-        assertEquals(nomeMedida.peca!!.id, resultado.peca!!.id)
-        assertEquals(nomeMedida.id, resultado.id)
+        assertEquals(esperado.usuario!!.id, resultado.usuario!!.id)
+        assertEquals(esperado.peca!!.id, resultado.peca!!.id)
+        assertEquals(esperado.id, resultado.id)
     }
 
     @DisplayName("deleteByUsuarioIdAndPecaIdAndId deve excluir a linha associadas ao parâmetro do endpoint")
     @Test
-    fun deleteByUsuarioIdAndPecaIdAndId(){
-        val usuarioId = 1
-        val pecaId = 1
-        val nomeMedidaId = 1
+    fun deleteByUsuarioIdAndPecaIdAndIdExpectEqualIO(){
+        val beforePeca = Peca(1)
+        val beforeUsuario = Usuario(1)
 
-        val peca = Peca(1)
-        val usuario = Usuario(1)
+        val afterPeca = Peca(1)
+        val afterUsuario = Usuario(1)
 
-        val nomeMedida = NomeMedida( 1,"L. Cintura", peca, usuario, ativo = true)
+        val nomeMedidaASerDeletado = NomeMedida( 1,"L. Cintura", beforePeca, beforeUsuario)
+        val esperado = NomeMedida( 1,"L. Cintura", afterPeca, afterUsuario, false)
 
-
-        `when`(usuarioRepository.existsById(usuarioId)).thenReturn(true)
-        `when`(pecaRepository.existsByUsuarioIdAndId(usuarioId, pecaId)).thenReturn(true)
-        `when`(nomeMedidaRepository.existsByUsuarioIdAndPecaIdAndId(usuarioId, pecaId, nomeMedidaId))
+        `when`(usuarioRepository.existsById(anyInt())).thenReturn(true)
+        `when`(pecaRepository.existsByUsuarioIdAndId(anyInt(), anyInt())).thenReturn(true)
+        `when`(nomeMedidaRepository.existsByUsuarioIdAndPecaIdAndId(anyInt(), anyInt(), anyInt()))
             .thenReturn(true)
-        `when`(nomeMedidaRepository.getByUsuarioIdAndPecaIdAndId(usuarioId, pecaId, nomeMedidaId))
-            .thenReturn(nomeMedida)
-        `when`(nomeMedidaRepository.save(nomeMedida)).thenReturn(nomeMedida)
+        `when`(nomeMedidaRepository.getByUsuarioIdAndPecaIdAndId(anyInt(), anyInt(), anyInt()))
+            .thenReturn(nomeMedidaASerDeletado)
+        `when`(nomeMedidaRepository.save(nomeMedidaASerDeletado)).thenAnswer {
+            invocation ->
+            val nomeMedida = invocation.getArgument(0, NomeMedida::class.java)
+            nomeMedida
+        }
 
-        val resultado = nomeMedidaService.deleteByUsuarioIdAndPecaIdAndId(usuarioId, pecaId, nomeMedidaId)
+        val resultado = nomeMedidaService.deleteByUsuarioIdAndPecaIdAndId(2, 2, 2)
 
-        assertEquals(nomeMedida.usuario!!.id, resultado.usuario!!.id)
-        assertEquals(nomeMedida.peca!!.id, resultado.peca!!.id)
-        assertEquals(nomeMedida.id, resultado.id)
-        assertEquals(nomeMedida.ativo, false)
-
+        assertEquals(esperado.usuario!!.id, resultado.usuario!!.id)
+        assertEquals(esperado.peca!!.id, resultado.peca!!.id)
+        assertEquals(esperado.id, resultado.id)
+        assertEquals(esperado.ativo, resultado.ativo)
     }
 
 
