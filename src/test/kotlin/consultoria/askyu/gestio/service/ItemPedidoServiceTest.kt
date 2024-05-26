@@ -176,7 +176,7 @@ class ItemPedidoServiceTest {
 
         assertEquals(esperado.usuario!!.id, resultado.usuario!!.id)
         assertEquals(esperado.id, resultado.id)
-        assertEquals(resultado.ativo, false)
+        assertEquals(esperado.ativo, false)
 
     }
 

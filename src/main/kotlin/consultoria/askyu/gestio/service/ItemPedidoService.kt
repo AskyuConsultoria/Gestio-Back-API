@@ -59,13 +59,12 @@ class ItemPedidoService(
         itemPedido.ativo = false
         return itemPedidoRepository.save(itemPedido)
     }
-    fun validarSeListaEstaVazia(lista: List<*>): List<*>{
+    fun validarSeListaEstaVazia(lista: List<*>){
         if(lista.isEmpty()){
             throw ResponseStatusException(
                 HttpStatusCode.valueOf(204), "Lista de Fichas está vazia."
             )
         }
-        return lista
     }
 
     fun validateExistence(usuarioId: Int, itemPedidoId: Int){

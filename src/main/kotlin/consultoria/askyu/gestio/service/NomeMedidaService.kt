@@ -69,13 +69,13 @@ class NomeMedidaService(
         usuarioId: Int,
         pecaId: Int,
         nomeMedidaId: Int
-    ){
+    ): NomeMedida{
         usuarioService.existenceValidation(usuarioId)
         validarSePecaExiste(usuarioId, pecaId)
         validarSeNomeMedidaExiste(usuarioId, pecaId, nomeMedidaId)
         var nomeMedida = nomeMedidaRepository.getByUsuarioIdAndPecaIdAndId(usuarioId, pecaId, nomeMedidaId)
         nomeMedida.ativo = false
-        nomeMedidaRepository.save(nomeMedida)
+       return nomeMedidaRepository.save(nomeMedida)
     }
 
     fun validarSePecaExiste(usuarioId: Int, pecaId: Int){
