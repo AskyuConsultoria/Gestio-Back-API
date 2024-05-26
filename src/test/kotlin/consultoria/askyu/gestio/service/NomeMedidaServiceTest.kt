@@ -258,8 +258,8 @@ class NomeMedidaServiceTest {
     @DisplayName("deleteByUsuarioIdAndPecaIdAndId deve excluir a linha associadas ao parâmetro do endpoint")
     @Test
     fun deleteByUsuarioIdAndPecaIdAndIdExpectEqualIO(){
-        val beforePeca = Peca(1)
-        val beforeUsuario = Usuario(1)
+        val beforePeca = Peca(2)
+        val beforeUsuario = Usuario(2)
 
         val afterPeca = Peca(1)
         val afterUsuario = Usuario(1)
@@ -279,7 +279,7 @@ class NomeMedidaServiceTest {
             nomeMedida
         }
 
-        val resultado = nomeMedidaService.deleteByUsuarioIdAndPecaIdAndId(2, 2, 2)
+        val resultado = nomeMedidaService.deleteByUsuarioIdAndPecaIdAndId(1, 1, 1)
 
         assertEquals(esperado.usuario!!.id, resultado.usuario!!.id)
         assertEquals(esperado.peca!!.id, resultado.peca!!.id)

@@ -22,9 +22,9 @@ class TecidoController(
             ApiResponse(responseCode = "201", description = "Cadastro feito com sucesso!"),
         ],
     )
-    @PostMapping
-    fun cadastrar(@RequestBody @Valid tecido: TecidoCadastroRequest): ResponseEntity<TecidoCadastroRequest>{
-        tecidoService.salvar(tecido)
+    @PostMapping("/{usuarioId}")
+    fun cadastrar(@PathVariable usuarioId: Int, @RequestBody @Valid novoTecido: TecidoCadastroRequest): ResponseEntity<Tecido>{
+        val tecido = tecidoService.salvar(usuarioId, novoTecido)
         return ResponseEntity.status(201).body(tecido)
     }
 
@@ -36,9 +36,9 @@ class TecidoController(
             ApiResponse(responseCode = "204", description = "Não há tecidos cadastrados.")
         ],
     )
-    @GetMapping
-    fun listar(): ResponseEntity<List<Tecido>>{
-       val listaTecido = tecidoService.listar()
+    @GetMapping("/{usuarioId}")
+    fun listar(@PathVariable usuarioId: Int): ResponseEntity<List<Tecido>>{
+       val listaTecido = tecidoService.listar(usuarioId)
        return ResponseEntity.status(200).body(listaTecido)
     }
 
@@ -51,9 +51,9 @@ class TecidoController(
             ApiResponse(responseCode = "204", description = "Nenhum tecido foi encotrado com este nome.")
         ],
     )
-    @GetMapping("/nome")
-    fun listarPorNome(@RequestParam nome: String): ResponseEntity<List<Tecido>>{
-        val listaTecido = tecidoService.listarPorNome(nome)
+    @GetMapping("{usuarioId}/filtro-nome")
+    fun listarPorNome(@PathVariable usuarioId: Int, @RequestParam nome: String): ResponseEntity<List<Tecido>>{
+        val listaTecido = tecidoService.listarPorNome(usuarioId, nome)
         return ResponseEntity.status(200).body(listaTecido)
     }
 
@@ -66,9 +66,9 @@ class TecidoController(
             ApiResponse(responseCode = "404", description = "Nenhum tecido foi encontrado pelo código de identificação.")
         ],
     )
-    @GetMapping("/{id}")
-    fun buscarTecidoPorId(@PathVariable id: Int): ResponseEntity<Tecido> {
-        val tecido = tecidoService.buscarTecidoPorId(id)
+    @GetMapping("{usuarioId}/{tecidoId}")
+    fun buscarTecidoPorId(@PathVariable usuarioId: Int, @PathVariable tecidoId: Int): ResponseEntity<Tecido> {
+        val tecido = tecidoService.buscarTecidoPorId(usuarioId, tecidoId)
         return ResponseEntity.status(200).body(tecido)
     }
 
@@ -80,13 +80,14 @@ class TecidoController(
             ApiResponse(responseCode = "404", description = "Nenhum tecido foi encontrado pelo código de identificação.")
         ],
     )
-    @PutMapping()
+
+    @PutMapping("{usuarioId}/{tecidoId}")
     fun atualizar(
-        @RequestParam id: Int,
-        @RequestBody @Valid tecido: TecidoCadastroRequest,
-    ): ResponseEntity<TecidoCadastroRequest>{
-        tecido.id = id
-        tecidoService.salvar(tecido)
+        @PathVariable usuarioId: Int,
+        @PathVariable tecidoId: Int,
+        @RequestBody @Valid tecidoAtualizado: TecidoCadastroRequest,
+    ): ResponseEntity<Tecido>{
+        val tecido = tecidoService.atualizar(usuarioId, tecidoId)
         return ResponseEntity.status(200).body(tecido)
     }
 
@@ -99,10 +100,10 @@ class TecidoController(
         ],
     )
 
-    @DeleteMapping()
-    fun desativar(@RequestParam id: Int): ResponseEntity<Void>{
-        tecidoService.desativar(id)
-        return ResponseEntity.status(200).build()
+    @DeleteMapping("/{usuarioId}/{tecidoId}")
+    fun desativar(@PathVariable usuarioId: Int, tecidoId: Int): ResponseEntity<Void>{
+        tecidoService.desativar(usuarioId, tecidoId)
+        return ResponseEntity.status(204).build()
     }
 
 

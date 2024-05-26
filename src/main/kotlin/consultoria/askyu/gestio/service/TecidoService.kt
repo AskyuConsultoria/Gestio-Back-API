@@ -16,14 +16,23 @@ class TecidoService(
 ){
 
 
-    fun salvar(usuarioId: Int, @Valid novoTecido: TecidoCadastroRequest){
+    fun salvar(usuarioId: Int, @Valid novoTecido: TecidoCadastroRequest): Tecido{
         usuarioService.existenceValidation(usuarioId)
         val tecido  = mapper.map(novoTecido, Tecido::class.java)
         tecido.usuario!!.id = usuarioId
-        tecidoRepository.save(tecido)
+        return tecidoRepository.save(tecido)
     }
 
-    fun listar(usuarioId: Int, tecidoId: Int): List<Tecido> {
+    fun atualizar(usuarioId: Int, tecidoId: Int): Tecido{
+        usuarioService.existenceValidation(usuarioId)
+        existenceValidation(usuarioId, tecidoId)
+        val tecido = tecidoRepository.findByUsuarioIdAndId(usuarioId, tecidoId)
+        tecido.usuario!!.id = usuarioId
+        tecido.id = tecidoId
+        return tecidoRepository.save(tecido)
+    }
+
+    fun listar(usuarioId: Int): List<Tecido> {
       val listaTecido = tecidoRepository.findByUsuarioId(usuarioId)
         validarSeListaEVazia(listaTecido)
         return listaTecido
