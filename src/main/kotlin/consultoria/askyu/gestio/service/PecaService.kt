@@ -44,18 +44,21 @@ class PecaService(
         return pecaRepository.save(peca)
     }
 
-    fun putByUsuarioId(usuarioId: Int, pecaId: Int, pecaAtualizada: Peca): Peca{
+    fun putByUsuarioId(usuarioId: Int, pecaId: Int, pecaAtualizada: PecaCadastroRequest): Peca{
         usuarioService.existenceValidation(usuarioId)
         validarSeAPecaExiste(usuarioId, pecaId)
-        pecaAtualizada.usuario!!.id = usuarioId
-        pecaAtualizada.id = pecaId
-        return pecaRepository.save(pecaAtualizada)
+        val peca = mapper.map(pecaAtualizada, Peca::class.java)
+        peca.usuario!!.id = usuarioId
+        peca.id = pecaId
+        return pecaRepository.save(peca)
     }
 
     fun deleteByUsuarioIdAndId(usuarioId: Int, pecaId: Int): Peca{
         usuarioService.existenceValidation(usuarioId)
         validarSeAPecaExiste(usuarioId, pecaId)
         val peca = pecaRepository.findByUsuarioIdAndId(usuarioId, pecaId).get()
+        peca.usuario!!.id = usuarioId
+        peca.id = pecaId
         peca.ativo = false
         return pecaRepository.save(peca)
     }

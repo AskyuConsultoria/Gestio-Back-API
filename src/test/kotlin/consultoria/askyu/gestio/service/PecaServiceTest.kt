@@ -64,6 +64,27 @@ class PecaServiceTest {
         assertEquals(204, excecao.statusCode.value())
     }
 
+    @DisplayName("getAllByUsuarioId deve retonar uma lista de peças")
+    @Test
+    fun getAllByUsuarioIdExpectListOfPeca(){
+        val usuario = Usuario(1)
+        val listaEsperada = listOf<Peca>(
+            Peca(1, "terno", "um terno padrão", usuario),
+            Peca(2, "terno", "um terno padrão", usuario),
+            Peca(3, "terno", "um terno padrão", usuario),
+            Peca(4, "terno", "um terno padrão", usuario),
+            Peca(5, "terno", "um terno padrão", usuario),
+        )
+
+        `when`(usuarioRepository.existsById(anyInt())).thenReturn(true)
+        `when`(pecaRepository.findByUsuarioId(anyInt())).thenReturn(listaEsperada)
+
+        val resultado = pecaService.getAllByUsuarioId(1)
+
+        assertInstanceOf(Peca::class.java, resultado[0])
+        assertEquals(listaEsperada.size, resultado.size)
+    }
+
     @DisplayName("getByUsuarioIdAndId deve retornar um objeto de peça")
     @Test
     fun getByUsuarioIdExpectPeca(){
@@ -132,7 +153,7 @@ class PecaServiceTest {
 
     @DisplayName("postByUsuarioId deve retornar o objeto de saída com os valores dos parâmetros.")
     @Test
-    fun postByUsuarioId(){
+    fun postByUsuarioIdExpectEqualIO(){
         val usuarioId = 1
 
         val beforeUsuario = Usuario(2)
@@ -160,5 +181,66 @@ class PecaServiceTest {
         assertEquals(esperado.usuario!!.id, resultado.usuario!!.id)
         assertEquals(true, resultado.ativo)
 }
+
+    @DisplayName("putByUsuarioId deve retornar o objeto de saída com os valores dos parâmetros.")
+    @Test
+    fun putByUsuarioIdExpectEqualIO(){
+        val usuarioId = 1
+
+        val beforeUsuario = Usuario(2)
+        val afterUsuario = Usuario(1)
+
+        val novaPeca = PecaCadastroRequest(
+            "terno", "um terno padrão", beforeUsuario
+        )
+
+        val pecaMapeada = Peca(
+            2, "terno", "um terno padrão", beforeUsuario)
+
+        val esperado = Peca(
+            1, "terno", "um terno padrão", afterUsuario)
+
+        `when`(usuarioRepository.existsById(anyInt())).thenReturn(true)
+        `when`(pecaRepository.existsByUsuarioIdAndId(anyInt(), anyInt())).thenReturn(true)
+        `when`(pecaService.mapper.map(novaPeca, Peca::class.java)).thenReturn(pecaMapeada)
+        `when`(pecaRepository.save(any(Peca::class.java))).thenAnswer {
+                invocation ->
+            val peca = invocation.getArgument(0, Peca::class.java)
+            peca
+        }
+
+        val resultado = pecaService.putByUsuarioId(1, 1, novaPeca)
+        assertEquals(esperado.usuario!!.id, resultado.usuario!!.id)
+        assertEquals(esperado.id, resultado.id )
+        assertEquals(esperado.ativo, resultado.ativo)
+    }
+
+    @DisplayName("deleteByUsuarioIdAndId deve retornar o objeto de saída com os valores dos parâmetros.")
+    @Test
+    fun deleteByUsuarioIdAndIdExpectEqualIO(){
+        val beforeUsuario = Usuario(2)
+        val afterUsuario = Usuario(1)
+
+        val pecaASerDeletada = Peca(
+            2,"terno", "um terno padrão", beforeUsuario
+        )
+
+        val esperado = Peca(
+            1, "terno", "um terno padrão", afterUsuario, false)
+
+        `when`(usuarioRepository.existsById(anyInt())).thenReturn(true)
+        `when`(pecaRepository.existsByUsuarioIdAndId(anyInt(), anyInt())).thenReturn(true)
+        `when`(pecaRepository.findByUsuarioIdAndId(anyInt(), anyInt())).thenReturn(Optional.of(pecaASerDeletada))
+        `when`(pecaRepository.save(any(Peca::class.java))).thenAnswer {
+                invocation ->
+            val peca = invocation.getArgument(0, Peca::class.java)
+            peca
+        }
+
+        val resultado = pecaService.deleteByUsuarioIdAndId(1, 1)
+        assertEquals(esperado.usuario!!.id, resultado.usuario!!.id)
+        assertEquals(esperado.id, resultado.id )
+        assertEquals(esperado.ativo, resultado.ativo)
+    }
 
 }

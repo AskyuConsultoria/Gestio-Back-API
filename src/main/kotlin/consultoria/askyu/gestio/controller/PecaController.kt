@@ -88,7 +88,7 @@ class PecaController(
     fun putByUsuarioIdAndId(
         @PathVariable usuarioId: Int,
         @PathVariable pecaId: Int,
-        @RequestBody pecaAtualizada: Peca
+        @RequestBody pecaAtualizada: PecaCadastroRequest
     ): ResponseEntity<Peca>{
         val peca = pecaService.putByUsuarioId(usuarioId, pecaId, pecaAtualizada)
         return ResponseEntity.status(200).body(peca)
