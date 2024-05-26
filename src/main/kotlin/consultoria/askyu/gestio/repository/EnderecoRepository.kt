@@ -6,6 +6,8 @@ import java.util.*
 
 interface EnderecoRepository : JpaRepository<Endereco, Int> {
 
+    fun findEndereco(): List<Endereco>
+
     fun findByCep(cep:String): Optional<Endereco>
 
     fun countByCep(cep: String): Int

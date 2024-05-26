@@ -4,7 +4,7 @@ import jakarta.persistence.*
 import jakarta.validation.constraints.NotBlank
 
 @Entity
-data class Complemento(
+data class Moradia(
     @field:Id
     @field:GeneratedValue(strategy = GenerationType.IDENTITY)
     var id:Int?,
@@ -15,7 +15,7 @@ data class Complemento(
     @field:ManyToOne
     var endereco: Endereco?,
 
-    @field:NotBlank var numero:Int?,
+    var numero:Int?,
     var complemento: String?,
-    @field:NotBlank var ativo:Boolean?
+    var ativo:Boolean?
 )

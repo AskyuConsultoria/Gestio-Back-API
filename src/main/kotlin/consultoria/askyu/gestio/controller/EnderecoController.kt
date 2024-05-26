@@ -2,14 +2,14 @@ package consultoria.askyu.gestio.controller
 
 import consultoria.askyu.gestio.repository.EnderecoRepository
 import consultoria.askyu.gestio.dominio.Endereco
-import consultoria.askyu.gestio.dtos.CepCadastroRequest
+import consultoria.askyu.gestio.dtos.EnderecoRequest
+import consultoria.askyu.gestio.service.EnderecoService
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.media.Content
 import io.swagger.v3.oas.annotations.media.Schema
 import io.swagger.v3.oas.annotations.responses.ApiResponse
 import io.swagger.v3.oas.annotations.responses.ApiResponses
 import jakarta.validation.Valid
-import org.modelmapper.ModelMapper
 import org.springframework.http.HttpMethod
 import org.springframework.http.HttpStatusCode
 import org.springframework.http.RequestEntity
@@ -22,8 +22,7 @@ import org.springframework.web.util.UriComponentsBuilder
 @RestController
 @RequestMapping("/endereco")
 class EnderecoController(
-    val repository: EnderecoRepository,
-    val mapper: ModelMapper = ModelMapper()
+    val enderecoService: EnderecoService
 ) {
 
     @Operation(summary = "Buscar todas os endereços",
@@ -35,13 +34,9 @@ class EnderecoController(
         ],
     )
     @GetMapping
-    fun getList(): ResponseEntity<List<Endereco>> {
-        val lista = repository.findAll()
-
-        if (lista.isNotEmpty()) {
-            return ResponseEntity.status(200).body(lista)
-        }
-        return ResponseEntity.status(204).build()
+    fun exibirEndereco(): ResponseEntity<List<Endereco>> {
+        val dtos = enderecoService.getLista()
+        return ResponseEntity.status(200).body(dtos)
     }
 
     @Operation(summary = "Cadastrar endereço",
@@ -53,12 +48,12 @@ class EnderecoController(
         ],
     )
     @PostMapping
-    fun cadastrarPorCEP(@Valid @RequestParam cepRequest:CepCadastroRequest):Boolean {
+    fun cadastrarPorCEP(@Valid @RequestParam enderecoRequest: EnderecoRequest):Boolean {
 
-        var cep = cepRequest.cep
+        var cep = enderecoRequest.cep
 
 
-        if(repository.countByCep(cep) >= 1){
+        if(enderecoService.contagemCep(cep) >= 1){
             return throw ResponseStatusException(HttpStatusCode.valueOf(409), "CEP ja cadastrado")
         }
 
@@ -68,7 +63,7 @@ class EnderecoController(
             val method = HttpMethod.GET
             val request = RequestEntity<Any>(null, method, UriComponentsBuilder.fromUriString(url).build().toUri())
             val response = restTemplate.exchange(request, Endereco::class.java)
-            repository.save(response.body!!)
+            enderecoService.salvarEndereco(response.body!!)
             return true
         } catch (erro:Exception){
             throw ResponseStatusException(HttpStatusCode.valueOf(404), "Esse CEP não existe")
@@ -76,9 +71,7 @@ class EnderecoController(
     }
     @GetMapping("/cep")
     fun getEndereco(@RequestParam cep:String):ResponseEntity<Endereco> {
-
-        return ResponseEntity.of(repository.findByCep(cep))
-
+        return ResponseEntity.of(enderecoService.buscarPorCep(cep))
     }
 
 }
