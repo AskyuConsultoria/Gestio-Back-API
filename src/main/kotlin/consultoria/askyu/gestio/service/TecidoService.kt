@@ -16,17 +16,18 @@ class TecidoService(
 ){
 
 
-    fun salvar(usuarioId: Int, @Valid novoTecido: TecidoCadastroRequest): Tecido{
+    fun salvar(usuarioId: Int, tecidoId: Int, @Valid novoTecido: TecidoCadastroRequest): Tecido{
         usuarioService.existenceValidation(usuarioId)
         val tecido  = mapper.map(novoTecido, Tecido::class.java)
         tecido.usuario!!.id = usuarioId
+        tecido.id = tecidoId
         return tecidoRepository.save(tecido)
     }
 
-    fun atualizar(usuarioId: Int, tecidoId: Int): Tecido{
+    fun atualizar(usuarioId: Int, tecidoId: Int, tecidoAtualizado: TecidoCadastroRequest): Tecido{
         usuarioService.existenceValidation(usuarioId)
         existenceValidation(usuarioId, tecidoId)
-        val tecido = tecidoRepository.findByUsuarioIdAndId(usuarioId, tecidoId)
+        val tecido = mapper.map(tecidoAtualizado, Tecido::class.java)
         tecido.usuario!!.id = usuarioId
         tecido.id = tecidoId
         return tecidoRepository.save(tecido)
@@ -45,18 +46,19 @@ class TecidoService(
     }
 
     fun buscarTecidoPorId(usuarioId: Int, tecidoId: Int): Tecido {
+        usuarioService.existenceValidation(usuarioId)
         existenceValidation(usuarioId, tecidoId)
         val tecido = tecidoRepository.findByUsuarioIdAndId(usuarioId, tecidoId)
         return tecido
     }
 
-    fun desativar(usuarioId: Int, tecidoId: Int){
+    fun desativar(usuarioId: Int, tecidoId: Int): Tecido{
         existenceValidation(usuarioId, tecidoId)
         val tecido = tecidoRepository.findByUsuarioIdAndId(usuarioId, tecidoId)
         tecido.usuario!!.id = usuarioId
         tecido.id = tecidoId
         tecido.ativo = false
-        tecidoRepository.save(tecido)
+        return tecidoRepository.save(tecido)
     }
 
 

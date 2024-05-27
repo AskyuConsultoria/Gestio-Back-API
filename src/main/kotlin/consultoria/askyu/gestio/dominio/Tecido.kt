@@ -14,5 +14,9 @@ data class Tecido(
     val usuario: Usuario? = null,
     var ativo: Boolean? = true
 ){
-
+    constructor(
+        paramId: Int,
+        paramNome: String,
+        paramUsuario: Usuario,
+    ): this(id = paramId, nome = paramNome, usuario = paramUsuario)
 }

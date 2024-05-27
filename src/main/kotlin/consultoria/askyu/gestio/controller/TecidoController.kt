@@ -22,9 +22,9 @@ class TecidoController(
             ApiResponse(responseCode = "201", description = "Cadastro feito com sucesso!"),
         ],
     )
-    @PostMapping("/{usuarioId}")
-    fun cadastrar(@PathVariable usuarioId: Int, @RequestBody @Valid novoTecido: TecidoCadastroRequest): ResponseEntity<Tecido>{
-        val tecido = tecidoService.salvar(usuarioId, novoTecido)
+    @PostMapping("/{usuarioId}/{tecidoId}")
+    fun cadastrar(@PathVariable usuarioId: Int, @PathVariable tecidoId: Int, @RequestBody @Valid novoTecido: TecidoCadastroRequest): ResponseEntity<Tecido>{
+        val tecido = tecidoService.salvar(usuarioId, tecidoId, novoTecido)
         return ResponseEntity.status(201).body(tecido)
     }
 
@@ -87,7 +87,7 @@ class TecidoController(
         @PathVariable tecidoId: Int,
         @RequestBody @Valid tecidoAtualizado: TecidoCadastroRequest,
     ): ResponseEntity<Tecido>{
-        val tecido = tecidoService.atualizar(usuarioId, tecidoId)
+        val tecido = tecidoService.atualizar(usuarioId, tecidoId, tecidoAtualizado)
         return ResponseEntity.status(200).body(tecido)
     }
 
