@@ -18,10 +18,7 @@ import org.springframework.web.bind.annotation.RestController
 
 @RestController
 @RequestMapping("/tecidos")
-class TecidoController(
-    var tecidoRepository: TecidoRepository,
-    var tecidoService: TecidoService
-) {
+class TecidoController(var tecidoService: TecidoService) {
 
     @Operation(summary = "Cadastra um tecido.",
         description = "Realiza um cadastro de um tecido.")
@@ -31,9 +28,9 @@ class TecidoController(
         ],
     )
     @PostMapping
-    fun cadastrar(@RequestBody @Valid tecido: TecidoCadastroDTO): ResponseEntity<TecidoCadastroDTO>{
-        tecidoService.salvar(tecido)
-        return ResponseEntity.status(201).body(tecido)
+    fun cadastrar(@RequestBody @Valid tecido: TecidoCadastroDTO): ResponseEntity<Tecido>{
+        val salvo = tecidoService.salvar(tecido)
+        return ResponseEntity.status(201).body(salvo)
     }
 
     @Operation(summary = "Busca todos os tecidos.",
@@ -92,10 +89,10 @@ class TecidoController(
     fun atualizar(
         @RequestParam id: Int,
         @RequestBody @Valid tecido: TecidoCadastroDTO,
-    ): ResponseEntity<TecidoCadastroDTO>{
+    ): ResponseEntity<Tecido>{
         tecido.id = id
-        tecidoService.salvar(tecido)
-        return ResponseEntity.status(200).body(tecido)
+        val salvo = tecidoService.salvar(tecido)
+        return ResponseEntity.status(200).body(salvo)
     }
 
     @Operation(summary = "Desativa um tecido com base no seu código de identificação.",

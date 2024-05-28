@@ -15,9 +15,10 @@ class TecidoService(
 ){
 
 
-    fun salvar(@Valid tecido: TecidoCadastroDTO){
+    fun salvar(tecido: TecidoCadastroDTO):Tecido{
         val dto = mapper.map(tecido, Tecido::class.java)
         tecidoRepository.save(dto)
+        return dto
     }
 
     fun listar(): List<Tecido> {
@@ -38,7 +39,7 @@ class TecidoService(
         return tecido
     }
 
-    fun desativar(@RequestParam id: Int){
+    fun desativar(id: Int){
        validarSeExistePorId(id)
         val tecido = tecidoRepository.findById(id).get()
         tecido.ativo = false
