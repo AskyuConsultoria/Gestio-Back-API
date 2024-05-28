@@ -5,16 +5,18 @@ import consultoria.askyu.gestio.dominio.Cliente
 import consultoria.askyu.gestio.repository.ClienteRepository
 import org.modelmapper.ModelMapper
 import org.springframework.http.HttpStatusCode
+import org.springframework.stereotype.Service
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.server.ResponseStatusException
 import java.util.Optional
 
+@Service
 class ClienteService(
     val repository: ClienteRepository,
     val mapper: ModelMapper= ModelMapper()
 ) {
 
-    fun getLista(): List<Cliente>{
+    fun getLista(): List<Cliente?>{
         val lista = repository.findCliente()
         validarLista(lista)
 

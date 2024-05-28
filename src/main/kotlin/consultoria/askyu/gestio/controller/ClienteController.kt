@@ -23,7 +23,7 @@ class ClienteController (val clienteService: ClienteService){
     }
 
     @GetMapping
-    fun listar(): ResponseEntity<List<Cliente>> {
+    fun listar(): ResponseEntity<List<Cliente?>> {
         val listaTecido = clienteService.getLista()
         return ResponseEntity.status(200).body(listaTecido)
     }

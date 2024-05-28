@@ -5,6 +5,7 @@ import jakarta.persistence.GenerationType.IDENTITY
 import jakarta.validation.constraints.Email
 import jakarta.validation.constraints.NotBlank
 import jakarta.validation.constraints.Past
+import java.time.LocalDate
 import java.util.*
 
 @Entity
@@ -19,7 +20,7 @@ data class Cliente(
 
     var sobrenome: String,
 
-    var dtNasc: Date,
+    var dtNasc: LocalDate,
 
     @ManyToOne
     var usuario: Usuario?=null,
