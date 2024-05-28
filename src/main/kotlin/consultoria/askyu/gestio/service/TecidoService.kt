@@ -1,6 +1,6 @@
 package consultoria.askyu.gestio
 
-import askyu.gestio.dto.TecidoCadastroRequest
+import askyu.gestio.dto.TecidoCadastroDTO
 import jakarta.validation.Valid
 import org.modelmapper.ModelMapper
 import org.springframework.http.HttpStatusCode
@@ -15,7 +15,7 @@ class TecidoService(
 ){
 
 
-    fun salvar(@Valid tecido: TecidoCadastroRequest){
+    fun salvar(@Valid tecido: TecidoCadastroDTO){
         val dto = mapper.map(tecido, Tecido::class.java)
         tecidoRepository.save(dto)
     }

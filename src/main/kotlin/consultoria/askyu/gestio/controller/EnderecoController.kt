@@ -2,7 +2,7 @@ package consultoria.askyu.gestio.controller
 
 import consultoria.askyu.gestio.repository.EnderecoRepository
 import consultoria.askyu.gestio.dominio.Endereco
-import consultoria.askyu.gestio.dtos.CepCadastroRequest
+import consultoria.askyu.gestio.dtos.CepCadastroDTO
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.media.Content
 import io.swagger.v3.oas.annotations.media.Schema
@@ -53,7 +53,7 @@ class EnderecoController(
         ],
     )
     @PostMapping
-    fun cadastrarPorCEP(@Valid @RequestParam cepRequest:CepCadastroRequest):Boolean {
+    fun cadastrarPorCEP(@Valid @RequestParam cepRequest:CepCadastroDTO):Boolean {
 
         var cep = cepRequest.cep
 

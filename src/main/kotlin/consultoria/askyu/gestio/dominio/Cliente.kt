@@ -11,19 +11,23 @@ import java.util.Date
 
 @Entity
 data class Cliente(
+
     @field:Id
     @field:GeneratedValue(strategy = GenerationType.IDENTITY)
-    var id:Int?,
-    @field:NotBlank
-    var nome:String?,
-    @field:NotBlank
-    var sobrenome:String?,
-    @field:NotBlank
-    var dtNasc:Date?,
-    @field:NotBlank
-    var email:String?,
+    var id:Int,
+
+    var nome:String,
+
+    var sobrenome:String,
+
+    var dtNasc:Date,
+
+    var email:String,
+
     @field:ManyToOne
-    var responsavelId: Cliente?,
-    var usuarioId:Int?,
-    var ativo: Boolean? = true
+    var responsavel: Cliente?,
+
+    var usuario:Int?,
+
+    var ativo: Boolean = true
 )

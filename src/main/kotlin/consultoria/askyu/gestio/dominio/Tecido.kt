@@ -9,6 +9,4 @@ data class Tecido(
     var id:Int? = null,
     var nome:String? = null,
     var ativo: Boolean? = true
-){
-    constructor() : this(null, null, true)
-}
+)

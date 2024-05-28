@@ -1,6 +1,6 @@
 package consultoria.askyu.gestio
 
-import askyu.gestio.dto.TecidoCadastroRequest
+import askyu.gestio.dto.TecidoCadastroDTO
 import jakarta.validation.Valid
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.responses.ApiResponse
@@ -31,7 +31,7 @@ class TecidoController(
         ],
     )
     @PostMapping
-    fun cadastrar(@RequestBody @Valid tecido: TecidoCadastroRequest): ResponseEntity<TecidoCadastroRequest>{
+    fun cadastrar(@RequestBody @Valid tecido: TecidoCadastroDTO): ResponseEntity<TecidoCadastroDTO>{
         tecidoService.salvar(tecido)
         return ResponseEntity.status(201).body(tecido)
     }
@@ -91,8 +91,8 @@ class TecidoController(
     @PutMapping()
     fun atualizar(
         @RequestParam id: Int,
-        @RequestBody @Valid tecido: TecidoCadastroRequest,
-    ): ResponseEntity<TecidoCadastroRequest>{
+        @RequestBody @Valid tecido: TecidoCadastroDTO,
+    ): ResponseEntity<TecidoCadastroDTO>{
         tecido.id = id
         tecidoService.salvar(tecido)
         return ResponseEntity.status(200).body(tecido)
