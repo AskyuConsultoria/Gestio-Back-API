@@ -4,24 +4,30 @@ import jakarta.persistence.Entity
 import jakarta.persistence.GeneratedValue
 import jakarta.persistence.GenerationType
 import jakarta.persistence.Id
+import jakarta.persistence.ManyToOne
 import jakarta.validation.constraints.NotBlank
-import jakarta.validation.constraints.Size
+import java.util.Date
+
 
 @Entity
-data class Endereco(
+data class Cliente(
+
     @field:Id
     @field:GeneratedValue(strategy = GenerationType.IDENTITY)
     var id:Int,
 
-    var cep:String,
+    var nome:String,
 
-    var logradouro:String,
+    var sobrenome:String,
 
-    var bairro:String,
+    var dtNasc:Date,
 
-    var localidade:String,
+    var email:String,
 
-    @field:Size(min = 2, max = 2)
-    var uf:String
+    @field:ManyToOne
+    var responsavel: Cliente?,
+
+    var usuario:Int?,
+
+    var ativo: Boolean = true
 )
-

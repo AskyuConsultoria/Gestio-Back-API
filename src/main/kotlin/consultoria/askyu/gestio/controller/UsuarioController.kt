@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
-@RequestMapping("/Usuario")
+@RequestMapping("/usuarios")
 class UsuarioController(val service:UsuarioService) {
 
 
@@ -35,8 +35,8 @@ class UsuarioController(val service:UsuarioService) {
     )
     @PostMapping
     fun cadastrarUsuario(@Valid @RequestBody novoUsuario:UsuarioDTO):ResponseEntity<Usuario>{
-        var Usuario = service.cadastrar(novoUsuario)
-        return ResponseEntity.status(201).body(Usuario)
+        val usuario = service.cadastrar(novoUsuario)
+        return ResponseEntity.status(201).body(usuario)
     }
 
     @Operation(summary = "Realiza o Login do Usuário",
@@ -51,8 +51,8 @@ class UsuarioController(val service:UsuarioService) {
     )
     @PostMapping("/login")
     fun logar(@RequestParam usuario:String, @RequestParam senha:String):ResponseEntity<Usuario>{
-        val Usuario = service.logar(usuario, senha)
-        return ResponseEntity.status(200).body(Usuario)
+        val user = service.logar(usuario, senha)
+        return ResponseEntity.status(200).body(user)
     }
 
     @Operation(summary = "Buscar todas os Usuários",
@@ -80,8 +80,8 @@ class UsuarioController(val service:UsuarioService) {
     )
     @PostMapping("/login/deslogar")
     fun deslogar(@RequestParam usuario:String):ResponseEntity<Usuario>{
-        val Usuario = service.deslogar(usuario)
-        return ResponseEntity.status(200).body(Usuario)
+        val user = service.deslogar(usuario)
+        return ResponseEntity.status(200).body(user)
     }
 
     @Operation(summary = "Exibe os dados do Usuario",

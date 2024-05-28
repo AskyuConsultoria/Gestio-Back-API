@@ -1,10 +1,9 @@
 package askyu.gestio.dto
 
 import jakarta.validation.constraints.NotBlank
-import jakarta.validation.constraints.Size
 import jdk.jfr.BooleanFlag
 
-data class TecidoCadastroRequest(
+data class TecidoCadastroDTO(
     var id: Int?,
     @field:NotBlank
     var nome:String?,
