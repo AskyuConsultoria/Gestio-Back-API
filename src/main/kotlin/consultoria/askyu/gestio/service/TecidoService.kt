@@ -1,8 +1,6 @@
 package consultoria.askyu.gestio
 
-import askyu.gestio.dto.TecidoCadastroRequest
 import consultoria.askyu.gestio.service.UsuarioService
-import jakarta.validation.Valid
 import org.modelmapper.ModelMapper
 import org.springframework.http.HttpStatusCode
 import org.springframework.stereotype.Service
@@ -14,23 +12,19 @@ class TecidoService(
     var tecidoRepository: TecidoRepository,
     val mapper: ModelMapper = ModelMapper()
 ){
-
-
-    fun salvar(usuarioId: Int, tecidoId: Int, @Valid novoTecido: TecidoCadastroRequest): Tecido{
+    fun salvar(usuarioId: Int, tecidoId: Int, novoTecido: Tecido): Tecido{
         usuarioService.existenceValidation(usuarioId)
-        val tecido  = mapper.map(novoTecido, Tecido::class.java)
-        tecido.usuario!!.id = usuarioId
-        tecido.id = tecidoId
-        return tecidoRepository.save(tecido)
+        novoTecido.usuario!!.id = usuarioId
+        novoTecido.id = tecidoId
+        return tecidoRepository.save(novoTecido)
     }
 
-    fun atualizar(usuarioId: Int, tecidoId: Int, tecidoAtualizado: TecidoCadastroRequest): Tecido{
+    fun atualizar(usuarioId: Int, tecidoId: Int, tecidoAtualizado: Tecido): Tecido{
         usuarioService.existenceValidation(usuarioId)
         existenceValidation(usuarioId, tecidoId)
-        val tecido = mapper.map(tecidoAtualizado, Tecido::class.java)
-        tecido.usuario!!.id = usuarioId
-        tecido.id = tecidoId
-        return tecidoRepository.save(tecido)
+        tecidoAtualizado.usuario!!.id = usuarioId
+        tecidoAtualizado.id = tecidoId
+        return tecidoRepository.save(tecidoAtualizado)
     }
 
     fun listar(usuarioId: Int): List<Tecido> {

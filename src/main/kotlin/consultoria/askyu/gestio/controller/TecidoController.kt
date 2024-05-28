@@ -1,6 +1,5 @@
 package consultoria.askyu.gestio
 
-import askyu.gestio.dto.TecidoCadastroRequest
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.responses.ApiResponse
 import io.swagger.v3.oas.annotations.responses.ApiResponses
@@ -23,7 +22,11 @@ class TecidoController(
         ],
     )
     @PostMapping("/{usuarioId}/{tecidoId}")
-    fun cadastrar(@PathVariable usuarioId: Int, @PathVariable tecidoId: Int, @RequestBody @Valid novoTecido: TecidoCadastroRequest): ResponseEntity<Tecido>{
+    fun cadastrar(
+        @PathVariable usuarioId: Int,
+        @PathVariable tecidoId: Int,
+        @RequestBody novoTecido: Tecido
+    ): ResponseEntity<Tecido>{
         val tecido = tecidoService.salvar(usuarioId, tecidoId, novoTecido)
         return ResponseEntity.status(201).body(tecido)
     }
@@ -85,7 +88,7 @@ class TecidoController(
     fun atualizar(
         @PathVariable usuarioId: Int,
         @PathVariable tecidoId: Int,
-        @RequestBody @Valid tecidoAtualizado: TecidoCadastroRequest,
+        @RequestBody @Valid tecidoAtualizado: Tecido,
     ): ResponseEntity<Tecido>{
         val tecido = tecidoService.atualizar(usuarioId, tecidoId, tecidoAtualizado)
         return ResponseEntity.status(200).body(tecido)
@@ -101,7 +104,7 @@ class TecidoController(
     )
 
     @DeleteMapping("/{usuarioId}/{tecidoId}")
-    fun desativar(@PathVariable usuarioId: Int, tecidoId: Int): ResponseEntity<Void>{
+    fun desativar(@PathVariable usuarioId: Int, @PathVariable tecidoId: Int): ResponseEntity<Void>{
         tecidoService.desativar(usuarioId, tecidoId)
         return ResponseEntity.status(204).build()
     }

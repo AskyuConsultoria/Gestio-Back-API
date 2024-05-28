@@ -1,6 +1,5 @@
 package consultoria.askyu.gestio.service
 
-import askyu.gestio.dto.TecidoCadastroRequest
 import consultoria.askyu.gestio.Tecido
 import consultoria.askyu.gestio.TecidoRepository
 import consultoria.askyu.gestio.TecidoService
@@ -50,13 +49,11 @@ class TecidoServiceTest{
         val beforeUsuario = Usuario(2)
         val afterUsuario = Usuario(1)
 
-        val novoTecido = TecidoCadastroRequest(2, "Cetim", beforeUsuario)
-        val tecidoMapeado = Tecido(2, "Cetim", beforeUsuario)
+        val novoTecido = Tecido(2, "Cetim", beforeUsuario)
         val esperado = Tecido(1, "Cetim", afterUsuario)
 
         `when`(usuarioRepository.existsById(anyInt())).thenReturn(true)
-        `when`(tecidoService.mapper.map(novoTecido, Tecido::class.java)).thenReturn(tecidoMapeado)
-        `when`(tecidoRepository.save(tecidoMapeado)).thenReturn(tecidoMapeado)
+        `when`(tecidoRepository.save(novoTecido)).thenReturn(novoTecido)
 
         val resultado = tecidoService.salvar(1, 1, novoTecido)
 
@@ -71,14 +68,12 @@ class TecidoServiceTest{
         val beforeUsuario = Usuario(2)
         val afterUsuario = Usuario(1)
 
-        val novoTecido = TecidoCadastroRequest(2, "Cetim", beforeUsuario)
-        val tecidoMapeado = Tecido(2, "Cetim", beforeUsuario)
+        val novoTecido = Tecido(2, "Cetim", beforeUsuario)
         val esperado = Tecido(1, "Cetim", afterUsuario)
 
         `when`(usuarioRepository.existsById(anyInt())).thenReturn(true)
         `when`(tecidoRepository.existsByUsuarioIdAndId(anyInt(), anyInt())).thenReturn(true)
-        `when`(tecidoService.mapper.map(novoTecido, Tecido::class.java)).thenReturn(tecidoMapeado)
-        `when`(tecidoRepository.save(tecidoMapeado)).thenReturn(tecidoMapeado)
+        `when`(tecidoRepository.save(novoTecido)).thenReturn(novoTecido)
 
         val resultado = tecidoService.atualizar(1, 1, novoTecido)
 

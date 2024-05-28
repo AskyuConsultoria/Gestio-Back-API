@@ -10,13 +10,13 @@ data class Tecido(
     @field:Id
     var id:Int? = null,
     var nome:String? = null,
-    @ManyToOne
+    @field:ManyToOne
     val usuario: Usuario? = null,
     var ativo: Boolean? = true
 ){
     constructor(
-        paramId: Int,
-        paramNome: String,
-        paramUsuario: Usuario,
+        paramId: Int?,
+        paramNome: String?,
+        paramUsuario: Usuario?,
     ): this(id = paramId, nome = paramNome, usuario = paramUsuario)
 }
