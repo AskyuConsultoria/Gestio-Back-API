@@ -27,7 +27,7 @@ data class Cliente(
     @field:ManyToOne
     var responsavel: Cliente?,
 
-    @field:ManyToOne
+    @ManyToOne
     var usuario:Usuario?,
 
     var ativo: Boolean = true

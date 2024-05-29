@@ -1,7 +1,7 @@
 package consultoria.askyu.gestio.controller
 
 import consultoria.askyu.gestio.dominio.Usuario
-import consultoria.askyu.gestio.dtos.UsuarioDTO
+import consultoria.askyu.gestio.dtos.UsuarioCadastroDTO
 import consultoria.askyu.gestio.service.UsuarioService
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.media.Content
@@ -34,7 +34,7 @@ class UsuarioController(val service:UsuarioService) {
         ],
     )
     @PostMapping
-    fun cadastrarUsuario(@Valid @RequestBody novoUsuario:UsuarioDTO):ResponseEntity<Usuario>{
+    fun cadastrarUsuario(@Valid @RequestBody novoUsuario:UsuarioCadastroDTO):ResponseEntity<Usuario>{
         val usuario = service.cadastrar(novoUsuario)
         return ResponseEntity.status(201).body(usuario)
     }
