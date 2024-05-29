@@ -18,7 +18,9 @@ data class Moradia(
     @field:ManyToOne
     var cliente:Cliente,
 
+    var complemento: String,
+
     var numero:Int?,
 
-    @field:NotBlank var ativo:Boolean?
+    var ativo:Boolean?
 )

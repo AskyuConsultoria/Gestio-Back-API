@@ -67,4 +67,33 @@ class EnderecoController(val service: EnderecoService
         return service.buscar(cep)
     }
 
+    @Operation(summary = "Atualiza um endereço",
+        description = "Atualiza um endereço que ja existe pelo cep.")
+    @ApiResponses(
+        value = [
+            ApiResponse(responseCode = "200", description = "Endereço encontrado com sucesso"),
+            ApiResponse(responseCode = "404", description = "Esse endereco não está cadastrado", content = [Content(schema = Schema())])
+        ],
+    )
+    @PutMapping("/{cep}")
+    fun AtualizarPorCep(@RequestParam cep: String,@Valid @RequestParam cepRequest:CepCadastroDTO):ResponseEntity<Endereco> {
+        val salvo = service.cadastrarCEP(cepRequest.cep)
+        return ResponseEntity.status(200).body(salvo)
+    }
+
+    @Operation(summary = "Deleta um endereço",
+        description = "Deleta um endereço que ja existe pelo id.")
+    @ApiResponses(
+        value = [
+            ApiResponse(responseCode = "200", description = "Endereço encontrado com sucesso"),
+            ApiResponse(responseCode = "404", description = "Esse endereco não está cadastrado", content = [Content(schema = Schema())])
+        ],
+    )
+    @DeleteMapping("/{cep}")
+    fun DeleterPorCep(@RequestParam cep: String):ResponseEntity<Void> {
+        service.excluirPorCep(cep)
+        return ResponseEntity.status(200).build()
+    }
+
+    //falta colocar o endpoint put e/ou patch e delete
 }

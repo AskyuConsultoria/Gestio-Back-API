@@ -4,8 +4,10 @@ import consultoria.askyu.gestio.dominio.Cliente
 import consultoria.askyu.gestio.dominio.Endereco
 import consultoria.askyu.gestio.dominio.Moradia
 import consultoria.askyu.gestio.dominio.Usuario
+import consultoria.askyu.gestio.dtos.MoradiaResponse
 import consultoria.askyu.gestio.repository.MoradiaRepository
 import org.modelmapper.ModelMapper
+import org.modelmapper.TypeToken
 import org.springframework.http.HttpMethod
 import org.springframework.http.HttpStatusCode
 import org.springframework.http.RequestEntity
@@ -21,12 +23,12 @@ class MoradiaService (
     val repository: MoradiaRepository,
     val mapper: ModelMapper = ModelMapper()
 ) {
-    fun getLista(): List<Moradia>{
+    fun getLista(): List<MoradiaResponse>{
         val lista = repository.findMoradia()
         validarLista(lista)
 
         val dtos = lista.map {
-            mapper.map(it, Moradia::class.java)
+            mapper.map(it, MoradiaResponse::class.java)
         }
         return dtos
     }
@@ -37,24 +39,59 @@ class MoradiaService (
         }
     }
 
-    fun buscarPorCliente(cliente: Cliente): Optional<Moradia> {
-        return repository.findByCliente(cliente)
+    fun buscarPorCliente(cliente: Cliente): List<MoradiaResponse> {
+        val lista = repository.findAll()
+        validarLista(lista)
+
+        //pega a lista toda e converte em uma lista de produto simples response
+        val listaDtos: List<MoradiaResponse> = mapper.map(
+            lista,
+            object: TypeToken<List<MoradiaResponse>>() {}.type
+        )
+        return listaDtos
     }
 
-    fun buscarPorEndereco(endereco: Endereco): Optional<Moradia> {
-        return repository.findByEndereco(endereco)
+    fun buscarPorEndereco(endereco: Endereco): List<MoradiaResponse>  {
+        val lista = repository.findAll()
+        validarLista(lista)
+
+        //pega a lista toda e converte em uma lista de produto simples response
+        val listaDtos: List<MoradiaResponse> = mapper.map(
+            lista,
+            object: TypeToken<List<MoradiaResponse>>() {}.type
+        )
+        return listaDtos
     }
 
-    fun buscarPorUsuario(usuario: Usuario): Optional<Moradia> {
-        return repository.findByUsuario(usuario)
+    fun buscarPorUsuario(usuario: Usuario): List<MoradiaResponse>  {
+        val lista = repository.findAll()
+        validarLista(lista)
+
+        //pega a lista toda e converte em uma lista de produto simples response
+        val listaDtos: List<MoradiaResponse> = mapper.map(
+            lista,
+            object: TypeToken<List<MoradiaResponse>>() {}.type
+        )
+        return listaDtos
     }
 
     fun salvar(moradia:Moradia){
-        repository.save(moradia)
+        if (!repository.existsById(moradia.id!!)) {
+            throw ResponseStatusException(
+                HttpStatusCode.valueOf(404))
+        }
+
+       repository.save(moradia)
     }
 
     fun excluirPorId(id: Int){
-    repository.deleteById(id)
+        val lista = repository.findById(id)
+        if(lista.isEmpty){
+            throw ResponseStatusException(
+                HttpStatusCode.valueOf(204))
+        }
+
+        repository.deleteById(id)
     }
 
 

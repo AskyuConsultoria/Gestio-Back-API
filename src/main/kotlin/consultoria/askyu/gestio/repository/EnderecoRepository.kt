@@ -9,4 +9,8 @@ interface EnderecoRepository : JpaRepository<Endereco, Int> {
     fun findByCep(cep:String): Optional<Endereco>
 
     fun countByCep(cep: String): Int
+
+    fun deleteByCep(cep:String): Void
+
+    fun existsByCep(cep: String): Boolean
 }

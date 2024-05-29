@@ -58,4 +58,11 @@ class EnderecoService(
             throw ResponseStatusException(HttpStatusCode.valueOf(404), "Esse CEP não existe")
         }
     }
+
+    fun excluirPorCep(cep: String){
+        if(repository.existsByCep(cep)){
+            repository.deleteByCep(cep)
+        }
+        throw ResponseStatusException(HttpStatusCode.valueOf(404), "Esse CEP não existe")
+    }
 }
