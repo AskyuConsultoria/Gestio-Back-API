@@ -2,7 +2,7 @@ package consultoria.askyu.gestio.dtos
 
 import jakarta.validation.constraints.NotBlank
 
-class UsuarioDTO(
+class UsuarioCadastroDTO(
 
     @NotBlank
     var usuario:String,
