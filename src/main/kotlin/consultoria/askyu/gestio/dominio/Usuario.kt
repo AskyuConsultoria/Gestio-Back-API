@@ -16,5 +16,4 @@ data class Usuario(
 
     var ativo:Boolean = true,
 
-) {
-}
+)

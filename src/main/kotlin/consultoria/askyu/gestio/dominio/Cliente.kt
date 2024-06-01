@@ -6,6 +6,7 @@ import jakarta.persistence.GenerationType
 import jakarta.persistence.Id
 import jakarta.persistence.ManyToOne
 import jakarta.validation.constraints.NotBlank
+import java.time.LocalDate
 import java.util.Date
 
 
@@ -20,7 +21,7 @@ data class Cliente(
 
     var sobrenome:String,
 
-    var dtNasc:Date,
+    var dtNasc:LocalDate,
 
     var email:String,
 

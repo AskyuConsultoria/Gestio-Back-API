@@ -39,40 +39,34 @@ class MoradiaService (
         }
     }
 
-    fun buscarPorCliente(cliente: Cliente): List<MoradiaResponse> {
-        val lista = repository.findAll()
-        validarLista(lista)
+    fun buscarPorCliente(idCliente: Int): Optional<MoradiaResponse> {
+        val dto = repository.findByIdByCliente(idCliente)
 
-        //pega a lista toda e converte em uma lista de produto simples response
-        val listaDtos: List<MoradiaResponse> = mapper.map(
-            lista,
-            object: TypeToken<List<MoradiaResponse>>() {}.type
-        )
-        return listaDtos
+        val dtos= dto.map {
+            mapper.map(it, MoradiaResponse::class.java)
+        }
+
+        return dtos
     }
 
-    fun buscarPorEndereco(endereco: Endereco): List<MoradiaResponse>  {
-        val lista = repository.findAll()
-        validarLista(lista)
+    fun buscarPorEndereco(idEndereco: Int): Optional<MoradiaResponse>  {
+        val dto = repository.findByIdByEndereco(idEndereco)
 
-        //pega a lista toda e converte em uma lista de produto simples response
-        val listaDtos: List<MoradiaResponse> = mapper.map(
-            lista,
-            object: TypeToken<List<MoradiaResponse>>() {}.type
-        )
-        return listaDtos
+        val dtos= dto.map {
+            mapper.map(it, MoradiaResponse::class.java)
+        }
+
+        return dtos
     }
 
-    fun buscarPorUsuario(usuario: Usuario): List<MoradiaResponse>  {
-        val lista = repository.findAll()
-        validarLista(lista)
+    fun buscarPorUsuario(idUsuario: Int): Optional<MoradiaResponse>  {
+        val dto = repository.findByIdByUsuario(idUsuario)
 
-        //pega a lista toda e converte em uma lista de produto simples response
-        val listaDtos: List<MoradiaResponse> = mapper.map(
-            lista,
-            object: TypeToken<List<MoradiaResponse>>() {}.type
-        )
-        return listaDtos
+        val dtos= dto.map {
+            mapper.map(it, MoradiaResponse::class.java)
+        }
+
+        return dtos
     }
 
     fun salvar(moradia:Moradia){

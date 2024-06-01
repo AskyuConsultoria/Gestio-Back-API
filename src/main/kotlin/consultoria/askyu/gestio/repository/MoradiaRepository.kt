@@ -10,11 +10,11 @@ import java.util.*
 interface MoradiaRepository: JpaRepository<Moradia, Int> {
     fun findMoradia():List<Moradia>
 
-    fun findByCliente(cliente: Cliente): List<Moradia>
+    fun findByIdByCliente(idCliente: Int): Optional<Moradia>
 
-    fun findByUsuario(usuario: Usuario): List<Moradia>
+    fun findByIdByUsuario(idUuario: Int): Optional<Moradia>
 
-    fun findByEndereco(endereco: Endereco): List<Moradia>
+    fun findByIdByEndereco(idEndereco: Int): Optional<Moradia>
 
 
 }

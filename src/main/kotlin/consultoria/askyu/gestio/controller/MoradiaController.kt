@@ -26,21 +26,21 @@ class MoradiaController (val service: MoradiaService) {
         return ResponseEntity.status(200).body(moradia)
     }
 
-    @GetMapping("/buscar-cliente/{cliente}")
-    fun buscarMoradiaCliente(@PathVariable cliente: Cliente): ResponseEntity<List<MoradiaResponse>>{
-        val moradia= service.buscarPorCliente(cliente)
+    @GetMapping("/buscar-cliente/{idCliente}")
+    fun buscarMoradiaCliente(@PathVariable idCliente: Int): ResponseEntity<Optional<MoradiaResponse>>{
+        val moradia= service.buscarPorCliente(idCliente)
         return ResponseEntity.status(200).body(moradia)
     }
 
     @GetMapping("/buscar-endereco/{endereco}")
-    fun buscarMoradiaEndereco(@PathVariable endereco: Endereco): ResponseEntity<List<MoradiaResponse>>{
-        val moradia= service.buscarPorEndereco(endereco)
+    fun buscarMoradiaEndereco(@PathVariable idEndereco: Int): ResponseEntity<Optional<MoradiaResponse>>{
+        val moradia= service.buscarPorEndereco(idEndereco)
         return ResponseEntity.status(200).body(moradia)
     }
 
-    @GetMapping("/buscar-usuario/{usuario}")
-    fun buscarMoradiaUsuario(@PathVariable usuario: Usuario): ResponseEntity<List<MoradiaResponse>>{
-        val moradia= service.buscarPorUsuario(usuario)
+    @GetMapping("/buscar-usuario/{idUsuario}")
+    fun buscarMoradiaUsuario(@PathVariable idUsuario: Int): ResponseEntity<Optional<MoradiaResponse>>{
+        val moradia= service.buscarPorUsuario(idUsuario)
         return ResponseEntity.status(200).body(moradia)
     }
 
