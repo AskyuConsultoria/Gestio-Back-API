@@ -2,6 +2,7 @@ package consultoria.askyu.gestio.service
 
 import consultoria.askyu.gestio.Tecido
 import consultoria.askyu.gestio.dominio.Endereco
+import consultoria.askyu.gestio.dominio.Usuario
 import consultoria.askyu.gestio.repository.EnderecoRepository
 import org.modelmapper.ModelMapper
 import org.springframework.http.HttpMethod
@@ -27,6 +28,13 @@ class EnderecoService(
         }
     }
 
+    fun existenceValidation(id:Int):Boolean{
+        if(repository.existsById(id)) {
+            return true
+        }
+        throw ResponseStatusException(HttpStatusCode.valueOf(404), "Endereco não encontrado!")
+    }
+
     fun validarCepExiste(cep:String){
         if(repository.countByCep(cep) >= 1){
             throw ResponseStatusException(HttpStatusCode.valueOf(409), "CEP ja cadastrado")
@@ -47,13 +55,18 @@ class EnderecoService(
 
     fun cadastrarCEP(cep:String):Endereco{
         validarCepExiste(cep)
+        val endereco = viaCep(cep)
+        return repository.save(endereco)
+    }
+
+    fun viaCep(cep:String):Endereco{
         try {
             val restTemplate = RestTemplate()
             val url = "https://viacep.com.br/ws/${cep}/json/?fields=cep,logradouro,bairro,localidade,uf"
             val method = HttpMethod.GET
             val request = RequestEntity<Any>(null, method, UriComponentsBuilder.fromUriString(url).build().toUri())
             val response = restTemplate.exchange(request, Endereco::class.java)
-            return repository.save(response.body!!)
+            return response.body!!
         } catch (erro:Exception){
             throw ResponseStatusException(HttpStatusCode.valueOf(404), "Esse CEP não existe")
         }
