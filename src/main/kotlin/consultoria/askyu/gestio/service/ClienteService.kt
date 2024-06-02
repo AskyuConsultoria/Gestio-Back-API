@@ -8,7 +8,6 @@ import consultoria.askyu.gestio.repository.ClienteRepository
 import consultoria.askyu.gestio.repository.UsuarioRepository
 import org.modelmapper.ModelMapper
 import org.springframework.http.HttpStatusCode
-import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Service
 import org.springframework.web.server.ResponseStatusException
 
@@ -64,20 +63,25 @@ class ClienteService (
     }
 
     fun buscarClientes(idUsuario: Int): List<ClienteResponse>{
-        var listaClientes = clienteRepositorio.findAllByUsuarioId(idUsuario)
+        val listaClientes = clienteRepositorio.findByUsuarioId(idUsuario)
+        val listaDto = mutableListOf<ClienteResponse>()
 
         listValidation(listaClientes)
 
-        return listaClientes
+        val dtos = listaClientes.map {
+            listaDto+= mapper.map(it, ClienteResponse::class.java)
+        }
+
+        return listaDto
     }
 
-    fun desativarClientePorId(id:Int){
+    fun desativarClientePorId(id:Int):Cliente{
         idValidation(id)
         var deletado = clienteRepositorio.findById(id).get()
 
         deletado.ativo = false
 
-        clienteRepositorio.save(deletado)
+        return clienteRepositorio.save(deletado)
     }
 
     fun atualizarCliente(dadoAtualizado: ClienteAtualizarDTO): Cliente{

@@ -1,6 +1,7 @@
 package consultoria.askyu.gestio.dtos
 
 import jakarta.validation.constraints.NotBlank
+import java.time.LocalDate
 import java.util.*
 
 data class ClienteCadastroDTO(
@@ -11,7 +12,7 @@ data class ClienteCadastroDTO(
     var sobrenome:String,
 
     @field:NotBlank
-    var dtNasc: Date,
+    var dtNasc: LocalDate,
 
     @field:NotBlank
     var email:String,
