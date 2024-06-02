@@ -1,5 +1,6 @@
 package consultoria.askyu.gestio.dtos
 
+import java.time.LocalDate
 import java.util.*
 
 data class ResponsavelResponse(
@@ -10,7 +11,7 @@ data class ResponsavelResponse(
 
     var sobrenome:String,
 
-    var dtNasc: Date,
+    var dtNasc: LocalDate,
 
     var email:String,
 
