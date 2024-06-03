@@ -1,10 +1,10 @@
 package consultoria.askyu.gestio.service
 
-import consultoria.askyu.gestio.dominio.Cliente
+import consultoria.askyu.gestio.Tecido
 import consultoria.askyu.gestio.dominio.Telefone
-import consultoria.askyu.gestio.dtos.ClienteCadastroDTO
-import consultoria.askyu.gestio.dtos.TelefoneAtualizarDTO
-import consultoria.askyu.gestio.dtos.TelefoneCadastroDTO
+import consultoria.askyu.gestio.dominio.TipoTelefone
+import consultoria.askyu.gestio.dtos.TelefoneDTO
+import consultoria.askyu.gestio.dtos.TipoTelefoneDTO
 import consultoria.askyu.gestio.repository.ClienteRepository
 import consultoria.askyu.gestio.repository.TelefoneRepository
 import org.modelmapper.ModelMapper
@@ -22,6 +22,23 @@ class TelefoneService (
 
 ) {
 
+    fun listar(): List<Telefone> {
+        val listaTelefone = telefoneRepository.findAll()
+        listValidation(listaTelefone)
+        return listaTelefone
+    }
+
+    fun listarPorNumero(numero: String): List<Telefone> {
+        val listaTelefone = telefoneRepository.findByNumero(numero)
+        listValidation(listaTelefone)
+        return listaTelefone
+    }
+    fun salvar(telefone: Telefone): Telefone {
+        val dto = mapper.map(telefone, Telefone::class.java)
+        telefoneRepository.save(dto)
+        return dto
+    }
+
     fun listValidation(lista:List<*>){
         if(lista.isEmpty()){
             throw ResponseStatusException(HttpStatusCode.valueOf(204), "O resultado da busca foi uma lista vazia")
@@ -34,6 +51,13 @@ class TelefoneService (
             throw ResponseStatusException(HttpStatusCode.valueOf(404), "O Telefone não existe.")
         }
 
+    }
+
+    fun validarTelefone (usuarioId: Int, tipoTelefoneId: Int, telefoneId: Int){
+
+        if (!telefoneRepository.existsByUsuarioIdAndId(usuarioId, tipoTelefoneId)){
+            throw ResponseStatusException(HttpStatusCode.valueOf(204), "Lista de telefone está vazia")
+        }
     }
 
     fun deletarTelefone(usuarioId:Int, clienteId: Int, tipoTelefoneId: Int, telefoneId: Int): Telefone {
