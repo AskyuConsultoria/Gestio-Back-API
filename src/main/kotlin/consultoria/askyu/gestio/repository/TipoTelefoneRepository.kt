@@ -11,6 +11,8 @@ interface TipoTelefoneRepository: JpaRepository<TipoTelefone, Int> {
 
     fun findByUsuarioId(usuarioId:Int): List<TipoTelefone>
 
+    fun existsByUsuarioIdAndId(usuarioId: Int, tipoTelefoneId: Int): Boolean
 
+    fun findByUsuarioIdAndId(usuarioId: Int, tipoTelefoneId: Int): TipoTelefone
 
 }
