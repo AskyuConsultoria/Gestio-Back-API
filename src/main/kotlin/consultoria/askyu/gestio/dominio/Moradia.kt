@@ -7,18 +7,18 @@ import jakarta.validation.constraints.NotBlank
 data class Moradia(
     @field:Id
     @field:GeneratedValue(strategy = GenerationType.IDENTITY)
-    var id:Int?,
+    var id:Int?= null,
 
     @field:ManyToOne
-    var endereco: Endereco?,
+    var endereco: Endereco?= null,
 
     @field: ManyToOne
-    var usuario: Usuario?,
+    var usuario: Usuario?= null,
 
     @field:ManyToOne
-    var cliente:Cliente,
+    var cliente:Cliente?= null,
 
-    var complemento: String,
+    var complemento: String?= null,
 
     var numero:Int?,
 

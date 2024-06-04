@@ -1,30 +1,34 @@
 package consultoria.askyu.gestio.service
 
-import consultoria.askyu.gestio.dominio.Cliente
-import consultoria.askyu.gestio.dominio.Endereco
 import consultoria.askyu.gestio.dominio.Moradia
-import consultoria.askyu.gestio.dominio.Usuario
 import consultoria.askyu.gestio.dtos.MoradiaResponse
+import consultoria.askyu.gestio.repository.ClienteRepository
+import consultoria.askyu.gestio.repository.EnderecoRepository
 import consultoria.askyu.gestio.repository.MoradiaRepository
+import consultoria.askyu.gestio.repository.UsuarioRepository
 import org.modelmapper.ModelMapper
-import org.modelmapper.TypeToken
-import org.springframework.http.HttpMethod
 import org.springframework.http.HttpStatusCode
-import org.springframework.http.RequestEntity
-import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Service
-import org.springframework.web.client.RestTemplate
 import org.springframework.web.server.ResponseStatusException
-import org.springframework.web.util.UriComponentsBuilder
 import java.util.*
 
 @Service
 class MoradiaService (
     val repository: MoradiaRepository,
+    val usuario: UsuarioRepository,
+    val cliente: ClienteRepository,
+    val endereco: EnderecoRepository,
     val mapper: ModelMapper = ModelMapper()
 ) {
-    fun getLista(): List<MoradiaResponse>{
-        val lista = repository.findMoradia()
+
+    fun validarUsuario(idUsuario: Int){
+        if(!usuario.existsById(idUsuario)){
+            throw ResponseStatusException(HttpStatusCode.valueOf(404), "Usuário não encontrado!")
+        }
+    }
+
+    fun getLista(idUsuario: Int): List<MoradiaResponse>{
+        val lista = repository.findByUsuarioId(idUsuario)
         validarLista(lista)
 
         val dtos = lista.map {
@@ -39,53 +43,52 @@ class MoradiaService (
         }
     }
 
-    fun buscarPorCliente(idCliente: Int): Optional<MoradiaResponse> {
-        val dto = repository.findByIdByCliente(idCliente)
+    fun buscarPorCliente(idCliente: Int, idUsuario: Int): List<Moradia> {
+        validarIdUsuarioCliente(idUsuario, idCliente)
+        val listaMoradia = repository.findByUsuarioIdAndClienteId(idUsuario,idCliente)
 
-        val dtos= dto.map {
-            mapper.map(it, MoradiaResponse::class.java)
-        }
-
-        return dtos
+        return listaMoradia
     }
 
-    fun buscarPorEndereco(idEndereco: Int): Optional<MoradiaResponse>  {
-        val dto = repository.findByIdByEndereco(idEndereco)
+    fun buscarPorEndereco(idUsuario: Int,idEndereco: Int, idCliente: Int): List<Moradia>  {
+        validarIdUsuarioEndereco(idUsuario, idCliente, idEndereco)
+        val listaMoradia = repository.findByUsuarioIdAndEnderecoId(idUsuario,idEndereco)
 
-        val dtos= dto.map {
-            mapper.map(it, MoradiaResponse::class.java)
-        }
-
-        return dtos
+        return listaMoradia
     }
 
-    fun buscarPorUsuario(idUsuario: Int): Optional<MoradiaResponse>  {
-        val dto = repository.findByIdByUsuario(idUsuario)
+    fun salvar(idUsuario: Int, idCliente: Int,idEndereco: Int, moradia: Moradia): Moradia{
+        validarUsuario(idUsuario)
+        validarIdUsuarioCliente(idUsuario,idCliente)
+        validarIdUsuarioEndereco(idUsuario,idCliente, idEndereco)
 
-        val dtos= dto.map {
-            mapper.map(it, MoradiaResponse::class.java)
-        }
-
-        return dtos
+       return repository.save(moradia)
     }
 
-    fun salvar(moradia:Moradia){
-        if (!repository.existsById(moradia.id!!)) {
-            throw ResponseStatusException(
-                HttpStatusCode.valueOf(404))
-        }
-
-       repository.save(moradia)
-    }
-
-    fun excluirPorId(id: Int){
-        val lista = repository.findById(id)
-        if(lista.isEmpty){
-            throw ResponseStatusException(
-                HttpStatusCode.valueOf(204))
-        }
-
+    fun excluirPorId(id: Int,idUsuario: Int, idCliente: Int,idEndereco: Int): Optional<Moradia>{
+        validarUsuario(idUsuario)
+        validarIdUsuarioCliente(idUsuario,idCliente)
+        validarIdUsuarioEndereco(idUsuario,idCliente, idEndereco)
+        validarIdMoradiaUsuario(idUsuario, id)
         repository.deleteById(id)
+        return repository.findByUsuarioIdAndId(idUsuario, id)
+    }
+
+    fun validarIdMoradiaUsuario(idUsuario: Int,id: Int){
+        if(!repository.existsByUsuarioIdAndId(idUsuario,id)){
+            throw ResponseStatusException(HttpStatusCode.valueOf(404), "Moradia não encontrada!")
+        }
+
+    } fun validarIdUsuarioCliente(idUsuario: Int,id: Int){
+        if(!cliente.existsByUsuarioIdAndId(idUsuario,id)){
+            throw ResponseStatusException(HttpStatusCode.valueOf(404), "Cliente não encontrado!")
+        }
+
+    } fun validarIdUsuarioEndereco(idUsuario: Int,idEndereco: Int, idCliente: Int){
+        if(!endereco.existsByUsuarioIdAndClienteIdAndId(idUsuario, idCliente, idEndereco)){
+            throw ResponseStatusException(HttpStatusCode.valueOf(404), "Endereço não encontrado!")
+        }
+
     }
 
 

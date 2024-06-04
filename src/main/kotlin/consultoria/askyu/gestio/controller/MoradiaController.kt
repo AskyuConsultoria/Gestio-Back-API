@@ -1,9 +1,6 @@
 package consultoria.askyu.gestio.controller
 
-import consultoria.askyu.gestio.dominio.Cliente
-import consultoria.askyu.gestio.dominio.Endereco
 import consultoria.askyu.gestio.dominio.Moradia
-import consultoria.askyu.gestio.dominio.Usuario
 import consultoria.askyu.gestio.dtos.MoradiaResponse
 import consultoria.askyu.gestio.service.MoradiaService
 import org.springframework.http.ResponseEntity
@@ -14,52 +11,52 @@ import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 import java.util.*
 
 @RestController
 @RequestMapping("/moradia")
 class MoradiaController (val service: MoradiaService) {
-    @GetMapping
-    fun getMoradia(): ResponseEntity<List<MoradiaResponse>>{
-        val moradia= service.getLista()
+
+    @GetMapping("{idUsuario}")
+    fun getMoradia(@PathVariable idUsuario: Int): ResponseEntity<List<MoradiaResponse>>{
+        val moradia= service.getLista(idUsuario)
         return ResponseEntity.status(200).body(moradia)
     }
 
-    @GetMapping("/buscar-cliente/{idCliente}")
-    fun buscarMoradiaCliente(@PathVariable idCliente: Int): ResponseEntity<Optional<MoradiaResponse>>{
-        val moradia= service.buscarPorCliente(idCliente)
+    @GetMapping("/{idCliente}/{idUsuario}/")
+    fun buscarMoradiaCliente(@PathVariable idUsuario: Int, @PathVariable idCliente: Int): ResponseEntity<List<Moradia>>{
+        val moradia= service.buscarPorCliente(idUsuario,idCliente)
         return ResponseEntity.status(200).body(moradia)
     }
 
-    @GetMapping("/buscar-endereco/{endereco}")
-    fun buscarMoradiaEndereco(@PathVariable idEndereco: Int): ResponseEntity<Optional<MoradiaResponse>>{
-        val moradia= service.buscarPorEndereco(idEndereco)
+    @GetMapping("/{idUsuario}/{idCliente}/{idEndereco}")
+    fun buscarMoradiaEndereco(@PathVariable idUsuario: Int,@PathVariable idCliente: Int ,@PathVariable idEndereco: Int)
+    : ResponseEntity<List<Moradia>>{
+        val moradia= service.buscarPorEndereco(idUsuario, idCliente, idEndereco)
         return ResponseEntity.status(200).body(moradia)
     }
 
-    @GetMapping("/buscar-usuario/{idUsuario}")
-    fun buscarMoradiaUsuario(@PathVariable idUsuario: Int): ResponseEntity<Optional<MoradiaResponse>>{
-        val moradia= service.buscarPorUsuario(idUsuario)
-        return ResponseEntity.status(200).body(moradia)
+    @PostMapping("/{idUsuario}/{idCliente}/{idEndereco}")
+    fun cadastrarMoradia(@PathVariable idUsuario: Int, @PathVariable idCliente: Int, @PathVariable idEndereco: Int,
+                         @RequestBody moradia:Moradia):ResponseEntity<Moradia>{
+        val moradiaCadastrada= service.salvar(idUsuario, idCliente, idEndereco, moradia)
+        return ResponseEntity.status(201).body(moradiaCadastrada)
     }
 
-    @PostMapping
-    fun cadastrarMoradia(@RequestBody moradia:Moradia):ResponseEntity<Void>{
-        service.salvar(moradia)
-        return ResponseEntity.status(201).build()
-    }
-
-    @PatchMapping("{id}")
-    fun atualizarMoradia(@PathVariable id:Int, @RequestBody novaMoradia: Moradia): ResponseEntity<Void>{
+    @PatchMapping("/{idUsuario}/{idCliente}/{idEndereco}")
+    fun atualizarMoradia(@PathVariable idUsuario: Int, @PathVariable idCliente: Int, @PathVariable idEndereco: Int,
+                         @PathVariable id:Int, @RequestBody novaMoradia: Moradia): ResponseEntity<Moradia>{
         novaMoradia.id= id
-        service.salvar(novaMoradia)
-        return ResponseEntity.status(200).build()
+        service.salvar(idUsuario,idCliente, idEndereco ,novaMoradia)
+        return ResponseEntity.status(200).body(novaMoradia)
     }
 
-    @DeleteMapping("/{id}")
-    fun deletarMoradia(@PathVariable id:Int): ResponseEntity<Void>{
-        service.excluirPorId(id)
+    @DeleteMapping("/{id}/{idUsuario}/{idCliente}/{idEndereco}")
+    fun deletarMoradia(@PathVariable idUsuario: Int, @PathVariable idCliente: Int, @PathVariable idEndereco: Int,
+                       @PathVariable id:Int): ResponseEntity<Void>{
+        service.excluirPorId(id,idUsuario,idCliente, idEndereco)
         return ResponseEntity.status(200).build()
     }
 }

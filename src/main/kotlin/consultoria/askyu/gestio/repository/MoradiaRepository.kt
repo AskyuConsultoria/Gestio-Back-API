@@ -8,13 +8,14 @@ import org.springframework.data.jpa.repository.JpaRepository
 import java.util.*
 
 interface MoradiaRepository: JpaRepository<Moradia, Int> {
-    fun findMoradia():List<Moradia>
+    fun findByUsuarioIdAndClienteId(idUsuario: Int,idCliente: Int): List<Moradia>
 
-    fun findByIdByCliente(idCliente: Int): Optional<Moradia>
+    fun findByUsuarioId(idUsuario: Int): List<Moradia>
 
-    fun findByIdByUsuario(idUuario: Int): Optional<Moradia>
+    fun findByUsuarioIdAndEnderecoId(idUsuario: Int,idEndereco: Int): List<Moradia>
 
-    fun findByIdByEndereco(idEndereco: Int): Optional<Moradia>
+    fun existsByUsuarioIdAndId(idUsuario: Int, id: Int): Boolean
 
+    fun findByUsuarioIdAndId(idUsuario:Int, id: Int): Optional<Moradia>
 
 }

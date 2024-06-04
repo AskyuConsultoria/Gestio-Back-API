@@ -1,6 +1,5 @@
 package consultoria.askyu.gestio.service
 
-import consultoria.askyu.gestio.Tecido
 import consultoria.askyu.gestio.dominio.Endereco
 import consultoria.askyu.gestio.repository.EnderecoRepository
 import org.modelmapper.ModelMapper
