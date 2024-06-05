@@ -28,7 +28,7 @@ class ClienteController (
         ],
     )
     @PostMapping
-    fun cadastro(@Valid @RequestBody novoCliente: ClienteCadastroDTO): ResponseEntity<Cliente>{
+        fun cadastro(@Valid @RequestBody novoCliente: ClienteCadastroDTO): ResponseEntity<Cliente>{
         val service = service.cadastrar(novoCliente)
 
         return ResponseEntity.status(200).body(service)

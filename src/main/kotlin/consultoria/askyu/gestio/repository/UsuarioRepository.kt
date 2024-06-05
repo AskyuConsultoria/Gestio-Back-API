@@ -7,7 +7,7 @@ interface UsuarioRepository: JpaRepository<Usuario, Int> {
 
     fun countByUsuario(usuario: String): Int
 
-    fun countUsuarioAndSenhaAndAtivoIsTrue(usuario: String, senha: String): Int
+    fun countByUsuarioAndSenhaAndAtivoIsTrue(usuario: String, senha: String): Int
 
     fun findByUsuarioAndSenha(usuario: String, senha: String): Usuario
 

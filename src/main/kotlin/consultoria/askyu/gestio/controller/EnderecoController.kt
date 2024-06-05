@@ -49,8 +49,8 @@ class EnderecoController(val service: EnderecoService
         ],
     )
     @PostMapping
-    fun cadastrarPorCEP(@Valid @RequestParam cepRequest:CepCadastroDTO):ResponseEntity<Endereco> {
-        val salvo = service.cadastrarCEP(cepRequest.cep)
+    fun cadastrarPorCEP(@Valid @RequestParam cep:CepCadastroDTO):ResponseEntity<Endereco> {
+        val salvo = service.cadastrarCEP(cep.cep)
         return ResponseEntity.status(200).body(salvo)
     }
 

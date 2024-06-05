@@ -143,7 +143,7 @@ class UsuarioServiceTest {
 
     @Test
     fun `Logado com sucesso`() {
-        `when`(usuarioRepository.countUsuarioAndSenhaAndAtivoIsTrue(expected.usuario, expected.senha))
+        `when`(usuarioRepository.countByUsuarioAndSenhaAndAtivoIsTrue(expected.usuario, expected.senha))
             .thenReturn(1)
         `when`(usuarioRepository.findByUsuarioAndSenha(expected.usuario, expected.senha))
             .thenReturn(expected)
@@ -157,7 +157,7 @@ class UsuarioServiceTest {
 
     @Test
     fun `Falha no login pois o usuario esta desativado`() {
-        `when`(usuarioRepository.countUsuarioAndSenhaAndAtivoIsTrue(expected.usuario, expected.senha))
+        `when`(usuarioRepository.countByUsuarioAndSenhaAndAtivoIsTrue(expected.usuario, expected.senha))
             .thenReturn(0)
 
         val excecao = assertThrows(ResponseStatusException::class.java) {
@@ -169,7 +169,7 @@ class UsuarioServiceTest {
 
     @Test
     fun `Falha no login pois o usuario esta logado`() {
-        `when`(usuarioRepository.countUsuarioAndSenhaAndAtivoIsTrue(expected.usuario, expected.senha))
+        `when`(usuarioRepository.countByUsuarioAndSenhaAndAtivoIsTrue(expected.usuario, expected.senha))
             .thenReturn(1)
         `when`(usuarioRepository.findByUsuarioAndSenha(expected.usuario, expected.senha))
             .thenReturn(expectedLogged)
