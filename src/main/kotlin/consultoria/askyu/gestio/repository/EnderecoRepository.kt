@@ -8,7 +8,7 @@ interface EnderecoRepository : JpaRepository<Endereco, Int> {
 
     fun findByCep(cep:String): Optional<Endereco>
 
-    fun existsByUsuarioIdAndClienteIdAndId(idUsuario: Int,idCliente: Int, id: Int): Boolean
+    fun existsByUsuarioIdAndId(idUsuario: Int, id: Int): Boolean
 
     fun countByCep(cep: String): Int
 

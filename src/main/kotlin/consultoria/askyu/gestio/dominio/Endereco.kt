@@ -4,6 +4,7 @@ import jakarta.persistence.Entity
 import jakarta.persistence.GeneratedValue
 import jakarta.persistence.GenerationType
 import jakarta.persistence.Id
+import jakarta.persistence.ManyToOne
 import jakarta.validation.constraints.NotBlank
 import jakarta.validation.constraints.Size
 
@@ -18,6 +19,9 @@ data class Endereco(
     var logradouro:String,
 
     var bairro:String,
+
+    @field:ManyToOne
+    var usuario: Usuario,
 
     var localidade:String,
 

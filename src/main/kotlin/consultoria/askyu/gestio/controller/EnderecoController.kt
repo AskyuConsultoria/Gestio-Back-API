@@ -3,22 +3,14 @@ package consultoria.askyu.gestio.controller
 import consultoria.askyu.gestio.dominio.Endereco
 import consultoria.askyu.gestio.dtos.CepCadastroDTO
 import consultoria.askyu.gestio.service.EnderecoService
-import consultoria.askyu.gestio.service.UsuarioService
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.media.Content
 import io.swagger.v3.oas.annotations.media.Schema
 import io.swagger.v3.oas.annotations.responses.ApiResponse
 import io.swagger.v3.oas.annotations.responses.ApiResponses
 import jakarta.validation.Valid
-import org.modelmapper.ModelMapper
-import org.springframework.http.HttpMethod
-import org.springframework.http.HttpStatusCode
-import org.springframework.http.RequestEntity
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
-import org.springframework.web.client.RestTemplate
-import org.springframework.web.server.ResponseStatusException
-import org.springframework.web.util.UriComponentsBuilder
 
 @RestController
 @RequestMapping("/enderecos")
@@ -48,9 +40,15 @@ class EnderecoController(val service: EnderecoService
         ],
     )
     @PostMapping
-    fun cadastrarPorCEP(@Valid @RequestParam cepRequest:CepCadastroDTO):ResponseEntity<Endereco> {
-        val salvo = service.cadastrarCEP(cepRequest.cep)
+    fun cadastrarPorCEP(@Valid @RequestParam cep:CepCadastroDTO):ResponseEntity<Endereco> {
+        val salvo = service.viaCep(cep.cep)
         return ResponseEntity.status(200).body(salvo)
+    }
+
+    @PostMapping("/teste-cadastro")
+    fun cadastroTeste(@RequestBody endereco: Endereco): ResponseEntity<Endereco>{
+        service.salvarTeste(endereco)
+        return ResponseEntity.status(200).body(endereco)
     }
 
     @Operation(summary = "Obtem um endereço",
@@ -76,7 +74,7 @@ class EnderecoController(val service: EnderecoService
     )
     @PutMapping("/{cep}")
     fun AtualizarPorCep(@RequestParam cep: String,@Valid @RequestParam cepRequest:CepCadastroDTO):ResponseEntity<Endereco> {
-        val salvo = service.cadastrarCEP(cepRequest.cep)
+        val salvo = service.viaCep(cepRequest.cep)
         return ResponseEntity.status(200).body(salvo)
     }
 

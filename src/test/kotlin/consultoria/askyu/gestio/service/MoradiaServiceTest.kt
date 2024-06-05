@@ -88,7 +88,7 @@ class MoradiaServiceTest {
 
         `when`(usuario.existsById(anyInt())).thenReturn(true)
         `when`(cliente.existsByUsuarioIdAndId(anyInt(),anyInt())).thenReturn(true)
-        `when`(endereco.existsByUsuarioIdAndClienteIdAndId(anyInt(),anyInt(), anyInt())).thenReturn(true)
+        `when`(endereco.existsByUsuarioIdAndId(anyInt(),anyInt())).thenReturn(true)
         `when`(listaDesejada!!.map{service.mapper.map(it, MoradiaResponse::class.java)}).thenReturn(listaMapeada)
         `when`(repository.findByUsuarioIdAndClienteId(anyInt(), anyInt())).thenReturn(listaDesejada)
 
@@ -106,7 +106,7 @@ class MoradiaServiceTest {
         val novaMoradia= mockarMoradia()!![0]
         `when`(usuario.existsById(anyInt())).thenReturn(true)
         `when`(cliente.existsByUsuarioIdAndId(anyInt(),anyInt())).thenReturn(true)
-        `when`(endereco.existsByUsuarioIdAndClienteIdAndId(anyInt(),anyInt(), anyInt())).thenReturn(true)
+        `when`(endereco.existsByUsuarioIdAndId(anyInt(),anyInt())).thenReturn(true)
         `when`(repository.save(novaMoradia)).thenReturn(novaMoradia)
         service.salvar(1,1,1, novaMoradia)
     }
@@ -118,14 +118,14 @@ class MoradiaServiceTest {
 
         `when`(usuario.existsById(anyInt())).thenReturn(true)
         `when`(cliente.existsByUsuarioIdAndId(anyInt(),anyInt())).thenReturn(true)
-        `when`(endereco.existsByUsuarioIdAndClienteIdAndId(anyInt(), anyInt(),anyInt())).thenReturn(true)
+        `when`(endereco.existsByUsuarioIdAndId(anyInt(), anyInt())).thenReturn(true)
         `when`(repository.existsByUsuarioIdAndId(anyInt(),anyInt())).thenReturn(true)
         `when`(repository.findByUsuarioIdAndId(anyInt(), anyInt())).thenReturn(moradia)
 
-        val respostaEsperada= false
+
         val resultado= service.excluirPorId(1,1,1,1)
 
-        assertEquals(respostaEsperada,resultado)
+        assertEquals(null ,resultado)
     }
 //
 
@@ -139,7 +139,14 @@ class MoradiaServiceTest {
                     logradouro = "Penapolis",
                     bairro = "Santa Brígida",
                     localidade = "Carapicuíba",
-                    uf = "SP"
+                    uf = "SP",
+                    usuario = Usuario(
+                        id = 1,
+                        usuario = "gabriella",
+                        senha = "12345678",
+                        autenticado = false,
+                        ativo = true
+                    )
                 ),
                 usuario = Usuario(
                     id = 1,
@@ -155,7 +162,13 @@ class MoradiaServiceTest {
                     dtNasc = LocalDate.of(2004, 8, 27),
                     email = "sarah.oliveira@sptech.school",
                     responsavel = null,
-                    usuario = 1,
+                    usuario =  Usuario(
+                        id = 1,
+                        usuario = "gabriella",
+                        senha = "12345678",
+                        autenticado = false,
+                        ativo = true
+                    ),
                     ativo = true
                 ),
                 complemento = "apt2",

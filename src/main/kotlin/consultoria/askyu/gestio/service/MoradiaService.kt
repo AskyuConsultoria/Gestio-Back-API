@@ -51,7 +51,7 @@ class MoradiaService (
     }
 
     fun buscarPorEndereco(idUsuario: Int,idEndereco: Int, idCliente: Int): List<Moradia>  {
-        validarIdUsuarioEndereco(idUsuario, idCliente, idEndereco)
+        validarIdUsuarioEndereco(idUsuario, idEndereco)
         val listaMoradia = repository.findByUsuarioIdAndEnderecoId(idUsuario,idEndereco)
 
         return listaMoradia
@@ -60,7 +60,7 @@ class MoradiaService (
     fun salvar(idUsuario: Int, idCliente: Int,idEndereco: Int, moradia: Moradia): Moradia{
         validarUsuario(idUsuario)
         validarIdUsuarioCliente(idUsuario,idCliente)
-        validarIdUsuarioEndereco(idUsuario,idCliente, idEndereco)
+        validarIdUsuarioEndereco(idUsuario, idEndereco)
 
        return repository.save(moradia)
     }
@@ -68,7 +68,7 @@ class MoradiaService (
     fun excluirPorId(id: Int,idUsuario: Int, idCliente: Int,idEndereco: Int): Optional<Moradia>{
         validarUsuario(idUsuario)
         validarIdUsuarioCliente(idUsuario,idCliente)
-        validarIdUsuarioEndereco(idUsuario,idCliente, idEndereco)
+        validarIdUsuarioEndereco(idUsuario,idEndereco)
         validarIdMoradiaUsuario(idUsuario, id)
         repository.deleteById(id)
         return repository.findByUsuarioIdAndId(idUsuario, id)
@@ -84,8 +84,8 @@ class MoradiaService (
             throw ResponseStatusException(HttpStatusCode.valueOf(404), "Cliente não encontrado!")
         }
 
-    } fun validarIdUsuarioEndereco(idUsuario: Int,idEndereco: Int, idCliente: Int){
-        if(!endereco.existsByUsuarioIdAndClienteIdAndId(idUsuario, idCliente, idEndereco)){
+    } fun validarIdUsuarioEndereco(idUsuario: Int, idEndereco: Int){
+        if(!endereco.existsByUsuarioIdAndId(idUsuario, idEndereco)){
             throw ResponseStatusException(HttpStatusCode.valueOf(404), "Endereço não encontrado!")
         }
 

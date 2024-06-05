@@ -45,7 +45,7 @@ class MoradiaController (val service: MoradiaService) {
         return ResponseEntity.status(201).body(moradiaCadastrada)
     }
 
-    @PatchMapping("/{idUsuario}/{idCliente}/{idEndereco}")
+    @PatchMapping("/{idUsuario}/{idCliente}/{idEndereco}/{id}")
     fun atualizarMoradia(@PathVariable idUsuario: Int, @PathVariable idCliente: Int, @PathVariable idEndereco: Int,
                          @PathVariable id:Int, @RequestBody novaMoradia: Moradia): ResponseEntity<Moradia>{
         novaMoradia.id= id

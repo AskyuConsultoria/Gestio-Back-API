@@ -44,15 +44,18 @@ class EnderecoService(
         return ResponseEntity.of(repository.findByCep(cep))
     }
 
-    fun cadastrarCEP(cep:String):Endereco{
-        validarCepExiste(cep)
+    fun salvarTeste(endereco: Endereco){
+        repository.save(endereco)
+    }
+
+    fun viaCep(cep:String):Endereco{
         try {
             val restTemplate = RestTemplate()
             val url = "https://viacep.com.br/ws/${cep}/json/?fields=cep,logradouro,bairro,localidade,uf"
             val method = HttpMethod.GET
             val request = RequestEntity<Any>(null, method, UriComponentsBuilder.fromUriString(url).build().toUri())
             val response = restTemplate.exchange(request, Endereco::class.java)
-            return repository.save(response.body!!)
+            return response.body!!
         } catch (erro:Exception){
             throw ResponseStatusException(HttpStatusCode.valueOf(404), "Esse CEP não existe")
         }
