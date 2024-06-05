@@ -68,7 +68,7 @@ class ClienteService (
 
         listValidation(listaClientes)
 
-        val dtos = listaClientes.map {
+        listaClientes.map {
             listaDto+= mapper.map(it, ClienteResponse::class.java)
         }
 
@@ -77,7 +77,7 @@ class ClienteService (
 
     fun desativarClientePorId(id:Int):Cliente{
         idValidation(id)
-        var deletado = clienteRepositorio.findById(id).get()
+        val deletado = clienteRepositorio.findById(id).get()
 
         deletado.ativo = false
 
