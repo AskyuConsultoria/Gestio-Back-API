@@ -10,14 +10,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse
 import io.swagger.v3.oas.annotations.responses.ApiResponses
 import jakarta.validation.Valid
 import org.springframework.http.ResponseEntity
-import org.springframework.web.bind.annotation.DeleteMapping
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PathVariable
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RequestBody
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RequestParam
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping("/usuarios")
@@ -32,6 +25,11 @@ class UsuarioController(val service:UsuarioService) {
             ApiResponse(responseCode = "400", description = "Houve algum dado errado no cadastro!", content = [Content(schema = Schema())]),
             ApiResponse(responseCode = "409", description = "Esse usuário já esta cadastrado!", content = [Content(schema = Schema())]),
         ],
+    )
+    @CrossOrigin(
+        origins = ["http://localhost:3333"],
+        methods = [RequestMethod.POST],
+        allowCredentials = "true"
     )
     @PostMapping
     fun cadastrarUsuario(@Valid @RequestBody novoUsuario:UsuarioCadastroDTO):ResponseEntity<Usuario>{
@@ -49,7 +47,12 @@ class UsuarioController(val service:UsuarioService) {
             ApiResponse(responseCode = "409", description = "Esse usuario ja esta logado.", content = [Content(schema = Schema())]),
         ],
     )
-    @PostMapping("/login")
+        @CrossOrigin(
+            origins = ["http://localhost:3333/"],
+            methods = [RequestMethod.GET],
+            allowCredentials = "true",
+        )
+        @GetMapping("/login")
     fun logar(@RequestParam usuario:String, @RequestParam senha:String):ResponseEntity<Usuario>{
         val user = service.logar(usuario, senha)
         return ResponseEntity.status(200).body(user)
@@ -62,6 +65,11 @@ class UsuarioController(val service:UsuarioService) {
             ApiResponse(responseCode = "200", description = "Exibindo Usuarios cadastrados!"),
             ApiResponse(responseCode = "204", description = "Não há Usuarios cadastrados!", content = [Content(schema = Schema())]),
         ],
+    )
+    @CrossOrigin(
+        origins = ["http://localhost:3333"],
+        methods = [RequestMethod.GET],
+        allowCredentials = "true"
     )
     @GetMapping
     fun listarUsuarios(): ResponseEntity<List<Usuario>> {
@@ -78,6 +86,11 @@ class UsuarioController(val service:UsuarioService) {
             ApiResponse(responseCode = "409", description = "Esse usuario não esta logado.", content = [Content(schema = Schema())]),
         ],
     )
+    @CrossOrigin(
+        origins = ["http://localhost:3333"],
+        methods = [RequestMethod.POST],
+        allowCredentials = "true"
+    )
     @PostMapping("/login/deslogar")
     fun deslogar(@RequestParam usuario:String):ResponseEntity<Usuario>{
         val user = service.deslogar(usuario)
@@ -92,6 +105,11 @@ class UsuarioController(val service:UsuarioService) {
             ApiResponse(responseCode = "404", description = "Usuario não encontrado", content = [Content(schema = Schema())]),
         ],
     )
+    @CrossOrigin(
+        origins = ["http://localhost:3333"],
+        methods = [RequestMethod.GET],
+        allowCredentials = "true"
+    )
     @GetMapping("/info/{id}")
     fun getInfo(@RequestParam id:Int):ResponseEntity<Usuario>{
         val info = service.obterInfo(id)
@@ -105,6 +123,11 @@ class UsuarioController(val service:UsuarioService) {
             ApiResponse(responseCode = "200", description = "Usuário removido com sucesso!", content = [Content(schema = Schema())]),
             ApiResponse(responseCode = "404", description = "Usuário não encontrado!", content = [Content(schema = Schema())]),
         ],
+    )
+    @CrossOrigin(
+        origins = ["http://localhost:3333"],
+        methods = [RequestMethod.DELETE],
+        allowCredentials = "true"
     )
     @DeleteMapping("/{id}")
     fun deletarUsuario(@PathVariable id:Int):ResponseEntity<String>{

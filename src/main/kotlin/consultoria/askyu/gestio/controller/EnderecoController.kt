@@ -34,6 +34,11 @@ class EnderecoController(val service: EnderecoService
             ApiResponse(responseCode = "204", description = "Não há endereços cadastradas", content = [Content(schema = Schema())]),
         ],
     )
+    @CrossOrigin(
+        origins = ["http://localhost:3333"],
+        methods = [RequestMethod.GET],
+        allowCredentials = "true"
+    )
     @GetMapping
     fun getList(): ResponseEntity<List<Endereco>> {
         val lista = service.listar()
@@ -48,6 +53,11 @@ class EnderecoController(val service: EnderecoService
             ApiResponse(responseCode = "404", description = "Esse cep não existe", content = [Content(schema = Schema())])
         ],
     )
+    @CrossOrigin(
+        origins = ["http://localhost:3333"],
+        methods = [RequestMethod.POST],
+        allowCredentials = "true"
+    )
     @PostMapping
     fun cadastrarPorCEP(@Valid @RequestParam cep:CepCadastroDTO):ResponseEntity<Endereco> {
         val salvo = service.cadastrarCEP(cep.cep)
@@ -61,6 +71,11 @@ class EnderecoController(val service: EnderecoService
             ApiResponse(responseCode = "200", description = "Endereço encontrado com sucesso"),
             ApiResponse(responseCode = "404", description = "Esse endereco não está cadastrado", content = [Content(schema = Schema())])
         ],
+    )
+    @CrossOrigin(
+        origins = ["http://localhost:3333"],
+        methods = [RequestMethod.GET],
+        allowCredentials = "true"
     )
     @GetMapping("/cep")
     fun getEndereco(@RequestParam cep:String):ResponseEntity<Endereco> {

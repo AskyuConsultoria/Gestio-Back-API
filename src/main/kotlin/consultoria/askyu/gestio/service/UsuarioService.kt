@@ -36,6 +36,7 @@ class UsuarioService(
     fun cadastrar(usuario: UsuarioCadastroDTO):Usuario{
         val novoUsuario = mapper.map(usuario, Usuario::class.java)
         uniqueValidation(novoUsuario)
+        novoUsuario.ativo = true
         return repository.save(novoUsuario)
     }
 
