@@ -6,15 +6,7 @@ import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.responses.ApiResponse
 import io.swagger.v3.oas.annotations.responses.ApiResponses
 import org.springframework.http.ResponseEntity
-import org.springframework.web.bind.annotation.DeleteMapping
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PathVariable
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.PutMapping
-import org.springframework.web.bind.annotation.RequestBody
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RequestParam
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping("/tecidos")
@@ -26,6 +18,11 @@ class TecidoController(var tecidoService: TecidoService) {
         value = [
             ApiResponse(responseCode = "200", description = "Cadastro feito com sucesso!"),
         ],
+    )
+    @CrossOrigin(
+        origins = ["http://localhost:3333"],
+        methods = [RequestMethod.POST],
+        allowCredentials = "true"
     )
     @PostMapping
     fun cadastrar(@RequestBody @Valid tecido: TecidoCadastroDTO): ResponseEntity<Tecido>{
@@ -40,6 +37,11 @@ class TecidoController(var tecidoService: TecidoService) {
             ApiResponse(responseCode = "200", description = "Exibindo tecidos cadastrados!"),
             ApiResponse(responseCode = "204", description = "Não há tecidos cadastrados.")
         ],
+    )
+    @CrossOrigin(
+        origins = ["http://localhost:3333"],
+        methods = [RequestMethod.GET],
+        allowCredentials = "true"
     )
     @GetMapping
     fun listar(): ResponseEntity<List<Tecido>>{
@@ -56,6 +58,11 @@ class TecidoController(var tecidoService: TecidoService) {
             ApiResponse(responseCode = "204", description = "Nenhum tecido foi encotrado com este nome.")
         ],
     )
+    @CrossOrigin(
+        origins = ["http://localhost:3333"],
+        methods = [RequestMethod.GET],
+        allowCredentials = "true"
+    )
     @GetMapping("/nome")
     fun listarPorNome(@RequestParam nome: String): ResponseEntity<List<Tecido>>{
         val listaTecido = tecidoService.listarPorNome(nome)
@@ -71,6 +78,11 @@ class TecidoController(var tecidoService: TecidoService) {
             ApiResponse(responseCode = "404", description = "Nenhum tecido foi encontrado pelo código de identificação.")
         ],
     )
+    @CrossOrigin(
+        origins = ["http://localhost:3333"],
+        methods = [RequestMethod.GET],
+        allowCredentials = "true"
+    )
     @GetMapping("/{id}")
     fun buscarTecidoPorId(@PathVariable id: Int): ResponseEntity<Tecido> {
         val tecido = tecidoService.buscarTecidoPorId(id)
@@ -84,6 +96,11 @@ class TecidoController(var tecidoService: TecidoService) {
             ApiResponse(responseCode = "200", description = "Tecido atualizado com Êxito!"),
             ApiResponse(responseCode = "404", description = "Nenhum tecido foi encontrado pelo código de identificação.")
         ],
+    )
+    @CrossOrigin(
+        origins = ["http://localhost:3333"],
+        methods = [RequestMethod.PUT],
+        allowCredentials = "true"
     )
     @PutMapping()
     fun atualizar(
@@ -103,7 +120,11 @@ class TecidoController(var tecidoService: TecidoService) {
             ApiResponse(responseCode = "204", description = "Nenhum tecido foi encontrado pelo código de identificação.")
         ],
     )
-
+    @CrossOrigin(
+        origins = ["http://localhost:3333"],
+        methods = [RequestMethod.DELETE],
+        allowCredentials = "true"
+    )
     @DeleteMapping()
     fun desativar(@RequestParam id: Int): ResponseEntity<Void>{
         tecidoService.desativar(id)

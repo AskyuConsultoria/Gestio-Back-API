@@ -27,6 +27,11 @@ class ClienteController (
             ApiResponse(responseCode = "204", description = "Não foi possível cadastrar esse cliente.", content = [Content(schema = Schema())]),
         ],
     )
+    @CrossOrigin(
+        origins = ["http://localhost:3333"],
+        methods = [RequestMethod.POST],
+        allowCredentials = "true"
+    )
     @PostMapping
         fun cadastro(@Valid @RequestBody novoCliente: ClienteCadastroDTO): ResponseEntity<Cliente>{
         val service = service.cadastrar(novoCliente)
@@ -41,6 +46,11 @@ class ClienteController (
             ApiResponse(responseCode = "200", description = "Exibindo cliente."),
             ApiResponse(responseCode = "204", description = "Não foi possível exibir esse cliente.", content = [Content(schema = Schema())]),
         ],
+    )
+    @CrossOrigin(
+        origins = ["http://localhost:3333"],
+        methods = [RequestMethod.GET],
+        allowCredentials = "true"
     )
     @GetMapping("/{idCliente}")
     fun getUmCliente (@RequestParam idCliente: Int): ResponseEntity<ClienteResponse>{
@@ -57,6 +67,11 @@ class ClienteController (
             ApiResponse(responseCode = "204", description = "Não foi possível exibir essa lista de cliente.", content = [Content(schema = Schema())]),
         ],
     )
+    @CrossOrigin(
+        origins = ["http://localhost:3333"],
+        methods = [RequestMethod.GET],
+        allowCredentials = "true"
+    )
     @GetMapping("/{idUsuario}")
     fun getTodosOsClientes (@RequestParam idUsuario: Int): ResponseEntity<List<ClienteResponse>>{
         val listaCliente = service.buscarClientes(idUsuario)
@@ -72,6 +87,11 @@ class ClienteController (
             ApiResponse(responseCode = "404", description = "Não foi possível desativar esse cliente.", content = [Content(schema = Schema())]),
         ],
     )
+    @CrossOrigin(
+        origins = ["http://localhost:3333"],
+        methods = [RequestMethod.DELETE],
+        allowCredentials = "true"
+    )
     @DeleteMapping("/{idCliente}")
     fun desativarCliente(@RequestParam idCliente: Int): ResponseEntity<ClienteResponse>{
         service.desativarClientePorId(idCliente)
@@ -86,6 +106,11 @@ class ClienteController (
             ApiResponse(responseCode = "200", description = "Cliente atualizado com sucesso"),
             ApiResponse(responseCode = "204", description = "Não foi possível atualizar esse cliente.", content = [Content(schema = Schema())]),
         ],
+    )
+    @CrossOrigin(
+        origins = ["http://localhost:3333"],
+        methods = [RequestMethod.PUT],
+        allowCredentials = "true"
     )
     @PutMapping("/{idCliente}")
     fun atualizarCliente(@Valid @PathVariable idCliente: Int, @RequestBody dados: ClienteAtualizarDTO): ResponseEntity<Cliente>{
