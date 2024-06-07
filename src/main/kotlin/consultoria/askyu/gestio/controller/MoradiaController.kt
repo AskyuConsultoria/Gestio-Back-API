@@ -19,18 +19,21 @@ import java.util.*
 @RequestMapping("/moradia")
 class MoradiaController (val service: MoradiaService) {
 
+    //okay
     @GetMapping("{idUsuario}")
     fun getMoradia(@PathVariable idUsuario: Int): ResponseEntity<List<MoradiaResponse>>{
         val moradia= service.getLista(idUsuario)
         return ResponseEntity.status(200).body(moradia)
     }
 
-    @GetMapping("/{idCliente}/{idUsuario}/")
+    //okay 
+    @GetMapping("/{idUsuario}/{idCliente}")
     fun buscarMoradiaCliente(@PathVariable idUsuario: Int, @PathVariable idCliente: Int): ResponseEntity<List<Moradia>>{
         val moradia= service.buscarPorCliente(idUsuario,idCliente)
         return ResponseEntity.status(200).body(moradia)
     }
 
+    //okay
     @GetMapping("/{idUsuario}/{idCliente}/{idEndereco}")
     fun buscarMoradiaEndereco(@PathVariable idUsuario: Int,@PathVariable idCliente: Int ,@PathVariable idEndereco: Int)
     : ResponseEntity<List<Moradia>>{
@@ -38,6 +41,7 @@ class MoradiaController (val service: MoradiaService) {
         return ResponseEntity.status(200).body(moradia)
     }
 
+    //okay
     @PostMapping("/{idUsuario}/{idCliente}/{idEndereco}")
     fun cadastrarMoradia(@PathVariable idUsuario: Int, @PathVariable idCliente: Int, @PathVariable idEndereco: Int,
                          @RequestBody moradia:Moradia):ResponseEntity<Moradia>{
@@ -45,6 +49,7 @@ class MoradiaController (val service: MoradiaService) {
         return ResponseEntity.status(201).body(moradiaCadastrada)
     }
 
+    //okay
     @PatchMapping("/{idUsuario}/{idCliente}/{idEndereco}/{id}")
     fun atualizarMoradia(@PathVariable idUsuario: Int, @PathVariable idCliente: Int, @PathVariable idEndereco: Int,
                          @PathVariable id:Int, @RequestBody novaMoradia: Moradia): ResponseEntity<Moradia>{
@@ -53,6 +58,7 @@ class MoradiaController (val service: MoradiaService) {
         return ResponseEntity.status(200).body(novaMoradia)
     }
 
+    //okay
     @DeleteMapping("/{id}/{idUsuario}/{idCliente}/{idEndereco}")
     fun deletarMoradia(@PathVariable idUsuario: Int, @PathVariable idCliente: Int, @PathVariable idEndereco: Int,
                        @PathVariable id:Int): ResponseEntity<Void>{
