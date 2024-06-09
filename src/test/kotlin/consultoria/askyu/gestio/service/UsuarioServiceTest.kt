@@ -3,10 +3,9 @@ package consultoria.askyu.gestio.service
 import consultoria.askyu.gestio.dominio.Usuario
 import consultoria.askyu.gestio.dtos.UsuarioCadastroDTO
 import consultoria.askyu.gestio.repository.UsuarioRepository
-import org.junit.jupiter.api.Test
-
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
 import org.mockito.Mockito.mock
 import org.mockito.Mockito.`when`
 import org.modelmapper.ModelMapper
@@ -72,7 +71,7 @@ class UsuarioServiceTest {
 
     @Test
     fun `Esse item é unico`() {
-        `when`(usuarioRepository.countByUsuario(expected.usuario))
+        `when`(usuarioRepository.countByUsuario(expected.usuario!!))
             .thenReturn(0)
         val teste = service.uniqueValidation(expected)
         assertEquals(teste, true)
@@ -80,7 +79,7 @@ class UsuarioServiceTest {
 
     @Test
     fun `Esse item não é unico`() {
-        `when`(usuarioRepository.countByUsuario(expected.usuario))
+        `when`(usuarioRepository.countByUsuario(expected.usuario!!))
             .thenReturn(1)
         val excecao = assertThrows(ResponseStatusException::class.java) {
             service.uniqueValidation(expected)
@@ -103,7 +102,7 @@ class UsuarioServiceTest {
 
     @Test
     fun `Teste cadastrando usuario que ja existe`() {
-        `when`(usuarioRepository.countByUsuario(expected.usuario))
+        `when`(usuarioRepository.countByUsuario(expected.usuario!!))
             .thenReturn(1)
 
         `when`(service.mapper.map(expectedDto, Usuario::class.java))
@@ -143,25 +142,25 @@ class UsuarioServiceTest {
 
     @Test
     fun `Logado com sucesso`() {
-        `when`(usuarioRepository.countByUsuarioAndSenhaAndAtivoIsTrue(expected.usuario, expected.senha))
+        `when`(usuarioRepository.countByUsuarioAndSenhaAndAtivoIsTrue(expected.usuario!!, expected.senha!!))
             .thenReturn(1)
-        `when`(usuarioRepository.findByUsuarioAndSenha(expected.usuario, expected.senha))
+        `when`(usuarioRepository.findByUsuarioAndSenha(expected.usuario!!, expected.senha!!))
             .thenReturn(expected)
         `when`(usuarioRepository.save(expectedLogged))
             .thenReturn(expectedLogged)
 
-        val teste = service.logar(expected.usuario,expected.senha)
+        val teste = service.logar(expected.usuario!!,expected.senha!!)
 
         assertEquals(expectedLogged, teste)
     }
 
     @Test
     fun `Falha no login pois o usuario esta desativado`() {
-        `when`(usuarioRepository.countByUsuarioAndSenhaAndAtivoIsTrue(expected.usuario, expected.senha))
+        `when`(usuarioRepository.countByUsuarioAndSenhaAndAtivoIsTrue(expected.usuario!!, expected.senha!!))
             .thenReturn(0)
 
         val excecao = assertThrows(ResponseStatusException::class.java) {
-            service.logar(expected.usuario,expected.senha)
+            service.logar(expected.usuario!!,expected.senha!!)
         }
 
         assertEquals(404, excecao.statusCode.value())
@@ -169,13 +168,13 @@ class UsuarioServiceTest {
 
     @Test
     fun `Falha no login pois o usuario esta logado`() {
-        `when`(usuarioRepository.countByUsuarioAndSenhaAndAtivoIsTrue(expected.usuario, expected.senha))
+        `when`(usuarioRepository.countByUsuarioAndSenhaAndAtivoIsTrue(expected.usuario!!, expected.senha!!))
             .thenReturn(1)
-        `when`(usuarioRepository.findByUsuarioAndSenha(expected.usuario, expected.senha))
+        `when`(usuarioRepository.findByUsuarioAndSenha(expected.usuario!!, expected.senha!!))
             .thenReturn(expectedLogged)
 
         val excecao = assertThrows(ResponseStatusException::class.java) {
-            service.logar(expected.usuario,expected.senha)
+            service.logar(expected.usuario!!,expected.senha!!)
         }
 
         assertEquals(409, excecao.statusCode.value())
@@ -183,23 +182,23 @@ class UsuarioServiceTest {
 
     @Test
     fun `Deslogado com sucesso`() {
-        `when`(usuarioRepository.findByUsuario(expectedLogged.usuario))
+        `when`(usuarioRepository.findByUsuario(expectedLogged.usuario!!))
             .thenReturn(expectedLogged)
         `when`(usuarioRepository.save(expected))
             .thenReturn(expected)
 
-        val teste = service.deslogar(expected.usuario)
+        val teste = service.deslogar(expected.usuario!!)
 
         assertEquals(expected, teste)
     }
 
     @Test
     fun `Falha no login pois o usuario não esta logado`() {
-        `when`(usuarioRepository.findByUsuario(expected.usuario))
+        `when`(usuarioRepository.findByUsuario(expected.usuario!!))
             .thenReturn(expected)
 
         val excecao = assertThrows(ResponseStatusException::class.java) {
-            service.deslogar(expected.usuario)
+            service.deslogar(expected.usuario!!)
         }
 
         assertEquals(400, excecao.statusCode.value())

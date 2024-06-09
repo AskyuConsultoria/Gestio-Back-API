@@ -1,12 +1,11 @@
 package askyu.gestio.dto
 
+import consultoria.askyu.gestio.dominio.Usuario
 import jakarta.validation.constraints.NotBlank
-import jdk.jfr.BooleanFlag
 
-data class TecidoCadastroDTO(
-    var id: Int?,
+data class TecidoCadastroRequest(
+    var id: Int? = null,
     @field:NotBlank
-    var nome:String?,
-    @field:BooleanFlag
-    var ativo: Boolean? = true
+    var nome:String? = null,
+    var usuario: Usuario? = null
 )

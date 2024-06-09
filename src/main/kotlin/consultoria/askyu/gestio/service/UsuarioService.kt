@@ -27,7 +27,7 @@ class UsuarioService(
     }
 
     fun uniqueValidation(usuario: Usuario):Boolean{
-        if(repository.countByUsuario(usuario.usuario) == 0){
+        if(repository.countByUsuario(usuario.usuario!!) == 0){
             return true
         }
         throw ResponseStatusException(HttpStatusCode.valueOf(409), "Esse cadastro ja existe no sistema!")

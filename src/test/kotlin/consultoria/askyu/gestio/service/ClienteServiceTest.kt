@@ -7,12 +7,10 @@ import consultoria.askyu.gestio.dtos.ClienteAtualizarDTO
 import consultoria.askyu.gestio.dtos.ClienteCadastroDTO
 import consultoria.askyu.gestio.dtos.ClienteResponse
 import consultoria.askyu.gestio.repository.ClienteRepository
-import consultoria.askyu.gestio.repository.EnderecoRepository
 import consultoria.askyu.gestio.repository.UsuarioRepository
-import org.junit.jupiter.api.Test
-
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
 import org.mockito.Mockito.mock
 import org.mockito.Mockito.`when`
 import org.modelmapper.ModelMapper
@@ -25,6 +23,7 @@ class ClienteServiceTest {
 
     lateinit var repository: ClienteRepository
     lateinit var usuarioRepository: UsuarioRepository
+    lateinit var usuarioService: UsuarioService
     lateinit var service: ClienteService
     lateinit var mapper: ModelMapper
 
@@ -47,10 +46,11 @@ class ClienteServiceTest {
 
     @BeforeEach
     fun iniciar() {
+        mapper = mock(ModelMapper::class.java)
         repository = mock(ClienteRepository::class.java)
         usuarioRepository = mock(UsuarioRepository::class.java)
-        mapper = mock(ModelMapper::class.java)
-        service = ClienteService(mapper, repository, usuarioRepository)
+        usuarioService = UsuarioService(usuarioRepository)
+        service = ClienteService(mapper, repository, usuarioRepository, usuarioService)
     }
 
 

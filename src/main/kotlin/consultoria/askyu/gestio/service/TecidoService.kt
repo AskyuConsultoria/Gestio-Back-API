@@ -1,49 +1,58 @@
 package consultoria.askyu.gestio
 
-import askyu.gestio.dto.TecidoCadastroDTO
-import jakarta.validation.Valid
+import consultoria.askyu.gestio.service.UsuarioService
 import org.modelmapper.ModelMapper
 import org.springframework.http.HttpStatusCode
 import org.springframework.stereotype.Service
-import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.server.ResponseStatusException
 
 @Service
 class TecidoService(
+    var usuarioService: UsuarioService,
     var tecidoRepository: TecidoRepository,
     val mapper: ModelMapper = ModelMapper()
 ){
-
-
-    fun salvar(tecido: TecidoCadastroDTO):Tecido{
-        val dto = mapper.map(tecido, Tecido::class.java)
-        tecidoRepository.save(dto)
-        return dto
+    fun salvar(usuarioId: Int, tecidoId: Int, novoTecido: Tecido): Tecido{
+        usuarioService.existenceValidation(usuarioId)
+        novoTecido.usuario!!.id = usuarioId
+        novoTecido.id = tecidoId
+        return tecidoRepository.save(novoTecido)
     }
 
-    fun listar(): List<Tecido> {
-      val listaTecido = tecidoRepository.findAll()
+    fun atualizar(usuarioId: Int, tecidoId: Int, tecidoAtualizado: Tecido): Tecido{
+        usuarioService.existenceValidation(usuarioId)
+        existenceValidation(usuarioId, tecidoId)
+        tecidoAtualizado.usuario!!.id = usuarioId
+        tecidoAtualizado.id = tecidoId
+        return tecidoRepository.save(tecidoAtualizado)
+    }
+
+    fun listar(usuarioId: Int): List<Tecido> {
+      val listaTecido = tecidoRepository.findByUsuarioId(usuarioId)
         validarSeListaEVazia(listaTecido)
         return listaTecido
     }
 
-    fun listarPorNome(nome: String): List<Tecido> {
-        val listaTecido = tecidoRepository.findByNome(nome)
+    fun listarPorNome(usuarioId:Int,  nome: String): List<Tecido> {
+        val listaTecido = tecidoRepository.findByUsuarioIdAndNomeContainsIgnoreCase(usuarioId,nome)
         validarSeListaEVazia(listaTecido)
         return listaTecido
     }
 
-    fun buscarTecidoPorId(id: Int): Tecido {
-        validarSeExistePorId(id)
-        val tecido = tecidoRepository.findById(id).get()
+    fun buscarTecidoPorId(usuarioId: Int, tecidoId: Int): Tecido {
+        usuarioService.existenceValidation(usuarioId)
+        existenceValidation(usuarioId, tecidoId)
+        val tecido = tecidoRepository.findByUsuarioIdAndId(usuarioId, tecidoId)
         return tecido
     }
 
-    fun desativar(id: Int){
-       validarSeExistePorId(id)
-        val tecido = tecidoRepository.findById(id).get()
+    fun desativar(usuarioId: Int, tecidoId: Int): Tecido{
+        existenceValidation(usuarioId, tecidoId)
+        val tecido = tecidoRepository.findByUsuarioIdAndId(usuarioId, tecidoId)
+        tecido.usuario!!.id = usuarioId
+        tecido.id = tecidoId
         tecido.ativo = false
-        tecidoRepository.save(tecido)
+        return tecidoRepository.save(tecido)
     }
 
 
@@ -55,8 +64,8 @@ class TecidoService(
         }
     }
 
-    fun validarSeExistePorId(id: Int){
-        if(!tecidoRepository.existsById(id)){
+    fun existenceValidation(usuarioId: Int, tecidoId: Int){
+        if(!tecidoRepository.existsByUsuarioIdAndId(usuarioId, tecidoId)){
             throw ResponseStatusException(
                 HttpStatusCode.valueOf(404), "O tecido acessado não existe no sistema."
             )
