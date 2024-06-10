@@ -1,12 +1,7 @@
 package consultoria.askyu.gestio.dominio
 
-import jakarta.persistence.Entity
-import jakarta.persistence.GeneratedValue
-import jakarta.persistence.GenerationType
-import jakarta.persistence.Id
-import jakarta.persistence.ManyToOne
-import jakarta.validation.constraints.NotBlank
-import java.util.Date
+import jakarta.persistence.*
+import java.util.*
 
 
 @Entity
@@ -14,21 +9,21 @@ data class Cliente(
 
     @field:Id
     @field:GeneratedValue(strategy = GenerationType.IDENTITY)
-    var id:Int,
+    var id:Int? = null,
 
-    var nome:String,
+    var nome:String? = null,
 
-    var sobrenome:String,
+    var sobrenome:String? = null,
 
-    var dtNasc:Date,
+    var dtNasc:Date? = null,
 
-    var email:String,
+    var email:String? = null,
 
     @field:ManyToOne
-    var responsavel: Cliente?,
+    var responsavel: Cliente? = null,
 
     @ManyToOne
-    var usuario:Usuario?,
+    var usuario:Usuario? = null,
 
     var ativo: Boolean = true
 )

@@ -1,14 +1,17 @@
 package consultoria.askyu.gestio.dominio
 
-import jakarta.persistence.GeneratedValue
-import jakarta.persistence.GenerationType
-import jakarta.persistence.Id
-import jakarta.persistence.ManyToOne
+import jakarta.persistence.*
 
+@Entity
 class Telefone (
     @field:Id
     @field:GeneratedValue(strategy = GenerationType.IDENTITY)
     var id:Int? = null,
+
+    var numero: String? = null,
+
+    @field:ManyToOne
+    var cliente: Cliente? = null,
 
     @field:ManyToOne
     var usuario: Usuario? = null,
@@ -16,11 +19,17 @@ class Telefone (
     @field:ManyToOne
     var tipoTelefone: TipoTelefone? = null,
 
-    @field:ManyToOne
-    var cliente: Cliente? = null,
-
-    var numero: String? = null,
-
     var ativo: Boolean = true
 ) {
+    constructor(
+        paramNumero: String?,
+        paramCliente: Cliente?,
+        paramUsuario: Usuario?,
+        paramTipoTelefone: TipoTelefone
+    ): this(
+        numero = paramNumero,
+        cliente = paramCliente,
+        usuario = paramUsuario,
+        tipoTelefone = paramTipoTelefone
+    )
 }

@@ -1,8 +1,7 @@
 package consultoria.askyu.gestio.controller
 
-import consultoria.askyu.gestio.Tecido
 import consultoria.askyu.gestio.dominio.Telefone
-import consultoria.askyu.gestio.dominio.TipoTelefone
+import consultoria.askyu.gestio.dtos.TelefoneDTO
 import consultoria.askyu.gestio.repository.TelefoneRepository
 import consultoria.askyu.gestio.service.TelefoneService
 import io.swagger.v3.oas.annotations.Operation
@@ -16,7 +15,7 @@ import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 
 @RestController
-@RequestMapping("/telefone")
+@RequestMapping("/telefones")
 class TelefoneController(
 
     var telefoneRepository: TelefoneRepository,
@@ -32,9 +31,15 @@ class TelefoneController(
             ApiResponse(responseCode = "404", description = "Esse Telefone não existe", content = [Content(schema = Schema())])
         ],
     )
-    @PostMapping
-    fun cadastrarTelefone(@RequestBody @Valid telefone: Telefone) : ResponseEntity<Telefone> {
-        val salvo = telefoneService.salvar(telefone)
+    @PostMapping("/{usuarioId}/{clienteId}/{tipoTelefoneId}")
+    fun cadastrarTelefone(
+        @PathVariable usuarioId: Int,
+        @PathVariable clienteId: Int,
+        @PathVariable tipoTelefoneId: Int,
+        @Valid
+        @RequestBody dadoAtualizado: TelefoneDTO
+    ) : ResponseEntity<Telefone> {
+        val salvo = telefoneService.salvarTelefone(usuarioId, clienteId, tipoTelefoneId, dadoAtualizado)
         return ResponseEntity.status(201).body(salvo)
     }
 
@@ -47,10 +52,10 @@ class TelefoneController(
         ],
     )
 
-    @GetMapping
-    fun listar(): ResponseEntity<List<Telefone>>{
-        val listaTecido = telefoneService.listar()
-        return ResponseEntity.status(200).body(listaTecido)
+    @GetMapping("/{usuarioId}")
+    fun listar(@PathVariable usuarioId: Int): ResponseEntity<List<Telefone>>{
+        val listaTelefone = telefoneService.listar(usuarioId)
+        return ResponseEntity.status(200).body(listaTelefone)
     }
 
     @Operation(summary = "Busca telefone pelo número.",
@@ -61,10 +66,22 @@ class TelefoneController(
             ApiResponse(responseCode = "204", description = "Nenhum telefone foi encontrado com este número")
         ],
     )
-    @GetMapping("/numero")
-    fun listarPorNumero(@RequestParam numero: String): ResponseEntity<List<Telefone>>{
-        val listaTelefone = telefoneService.listarPorNumero(numero)
+    @GetMapping("/{usuarioId}/filtro-numero")
+    fun listarPorNumero(@PathVariable usuarioId: Int, @RequestParam numero: String): ResponseEntity<List<Telefone>>{
+        val listaTelefone = telefoneService.listarPorNumero(usuarioId, numero)
         return ResponseEntity.status(200).body(listaTelefone)
+    }
+
+    @PutMapping("/{usuarioId}/{clienteId}/{tipoTelefoneId}/{telefoneId}")
+    fun atualizarTelefone(
+        @PathVariable usuarioId: Int,
+        @PathVariable clienteId: Int,
+        @PathVariable tipoTelefoneId: Int,
+        @PathVariable telefoneId: Int,
+        @RequestBody dadoAtualizado: TelefoneDTO
+    ): ResponseEntity<Telefone>  {
+        val telefone = telefoneService.atualizarTelefone(usuarioId, clienteId, tipoTelefoneId, telefoneId, dadoAtualizado)
+        return ResponseEntity.status(200).body(telefone)
     }
 
     @DeleteMapping("/{usuarioId}/{clienteId}/{tipoTelefoneId}/{telefoneId}")
@@ -74,9 +91,7 @@ class TelefoneController(
         @PathVariable tipoTelefoneId: Int,
         @PathVariable telefoneId: Int
     ): ResponseEntity<Void> {
-
         telefoneService.deletarTelefone(usuarioId, clienteId, tipoTelefoneId, telefoneId)
-
         return ResponseEntity.status(200).build()
     }
 

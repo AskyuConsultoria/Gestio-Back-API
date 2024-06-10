@@ -1,10 +1,8 @@
 package consultoria.askyu.gestio.service
 
 import consultoria.askyu.gestio.dominio.TipoTelefone
-import consultoria.askyu.gestio.dominio.Usuario
 import consultoria.askyu.gestio.dtos.TipoTelefoneDTO
 import consultoria.askyu.gestio.repository.TipoTelefoneRepository
-import jakarta.transaction.Transactional
 import org.modelmapper.ModelMapper
 import org.springframework.http.HttpStatusCode
 import org.springframework.stereotype.Service
@@ -18,11 +16,7 @@ class TipoTelefoneService(
     val tipoTelefoneRepository: TipoTelefoneRepository
 
 ) {
-    fun listValidation(lista:List<*>){
-        if(lista.isEmpty()){
-            throw ResponseStatusException(HttpStatusCode.valueOf(204), "O resultado da busca foi uma lista vazia")
-        }
-    }
+
     fun buscarPorUsuario (usuarioId: Int): List<TipoTelefone>{
         usuarioService.existenceValidation(usuarioId)
 
@@ -33,12 +27,13 @@ class TipoTelefoneService(
         return listaTipoTelefone
     }
 
-    fun validarTipoTelefone (usuarioId: Int, tipoTelefoneId: Int){
-
-        if (!tipoTelefoneRepository.existsByUsuarioIdAndId(usuarioId, tipoTelefoneId)){
-            throw ResponseStatusException(HttpStatusCode.valueOf(204), "Lista de tipo telefone está vazia")
-        }
+    fun criarTipoTelefone(usuarioId: Int, dadoAtualizado: TipoTelefoneDTO): TipoTelefone{
+        usuarioService.existenceValidation(usuarioId)
+        var novoTipoTelefone = mapper.map(dadoAtualizado, TipoTelefone::class.java)
+        novoTipoTelefone.usuario!!.id = usuarioId
+        return tipoTelefoneRepository.save(novoTipoTelefone)
     }
+
     fun atualizarTipoTelefone(usuarioId: Int, tipoTelefoneId: Int, dadoAtualizado: TipoTelefoneDTO): TipoTelefone {
 
         usuarioService.existenceValidation(usuarioId)
@@ -46,12 +41,24 @@ class TipoTelefoneService(
         validarTipoTelefone(usuarioId, tipoTelefoneId)
         val tipoTelefoneOptional = tipoTelefoneRepository.findByUsuarioIdAndId(usuarioId, tipoTelefoneId)
 
-       val tipoTelefone = mapper.map(dadoAtualizado, TipoTelefone::class.java)
+        val tipoTelefone = mapper.map(dadoAtualizado, TipoTelefone::class.java)
 
         tipoTelefone.usuario!!.id = usuarioId
         tipoTelefone.id = tipoTelefoneId
 
         return tipoTelefoneRepository.save(tipoTelefone)
 
+    }
+
+    fun validarTipoTelefone (usuarioId: Int, tipoTelefoneId: Int){
+        if (!tipoTelefoneRepository.existsByUsuarioIdAndId(usuarioId, tipoTelefoneId)){
+            throw ResponseStatusException(HttpStatusCode.valueOf(404), "Tipo de telefone não foi encontrado")
+        }
+    }
+
+    fun listValidation(lista:List<*>){
+        if(lista.isEmpty()){
+            throw ResponseStatusException(HttpStatusCode.valueOf(204), "O resultado da busca foi uma lista vazia")
+        }
     }
 }

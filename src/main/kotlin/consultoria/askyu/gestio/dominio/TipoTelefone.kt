@@ -1,22 +1,25 @@
 package consultoria.askyu.gestio.dominio
 
-import jakarta.persistence.GeneratedValue
-import jakarta.persistence.GenerationType
-import jakarta.persistence.Id
-import jakarta.persistence.ManyToOne
+import jakarta.persistence.*
 
+@Entity
 class TipoTelefone (
 
     @field:Id
     @field:GeneratedValue(strategy = GenerationType.IDENTITY)
-    var id:Int,
+    var id:Int? = null,
 
-    var nome:String,
+    var nome:String? = null,
 
-    var digitos:Int,
+    var digitos:Int? = null,
 
     @field:ManyToOne
     var usuario: Usuario? = null
 
 ) {
+    constructor(
+        paramNome: String?,
+        paramDigitos: Int?,
+        paramUsuario: Usuario?
+    ): this(nome = paramNome, digitos = paramDigitos, usuario = paramUsuario)
 }

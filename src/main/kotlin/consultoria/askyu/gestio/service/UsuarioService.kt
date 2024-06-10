@@ -5,7 +5,6 @@ import consultoria.askyu.gestio.dtos.UsuarioCadastroDTO
 import consultoria.askyu.gestio.repository.UsuarioRepository
 import org.modelmapper.ModelMapper
 import org.springframework.http.HttpStatusCode
-import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Service
 import org.springframework.web.server.ResponseStatusException
 
@@ -28,7 +27,7 @@ class UsuarioService(
     }
 
     fun uniqueValidation(usuario: Usuario):Boolean{
-        if(repository.countByUsuario(usuario.usuario) == 0){
+        if(repository.countByUsuario(usuario.usuario!!) == 0){
             return true
         }
         throw ResponseStatusException(HttpStatusCode.valueOf(409), "Esse cadastro ja existe no sistema!")
@@ -48,7 +47,7 @@ class UsuarioService(
     }
 
     fun logar(usuario:String, senha:String):Usuario{
-        if(repository.countUsuarioAndSenhaAndAtivoIsTrue(usuario, senha) == 1) {
+        if(repository.countByUsuarioAndSenhaAndAtivoIsTrue(usuario, senha) == 1) {
             var user = repository.findByUsuarioAndSenha(usuario, senha)
             if (user.autenticado) {
                 throw ResponseStatusException(
