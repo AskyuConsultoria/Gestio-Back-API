@@ -161,6 +161,6 @@ class NomeMedidaController(
          @PathVariable nomeMedidaId: Int,
      ): ResponseEntity<Void>{
          nomeMedidaService.deleteByUsuarioIdAndPecaIdAndId(usuarioId, pecaId, nomeMedidaId)
-         return ResponseEntity.status(204).build()
+         return ResponseEntity.status(200).build()
      }
 }

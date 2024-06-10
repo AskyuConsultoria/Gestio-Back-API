@@ -10,5 +10,6 @@ data class PecaCadastroRequest(
     @field:NotBlank
     var descricao: String? = null,
 
-    var usuario: Usuario? = null
+    @field:NotBlank
+    var usuario: Int? = null
 )
