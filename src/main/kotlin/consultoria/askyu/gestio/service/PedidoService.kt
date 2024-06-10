@@ -1,9 +1,6 @@
 package consultoria.askyu.gestio.service
 
-import consultoria.askyu.gestio.dominio.Agendamento
 import consultoria.askyu.gestio.dominio.Pedido
-import consultoria.askyu.gestio.dtos.AgendamentoCadastroDTO
-import consultoria.askyu.gestio.dtos.ClienteResponse
 import consultoria.askyu.gestio.dtos.PedidoCadastroDTO
 import consultoria.askyu.gestio.dtos.PedidoResponseDTO
 import consultoria.askyu.gestio.repository.*
@@ -69,19 +66,19 @@ class PedidoService(
     }
 
     fun cadastrar(pedido: PedidoCadastroDTO): Pedido {
-        usuarioValidation(pedido.usuario)
-        idClienteValidation(pedido.usuario)
-        idEtapaValidation(pedido.usuario)
-        idAgendamentoValidation(pedido.agendamento)
-        idItemPedidoValidation(pedido.itemPedido)
+        usuarioValidation(pedido.usuario!!)
+        idClienteValidation(pedido.usuario!!)
+        idEtapaValidation(pedido.usuario!!)
+        idAgendamentoValidation(pedido.agendamento!!)
+        idItemPedidoValidation(pedido.itemPedido!!)
 
         val novoPedido = mapper.map(pedido, Pedido::class.java)
 
-        novoPedido.etapa = etapaRepository.findById(pedido.etapa).get()
-        novoPedido.usuario = usuarioRepository.findById(pedido.usuario).get()
-        novoPedido.cliente = clienteRepository.findById(pedido.cliente).get()
-        novoPedido.itemPedido = itemPedidoRepository.findById(pedido.itemPedido).get()
-        novoPedido.agendamento = agendamentoRepository.findById(pedido.agendamento).get()
+        novoPedido.etapa = etapaRepository.findById(pedido.etapa!!).get()
+        novoPedido.usuario = usuarioRepository.findById(pedido.usuario!!).get()
+        novoPedido.cliente = clienteRepository.findById(pedido.cliente!!).get()
+        novoPedido.itemPedido = itemPedidoRepository.findById(pedido.itemPedido!!).get()
+        novoPedido.agendamento = agendamentoRepository.findById(pedido.agendamento!!).get()
 
         return repository.save(novoPedido)
     }
@@ -108,4 +105,5 @@ class PedidoService(
 
         return listaDto
     }
+
 }

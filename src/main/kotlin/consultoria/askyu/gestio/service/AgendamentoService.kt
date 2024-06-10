@@ -1,9 +1,7 @@
 package consultoria.askyu.gestio.service
 
 import consultoria.askyu.gestio.dominio.Agendamento
-import consultoria.askyu.gestio.dominio.Cliente
 import consultoria.askyu.gestio.dtos.AgendamentoCadastroDTO
-import consultoria.askyu.gestio.dtos.ClienteCadastroDTO
 import consultoria.askyu.gestio.dtos.ClienteResponse
 import consultoria.askyu.gestio.repository.AgendamentoRepository
 import consultoria.askyu.gestio.repository.ClienteRepository
@@ -57,15 +55,15 @@ class AgendamentoService(
     }
 
     fun cadastrar(agendamento: AgendamentoCadastroDTO): Agendamento {
-        idUsuarioValidation(agendamento.usuario)
-        idClienteValidation(agendamento.cliente)
-        idEtapaValidation(agendamento.etapa)
+        idUsuarioValidation(agendamento.usuario!!)
+        idClienteValidation(agendamento.cliente!!)
+        idEtapaValidation(agendamento.etapa!!)
 
         val novoAgendamento = mapper.map(agendamento, Agendamento::class.java)
 
-        novoAgendamento.usuario = usuarioRepository.findById(agendamento.usuario).get()
-        novoAgendamento.cliente = clienteRepository.findById(agendamento.cliente).get()
-        novoAgendamento.etapa = etapaRepository.findById(agendamento.etapa).get()
+        novoAgendamento.usuario = usuarioRepository.findById(agendamento.usuario!!).get()
+        novoAgendamento.cliente = clienteRepository.findById(agendamento.cliente!!).get()
+        novoAgendamento.etapa = etapaRepository.findById(agendamento.etapa!!).get()
 
         return repository.save(novoAgendamento)
     }

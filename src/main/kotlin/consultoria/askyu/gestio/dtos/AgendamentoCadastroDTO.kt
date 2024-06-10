@@ -7,17 +7,17 @@ import java.time.LocalDateTime
 
 data class AgendamentoCadastroDTO(
     @NotBlank @Size(min = 1)
-    var nome:String,
+    var nome:String? = null,
     @NotBlank
-    var dataInicio: LocalDateTime,
+    var dataInicio: LocalDateTime? = null,
     @NotBlank @Future
-    var dataFim: LocalDateTime,
+    var dataFim: LocalDateTime? = null,
     @NotBlank
-    var descricao:String,
+    var descricao:String? = null,
     @NotBlank
-    var usuario: Int,
+    var usuario: Int? = null,
     @NotBlank
-    var etapa: Int,
+    var etapa: Int? = null,
     @NotBlank
-    var cliente: Int,
+    var cliente: Int? = null,
 )

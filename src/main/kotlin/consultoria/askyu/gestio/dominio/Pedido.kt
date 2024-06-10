@@ -1,25 +1,21 @@
 package consultoria.askyu.gestio.dominio
 
-import jakarta.persistence.Entity
-import jakarta.persistence.GeneratedValue
-import jakarta.persistence.GenerationType
-import jakarta.persistence.Id
-import jakarta.persistence.ManyToOne
+import jakarta.persistence.*
 
 @Entity
 data class Pedido(
     @field:Id
     @field:GeneratedValue(strategy = GenerationType.IDENTITY)
-    var id:Int,
+    var id:Int? = null,
     @ManyToOne
-    var itemPedido: ItemPedido,
+    var itemPedido: ItemPedido? = null,
     @ManyToOne
-    var agendamento: Agendamento,
+    var agendamento: Agendamento? = null,
     @ManyToOne
-    var usuario:Usuario,
+    var usuario:Usuario? = null,
     @ManyToOne
-    var etapa: Etapa,
+    var etapa: Etapa? = null,
     @ManyToOne
-    var cliente: Cliente,
+    var cliente: Cliente? = null,
     var ativo:Boolean = true
 )

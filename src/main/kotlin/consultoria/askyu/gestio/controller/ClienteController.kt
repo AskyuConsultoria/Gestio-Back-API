@@ -3,7 +3,9 @@ package consultoria.askyu.gestio.controller
 import consultoria.askyu.gestio.dominio.Cliente
 import consultoria.askyu.gestio.dtos.ClienteAtualizarDTO
 import consultoria.askyu.gestio.dtos.ClienteCadastroDTO
+import consultoria.askyu.gestio.dtos.ClienteRelatorioResponse
 import consultoria.askyu.gestio.dtos.ClienteResponse
+import consultoria.askyu.gestio.service.ClienteRelatorioService
 import consultoria.askyu.gestio.service.ClienteService
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.media.Content
@@ -17,7 +19,8 @@ import org.springframework.web.bind.annotation.*
 @RestController
 @RequestMapping("/clientes")
 class ClienteController (
-    val service: ClienteService
+    val service: ClienteService,
+    val clienteRelatorioService: ClienteRelatorioService
 ){
     @Operation(summary = "Cadastro de Cliente",
         description = "Cadastra um cliente no sistema do usuário.")
@@ -77,6 +80,18 @@ class ClienteController (
         val listaCliente = service.buscarClientes(idUsuario)
 
         return ResponseEntity.status(200).body(listaCliente)
+    }
+
+
+    @CrossOrigin(
+        origins = ["http://localhost:3333"],
+        methods = [RequestMethod.GET],
+        allowCredentials = "true"
+    )
+    @GetMapping("/{usuarioId}/relatorio-kpi")
+    fun buscarRelatorioPedido(@PathVariable usuarioId: Int): ResponseEntity<ClienteRelatorioResponse> {
+        val relatorioPedido = clienteRelatorioService.getComparacaoClientes(usuarioId)
+        return ResponseEntity.status(200).body(relatorioPedido)
     }
 
     @Operation(summary = "Desativar cliente",

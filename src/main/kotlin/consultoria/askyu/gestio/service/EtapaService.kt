@@ -1,11 +1,7 @@
 package consultoria.askyu.gestio.service
 
-import consultoria.askyu.gestio.dominio.Agendamento
 import consultoria.askyu.gestio.dominio.Etapa
-import consultoria.askyu.gestio.dtos.AgendamentoCadastroDTO
-import consultoria.askyu.gestio.dtos.ClienteResponse
 import consultoria.askyu.gestio.dtos.EtapaCadastroDTO
-import consultoria.askyu.gestio.repository.AgendamentoRepository
 import consultoria.askyu.gestio.repository.ClienteRepository
 import consultoria.askyu.gestio.repository.EtapaRepository
 import consultoria.askyu.gestio.repository.UsuarioRepository
@@ -50,11 +46,11 @@ class EtapaService(
     }
 
     fun cadastrar(novaEtapa: EtapaCadastroDTO): Etapa {
-        idUsuarioValidation(novaEtapa.usuario)
+        idUsuarioValidation(novaEtapa.usuario!!)
 
         val etapa = mapper.map(novaEtapa, Etapa::class.java)
 
-        etapa.usuario = usuarioRepository.findById(novaEtapa.usuario).get()
+        etapa.usuario = usuarioRepository.findById(novaEtapa.usuario!!).get()
 
         return repository.save(etapa)
     }

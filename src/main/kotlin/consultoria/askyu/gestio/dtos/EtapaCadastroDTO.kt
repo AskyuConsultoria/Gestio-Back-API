@@ -5,11 +5,11 @@ import jakarta.validation.constraints.Size
 
 data class EtapaCadastroDTO(
     @NotBlank @field:Size(min = 1)
-    var nome:String,
+    var nome:String? = null,
     @NotBlank
-    var descricao:String,
+    var descricao:String? = null,
     @NotBlank
-    var ultimaEtapa: Boolean,
+    var ultimaEtapa: Boolean? = null,
     @NotBlank
-    var usuario:Int
+    var usuario:Int? = null
 )
