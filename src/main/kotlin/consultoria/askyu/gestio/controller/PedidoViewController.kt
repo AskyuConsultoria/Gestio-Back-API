@@ -2,6 +2,7 @@ package consultoria.askyu.gestio.controller
 
 import consultoria.askyu.gestio.dominio.PedidoGraficoView
 import consultoria.askyu.gestio.service.PedidoViewService
+import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 
 @RestController
@@ -12,11 +13,12 @@ class PedidoViewController(
 
     @CrossOrigin(
         origins = ["http://localhost:3333"],
-        methods = [RequestMethod.POST],
+        methods = [RequestMethod.GET],
         allowCredentials = "true"
     )
     @GetMapping("/{usuarioId}")
-    fun visualizar(@PathVariable usuarioId: Int): List<PedidoGraficoView>{
-      return pedidoViewService.visualizar(usuarioId)
+    fun visualizar(@PathVariable usuarioId: Int): ResponseEntity<List<PedidoGraficoView>> {
+        val relatorioPedido = pedidoViewService.visualizar(usuarioId)
+        return ResponseEntity.status(200).body(relatorioPedido)
     }
 }
