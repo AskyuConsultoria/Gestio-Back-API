@@ -82,4 +82,9 @@ class UsuarioService(
         return usuario
     }
 
+    fun findById(id:Int):Usuario{
+        val usuario = repository.findById(id).get()
+        return usuario
+    }
+
 }

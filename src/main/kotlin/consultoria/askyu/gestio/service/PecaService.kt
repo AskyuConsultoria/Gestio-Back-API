@@ -39,7 +39,7 @@ class PecaService(
     fun postByUsuarioId(id: Int, novaPeca: PecaCadastroRequest): Peca{
         usuarioService.existenceValidation(id)
         val peca = mapper.map(novaPeca, Peca::class.java)
-        peca.usuario!!.id = id
+        peca.usuario = usuarioService.findById(id)
         peca.ativo = true
         return pecaRepository.save(peca)
     }
@@ -48,7 +48,7 @@ class PecaService(
         usuarioService.existenceValidation(usuarioId)
         validarSeAPecaExiste(usuarioId, pecaId)
         val peca = mapper.map(pecaAtualizada, Peca::class.java)
-        peca.usuario!!.id = usuarioId
+        peca.usuario = usuarioService.findById(usuarioId)
         peca.id = pecaId
         return pecaRepository.save(peca)
     }
@@ -77,5 +77,10 @@ class PecaService(
                HttpStatusCode.valueOf(404), "Peça não foi encontrada."
            )
         }
+    }
+
+    fun findById(id:Int):Peca{
+        val peca = pecaRepository.findById(id).get()
+        return peca
     }
 }

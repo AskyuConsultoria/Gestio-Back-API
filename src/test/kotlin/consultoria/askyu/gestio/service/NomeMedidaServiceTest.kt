@@ -48,7 +48,7 @@ class NomeMedidaServiceTest {
         val pecaId = 1
         val nomeMedidaId = 1
 
-        `when`(nomeMedidaRepository.existsByUsuarioIdAndPecaIdAndId(usuarioId, pecaId, nomeMedidaId))
+        `when`(nomeMedidaRepository.existsByUsuarioIdAndPecaIdAndIdAndAtivoIsTrue(usuarioId, pecaId, nomeMedidaId))
             .thenReturn(false)
 
         val excecao = assertThrows(ResponseStatusException::class.java) {
@@ -77,7 +77,7 @@ class NomeMedidaServiceTest {
 
         `when`(usuarioRepository.existsById(usuarioId)).thenReturn(true)
         `when`(pecaRepository.existsByUsuarioIdAndId(usuarioId, pecaId)).thenReturn(true)
-        `when`(nomeMedidaRepository.existsByUsuarioIdAndPecaIdAndId(usuarioId, pecaId, nomeMedidaId))
+        `when`(nomeMedidaRepository.existsByUsuarioIdAndPecaIdAndIdAndAtivoIsTrue(usuarioId, pecaId, nomeMedidaId))
             .thenReturn(true)
         `when`(mapper.map(novoNomeMedida, NomeMedida::class.java)).thenReturn(nomeMedidaMapeado)
         `when`(nomeMedidaRepository.save(nomeMedidaMapeado)).thenAnswer {
@@ -105,7 +105,7 @@ class NomeMedidaServiceTest {
 
         `when`(usuarioRepository.existsById(usuarioId)).thenReturn(true)
         `when`(pecaRepository.existsByUsuarioIdAndId(usuarioId, pecaId)).thenReturn(true)
-        `when`(nomeMedidaRepository.getByUsuarioIdAndPecaId(usuarioId, pecaId)).thenReturn(listaEsperada)
+        `when`(nomeMedidaRepository.getByUsuarioIdAndPecaIdAndAtivoIsTrue(usuarioId, pecaId)).thenReturn(listaEsperada)
 
         val excecao = assertThrows(ResponseStatusException::class.java) {
             nomeMedidaService.getAllByUsuarioIdAndPecaId(usuarioId, pecaId)
@@ -134,7 +134,7 @@ class NomeMedidaServiceTest {
 
         `when`(usuarioRepository.existsById(usuarioId)).thenReturn(true)
         `when`(pecaRepository.existsByUsuarioIdAndId(usuarioId, pecaId)).thenReturn(true)
-        `when`(nomeMedidaRepository.getByUsuarioIdAndPecaId(usuarioId, pecaId)).thenReturn(listaEsperada)
+        `when`(nomeMedidaRepository.getByUsuarioIdAndPecaIdAndAtivoIsTrue(usuarioId, pecaId)).thenReturn(listaEsperada)
 
        val resultado = nomeMedidaService.getAllByUsuarioIdAndPecaId(usuarioId, pecaId)
 
@@ -154,7 +154,7 @@ class NomeMedidaServiceTest {
         `when`(usuarioRepository.existsById(usuarioId)).thenReturn(true)
         `when`(pecaRepository.existsByUsuarioIdAndId(usuarioId, pecaId)).thenReturn(true)
         `when`(
-            nomeMedidaRepository.getByUsuarioIdAndPecaIdAndNomeContainsIgnoreCase(
+            nomeMedidaRepository.getByUsuarioIdAndPecaIdAndNomeContainsIgnoreCaseAndAtivoIsTrue(
                 usuarioId,
                 pecaId,
                 nome
@@ -189,7 +189,7 @@ class NomeMedidaServiceTest {
 
         `when`(usuarioRepository.existsById(usuarioId)).thenReturn(true)
         `when`(pecaRepository.existsByUsuarioIdAndId(usuarioId, pecaId)).thenReturn(true)
-        `when`(nomeMedidaRepository.getByUsuarioIdAndPecaIdAndNomeContainsIgnoreCase(usuarioId, pecaId, nome)).thenReturn(listaEsperada)
+        `when`(nomeMedidaRepository.getByUsuarioIdAndPecaIdAndNomeContainsIgnoreCaseAndAtivoIsTrue(usuarioId, pecaId, nome)).thenReturn(listaEsperada)
 
         val resultado = nomeMedidaService.getAllByUsuarioIdAndPecaIdAndNomeContains(usuarioId, pecaId, nome)
 
@@ -213,9 +213,9 @@ class NomeMedidaServiceTest {
 
         `when`(usuarioRepository.existsById(usuarioId)).thenReturn(true)
         `when`(pecaRepository.existsByUsuarioIdAndId(usuarioId, pecaId)).thenReturn(true)
-        `when`(nomeMedidaRepository.existsByUsuarioIdAndPecaIdAndId(usuarioId, pecaId, nomeMedidaId))
+        `when`(nomeMedidaRepository.existsByUsuarioIdAndPecaIdAndIdAndAtivoIsTrue(usuarioId, pecaId, nomeMedidaId))
             .thenReturn(true)
-        `when`(nomeMedidaRepository.getByUsuarioIdAndPecaIdAndId(usuarioId, pecaId, nomeMedidaId))
+        `when`(nomeMedidaRepository.getByUsuarioIdAndPecaIdAndIdAndAtivoIsTrue(usuarioId, pecaId, nomeMedidaId))
             .thenReturn(nomeMedida)
 
         val resultado = nomeMedidaService.getByUsuarioIdAndPecaIdAndId(usuarioId, pecaId, nomeMedidaId)
@@ -239,7 +239,7 @@ class NomeMedidaServiceTest {
 
         `when`(usuarioRepository.existsById(anyInt())).thenReturn(true)
         `when`(pecaRepository.existsByUsuarioIdAndId(anyInt(), anyInt())).thenReturn(true)
-        `when`(nomeMedidaRepository.existsByUsuarioIdAndPecaIdAndId(anyInt(), anyInt(), anyInt()))
+        `when`(nomeMedidaRepository.existsByUsuarioIdAndPecaIdAndIdAndAtivoIsTrue(anyInt(), anyInt(), anyInt()))
             .thenReturn(true)
         `when`(nomeMedidaService.mapper.map(nomeMedidaAtualizado, NomeMedida::class.java)).thenReturn(nomeMedidaMapeado)
         `when`(nomeMedidaRepository.save(nomeMedidaMapeado)).thenAnswer {
@@ -269,9 +269,9 @@ class NomeMedidaServiceTest {
 
         `when`(usuarioRepository.existsById(anyInt())).thenReturn(true)
         `when`(pecaRepository.existsByUsuarioIdAndId(anyInt(), anyInt())).thenReturn(true)
-        `when`(nomeMedidaRepository.existsByUsuarioIdAndPecaIdAndId(anyInt(), anyInt(), anyInt()))
+        `when`(nomeMedidaRepository.existsByUsuarioIdAndPecaIdAndIdAndAtivoIsTrue(anyInt(), anyInt(), anyInt()))
             .thenReturn(true)
-        `when`(nomeMedidaRepository.getByUsuarioIdAndPecaIdAndId(anyInt(), anyInt(), anyInt()))
+        `when`(nomeMedidaRepository.getByUsuarioIdAndPecaIdAndIdAndAtivoIsTrue(anyInt(), anyInt(), anyInt()))
             .thenReturn(nomeMedidaASerDeletado)
         `when`(nomeMedidaRepository.save(nomeMedidaASerDeletado)).thenAnswer {
             invocation ->

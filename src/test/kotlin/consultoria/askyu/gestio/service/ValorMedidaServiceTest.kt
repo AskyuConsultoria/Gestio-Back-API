@@ -104,7 +104,7 @@ class ValorMedidaServiceTest {
         `when`(usuarioRepository.existsById(anyInt())).thenReturn(true)
         `when`(pecaRepository.existsByUsuarioIdAndId(anyInt(), anyInt())).thenReturn(true)
         `when`(clienteRepository.existsByUsuarioIdAndId(anyInt(), anyInt())).thenReturn(true)
-        `when`(nomeMedidaRepository.existsByUsuarioIdAndPecaIdAndId(anyInt(), anyInt(), anyInt())).thenReturn(true)
+        `when`(nomeMedidaRepository.existsByUsuarioIdAndPecaIdAndIdAndAtivoIsTrue(anyInt(), anyInt(), anyInt())).thenReturn(true)
         `when`(itemPedidoRepository.existsByUsuarioIdAndId(anyInt(), anyInt())).thenReturn(true)
         `when`(valorMedidaRepository.existsByUsuarioIdAndNomeMedidaIdAndItemPedidoId(anyInt(), anyInt(), anyInt()))
             .thenReturn(false)

@@ -7,10 +7,10 @@ import jakarta.validation.constraints.NotBlank
 data class NomeMedidaCadastroRequest(
     @NotBlank
     var nome: String? = null,
-
-    var peca: Peca? = null,
-
-    var usuario: Usuario? = null
+    @NotBlank
+    var peca: Int? = null,
+    @NotBlank
+    var usuario: Int? = null
 ) {
 
 }
