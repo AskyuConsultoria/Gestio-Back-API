@@ -7,4 +7,6 @@ interface EtapaRepository: JpaRepository<Etapa, Int> {
     fun findByUsuarioIdAndAtivoTrue(usuarioId: Int): List<Etapa>
 
     fun findByUsuarioIdAndIdAndAtivoTrue(usuarioId: Int, etapaId: Int): Etapa
+
+    fun existsByUsuarioIdAndId(usuarioId: Int, etapaId: Int): Boolean
 }

@@ -35,7 +35,7 @@ class ColecaoTecidoServiceTest{
         clienteRepository = mock(ClienteRepository::class.java)
         clienteService = ClienteService(mapper, clienteRepository, usuarioRepository, usuarioService)
         pecaRepository = mock(PecaRepository::class.java)
-        pecaService = PecaService(pecaRepository, usuarioService)
+        pecaService = PecaService(pecaRepository, usuarioRepository, usuarioService)
         itemPedidoRepository = mock(ItemPedidoRepository::class.java)
         itemPedidoService = ItemPedidoService(itemPedidoRepository, usuarioService, clienteService, pecaService)
         tecidoRepository = mock(TecidoRepository::class.java)

@@ -16,6 +16,7 @@ import org.mockito.ArgumentMatchers.anyInt
 import org.mockito.Mockito.*
 import org.modelmapper.ModelMapper
 import org.springframework.web.server.ResponseStatusException
+import java.util.*
 
 class NomeMedidaServiceTest {
     lateinit var usuarioRepository: UsuarioRepository
@@ -36,7 +37,7 @@ class NomeMedidaServiceTest {
         clienteRepository = mock(ClienteRepository::class.java)
         clienteService = ClienteService(mapper, clienteRepository, usuarioRepository, usuarioService)
         pecaRepository = mock(PecaRepository::class.java)
-        pecaService = PecaService(pecaRepository, usuarioService)
+        pecaService = PecaService(pecaRepository, usuarioRepository, usuarioService, mapper)
         nomeMedidaRepository = mock(NomeMedidaRepository::class.java)
         nomeMedidaService = NomeMedidaService(nomeMedidaRepository, pecaService, usuarioService, mapper)
     }
@@ -70,12 +71,14 @@ class NomeMedidaServiceTest {
         val afterPeca = Peca(1)
         val afterUsuario = Usuario(1)
 
-        val novoNomeMedida = NomeMedidaCadastroRequest( "L. Cintura", beforePeca, beforeUsuario)
+        val novoNomeMedida = NomeMedidaCadastroRequest( "L. Cintura", 2, 2)
         val nomeMedidaMapeado = NomeMedida( 1,"L. Cintura", beforePeca, beforeUsuario, true)
         val esperado = NomeMedida( 1,"L. Cintura", afterPeca, afterUsuario, true)
 
 
+        `when`(usuarioRepository.findById(anyInt())).thenReturn(Optional.of(afterUsuario))
         `when`(usuarioRepository.existsById(usuarioId)).thenReturn(true)
+        `when`(pecaRepository.findById(anyInt())).thenReturn(Optional.of(afterPeca))
         `when`(pecaRepository.existsByUsuarioIdAndId(usuarioId, pecaId)).thenReturn(true)
         `when`(nomeMedidaRepository.existsByUsuarioIdAndPecaIdAndIdAndAtivoIsTrue(usuarioId, pecaId, nomeMedidaId))
             .thenReturn(true)
@@ -233,7 +236,7 @@ class NomeMedidaServiceTest {
         val afterPeca = Peca(1)
         val afterUsuario = Usuario(1)
 
-        val nomeMedidaAtualizado = NomeMedidaCadastroRequest( "L. Cintura", beforePeca, beforeUsuario)
+        val nomeMedidaAtualizado = NomeMedidaCadastroRequest( "L. Cintura", 2, 2)
         val nomeMedidaMapeado = NomeMedida( 2,"L. Cintura", beforePeca, beforeUsuario)
         val esperado = NomeMedida( 1,"L. Cintura", afterPeca, afterUsuario)
 

@@ -21,19 +21,12 @@ class EtapaService(
             }
         }
 
-    fun validateExistence(usuarioId: Int){
-        if(!repository.existsById(usuarioId)){
+    fun validateExistence(etapaId: Int){
+        if(!repository.existsById(etapaId)){
             throw ResponseStatusException(
                 HttpStatusCode.valueOf(404), "Etapa não foi encontrado!"
             )
         }
-    }
-
-    fun idValidation(id:Int): Boolean{
-        if(repository.existsById(id)){
-            return true
-        }
-        throw ResponseStatusException(HttpStatusCode.valueOf(404), "Etapa não existe.")
     }
 
     fun idUsuarioValidation(id:Int): Boolean{
@@ -55,7 +48,8 @@ class EtapaService(
     }
 
     fun buscarUm(idUsuario: Int, idEtapa: Int): Etapa {
-        idValidation(idUsuario)
+        idUsuarioValidation(idUsuario)
+        validateExistence(idEtapa)
 
         val etapaBuscada = repository.findByUsuarioIdAndIdAndAtivoTrue(idUsuario, idEtapa)
 
@@ -65,7 +59,8 @@ class EtapaService(
     }
 
     fun buscar(idUsuario: Int): List<Etapa>{
-        //
+        idUsuarioValidation(idUsuario)
+
         val listaEtapa = repository.findByUsuarioIdAndAtivoTrue(idUsuario)
         val listaDto = mutableListOf<Etapa>()
 
@@ -80,7 +75,7 @@ class EtapaService(
 
     fun atualizar(idUsuario: Int, idEtapa: Int, etapaAtualizada: Etapa): Etapa {
         idUsuarioValidation(idUsuario)
-        idValidation(idEtapa)
+        validateExistence(idEtapa)
 
         etapaAtualizada.usuario!!.id = idUsuario
         etapaAtualizada.id = idEtapa
@@ -89,7 +84,7 @@ class EtapaService(
 
     fun excluir(idUsuario: Int, idEtapa: Int): Etapa {
         idUsuarioValidation(idUsuario)
-        idValidation(idEtapa)
+        validateExistence(idEtapa)
 
         val etapa = repository.findByUsuarioIdAndIdAndAtivoTrue(idUsuario, idEtapa)
         etapa.ativo = false

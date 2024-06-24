@@ -37,7 +37,7 @@ class ValorMedidaServiceTest {
         clienteRepository = mock(ClienteRepository::class.java)
         clienteService = ClienteService(mapper, clienteRepository, usuarioRepository, usuarioService)
         pecaRepository = mock(PecaRepository::class.java)
-        pecaService = PecaService(pecaRepository, usuarioService)
+        pecaService = PecaService(pecaRepository, usuarioRepository, usuarioService, mapper)
         itemPedidoRepository = mock(ItemPedidoRepository::class.java)
         itemPedidoService = ItemPedidoService(itemPedidoRepository, usuarioService, clienteService, pecaService)
         nomeMedidaRepository = mock(NomeMedidaRepository::class.java)

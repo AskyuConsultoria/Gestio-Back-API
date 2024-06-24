@@ -47,13 +47,13 @@ class AgendamentoService(
         throw ResponseStatusException(HttpStatusCode.valueOf(404), "O usuário não existe.")
     }
 
-    fun idValidation(id:Int): Boolean{
-        if(repository.existsById(id)){
-            return true
+    fun validateExistence(pedidoId: Int){
+        if(!repository.existsById(pedidoId)){
+            throw ResponseStatusException(
+                HttpStatusCode.valueOf(404), "Pedido não foi encontrado!"
+            )
         }
-        throw ResponseStatusException(HttpStatusCode.valueOf(404), "O agendamento não existe.")
     }
-
     fun activeValidation(idUsuario: Int, idAgendamento: Int){
         val agendamento = repository.findByUsuarioIdAndId(idUsuario, idAgendamento)
         if(!agendamento.ativo)
@@ -85,7 +85,7 @@ class AgendamentoService(
 
     fun buscarUm(idUsuario: Int, idAgendamento: Int): Agendamento {
         idUsuarioValidation(idUsuario)
-        idValidation(idAgendamento)
+        validateExistence(idAgendamento)
         activeValidation(idUsuario, idAgendamento)
 
         val agendamento = repository.findByUsuarioIdAndId(idUsuario, idAgendamento)
@@ -129,7 +129,7 @@ class AgendamentoService(
 
     fun excluir(idUsuario: Int, idAgendamento: Int): Agendamento {
         idUsuarioValidation(idUsuario)
-        idValidation(idAgendamento)
+        validateExistence(idAgendamento)
 
         val agendamento = repository.findByUsuarioIdAndIdAndAtivoTrue(idUsuario, idAgendamento)
 

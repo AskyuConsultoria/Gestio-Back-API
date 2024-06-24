@@ -58,11 +58,12 @@ class PedidoService(
         throw ResponseStatusException(HttpStatusCode.valueOf(404), "O Item Pedido não existe.")
     }
 
-    fun idValidation(id:Int): Boolean{
-        if(repository.existsById(id)){
-            return true
+    fun validateExistence(pedidoId: Int){
+        if(!repository.existsById(pedidoId)){
+            throw ResponseStatusException(
+                HttpStatusCode.valueOf(404), "Pedido não foi encontrado!"
+            )
         }
-        throw ResponseStatusException(HttpStatusCode.valueOf(404), "O pedido não existe.")
     }
 
     fun activeValidation(idUsuario: Int, idPedido: Int){
@@ -104,7 +105,7 @@ class PedidoService(
 
     fun buscarUm(idUsuario: Int, idPedido: Int): PedidoResponseDTO {
         usuarioValidation(idUsuario)
-        idValidation(idPedido)
+        validateExistence(idPedido)
         activeValidation(idUsuario, idPedido)
 
         val pedido = repository.findByUsuarioIdAndIdAndAtivoTrue(idUsuario, idPedido)
@@ -121,7 +122,7 @@ class PedidoService(
         idEtapaValidation(pedidoAtualizado.usuario!!.id!!)
         idAgendamentoValidation(pedidoAtualizado.agendamento!!.id!!)
         idItemPedidoValidation(pedidoAtualizado.itemPedido!!.id!!)
-        idValidation(idPedido)
+        validateExistence(idPedido)
 
         pedidoAtualizado.etapa = etapaRepository.findById(pedidoAtualizado.etapa!!.id!!).get()
         pedidoAtualizado.usuario = usuarioRepository.findById(pedidoAtualizado.usuario!!.id!!).get()
@@ -133,7 +134,7 @@ class PedidoService(
 
     fun excluir(idUsuario: Int, idPedido: Int): Pedido {
         usuarioValidation(idUsuario)
-        idValidation(idPedido)
+        validateExistence(idPedido)
 
         val pedido = repository.findByUsuarioIdAndIdAndAtivoTrue(idUsuario, idPedido)
 
