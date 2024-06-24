@@ -4,5 +4,7 @@ import consultoria.askyu.gestio.dominio.Etapa
 import org.springframework.data.jpa.repository.JpaRepository
 
 interface EtapaRepository: JpaRepository<Etapa, Int> {
-    fun findByUsuarioId(usuarioId: Int): List<Etapa>
+    fun findByUsuarioIdAndAtivoTrue(usuarioId: Int): List<Etapa>
+
+    fun findByUsuarioIdAndIdAndAtivoTrue(usuarioId: Int, etapaId: Int): Etapa
 }

@@ -2,7 +2,6 @@ package consultoria.askyu.gestio.service
 
 import consultoria.askyu.gestio.dominio.Etapa
 import consultoria.askyu.gestio.dtos.EtapaCadastroDTO
-import consultoria.askyu.gestio.repository.ClienteRepository
 import consultoria.askyu.gestio.repository.EtapaRepository
 import consultoria.askyu.gestio.repository.UsuarioRepository
 import org.modelmapper.ModelMapper
@@ -14,7 +13,6 @@ import org.springframework.web.server.ResponseStatusException
 class EtapaService(
     val mapper: ModelMapper = ModelMapper(),
     val repository: EtapaRepository,
-    val clienteRepository: ClienteRepository,
     val usuarioRepository: UsuarioRepository
 ) {
         fun listValidation(lista:List<*>){
@@ -45,6 +43,7 @@ class EtapaService(
         throw ResponseStatusException(HttpStatusCode.valueOf(404), "O usuario não existe.")
     }
 
+
     fun cadastrar(novaEtapa: EtapaCadastroDTO): Etapa {
         idUsuarioValidation(novaEtapa.usuario!!)
 
@@ -55,9 +54,10 @@ class EtapaService(
         return repository.save(etapa)
     }
 
-    fun buscarUm(idUsuario: Int): Etapa {
+    fun buscarUm(idUsuario: Int, idEtapa: Int): Etapa {
         idValidation(idUsuario)
-        val etapaBuscada = repository.findById(idUsuario).get()
+
+        val etapaBuscada = repository.findByUsuarioIdAndIdAndAtivoTrue(idUsuario, idEtapa)
 
         val etapa = mapper.map(etapaBuscada, Etapa::class.java)
 
@@ -66,7 +66,7 @@ class EtapaService(
 
     fun buscar(idUsuario: Int): List<Etapa>{
         //
-        val listaEtapa = repository.findByUsuarioId(idUsuario)
+        val listaEtapa = repository.findByUsuarioIdAndAtivoTrue(idUsuario)
         val listaDto = mutableListOf<Etapa>()
 
         listValidation(listaEtapa)
@@ -77,4 +77,26 @@ class EtapaService(
 
         return listaDto
     }
+
+    fun atualizar(idUsuario: Int, idEtapa: Int, etapaAtualizada: Etapa): Etapa {
+        idUsuarioValidation(idUsuario)
+        idValidation(idEtapa)
+
+        etapaAtualizada.usuario!!.id = idUsuario
+        etapaAtualizada.id = idEtapa
+        return repository.save(etapaAtualizada)
+    }
+
+    fun excluir(idUsuario: Int, idEtapa: Int): Etapa {
+        idUsuarioValidation(idUsuario)
+        idValidation(idEtapa)
+
+        val etapa = repository.findByUsuarioIdAndIdAndAtivoTrue(idUsuario, idEtapa)
+        etapa.ativo = false
+        return repository.save(etapa)
+    }
+
+
+
+
 }

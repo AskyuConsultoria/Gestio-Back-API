@@ -2,7 +2,6 @@ package consultoria.askyu.gestio.service
 
 import consultoria.askyu.gestio.dominio.Agendamento
 import consultoria.askyu.gestio.dtos.AgendamentoCadastroDTO
-import consultoria.askyu.gestio.dtos.ClienteResponse
 import consultoria.askyu.gestio.repository.AgendamentoRepository
 import consultoria.askyu.gestio.repository.ClienteRepository
 import consultoria.askyu.gestio.repository.EtapaRepository
@@ -11,6 +10,7 @@ import org.modelmapper.ModelMapper
 import org.springframework.http.HttpStatusCode
 import org.springframework.stereotype.Service
 import org.springframework.web.server.ResponseStatusException
+import java.time.LocalDateTime
 
 @Service
 class AgendamentoService(
@@ -37,21 +37,27 @@ class AgendamentoService(
         if(etapaRepository.existsById(id)){
             return true
         }
-        throw ResponseStatusException(HttpStatusCode.valueOf(404), "O cliente não existe.")
+        throw ResponseStatusException(HttpStatusCode.valueOf(404), "A etapa não existe.")
     }
 
     fun idUsuarioValidation(id:Int): Boolean{
         if(usuarioRepository.existsById(id)){
             return true
         }
-        throw ResponseStatusException(HttpStatusCode.valueOf(404), "O cliente não existe.")
+        throw ResponseStatusException(HttpStatusCode.valueOf(404), "O usuário não existe.")
     }
 
     fun idValidation(id:Int): Boolean{
         if(repository.existsById(id)){
             return true
         }
-        throw ResponseStatusException(HttpStatusCode.valueOf(404), "O cliente não existe.")
+        throw ResponseStatusException(HttpStatusCode.valueOf(404), "O agendamento não existe.")
+    }
+
+    fun activeValidation(idUsuario: Int, idAgendamento: Int){
+        val agendamento = repository.findByUsuarioIdAndId(idUsuario, idAgendamento)
+        if(!agendamento.ativo)
+            throw ResponseStatusException(HttpStatusCode.valueOf(404), "Agendamento não foi encontrado")
     }
 
     fun cadastrar(agendamento: AgendamentoCadastroDTO): Agendamento {
@@ -68,26 +74,66 @@ class AgendamentoService(
         return repository.save(novoAgendamento)
     }
 
-    fun buscarUm(idCliente: Int): ClienteResponse {
-        idValidation(idCliente)
-        val cliente = repository.findById(idCliente).get()
+    fun buscar(idUsuario: Int): List<Agendamento>{
+        idUsuarioValidation(idUsuario)
 
-        val clienteResponse = mapper.map(cliente, ClienteResponse::class.java)
+        val listaAgendamento = repository.findByUsuarioIdAndAtivoTrue(idUsuario)
+        listValidation(listaAgendamento)
 
-        return clienteResponse
+        return listaAgendamento
     }
 
-    fun buscar(idUsuario: Int): List<ClienteResponse>{
-        //
-        val listaClientes = repository.findByUsuarioId(idUsuario)
-        val listaDto = mutableListOf<ClienteResponse>()
+    fun buscarUm(idUsuario: Int, idAgendamento: Int): Agendamento {
+        idUsuarioValidation(idUsuario)
+        idValidation(idAgendamento)
+        activeValidation(idUsuario, idAgendamento)
 
-        listValidation(listaClientes)
+        val agendamento = repository.findByUsuarioIdAndId(idUsuario, idAgendamento)
+        return agendamento
+    }
 
-        listaClientes.map {
-            listaDto+= mapper.map(it, ClienteResponse::class.java)
-        }
+    fun buscarPorIntervaloDeTempo(idUsuario: Int, dataInicio: LocalDateTime, dataFim: LocalDateTime): List<Agendamento>{
+        idUsuarioValidation(idUsuario)
 
-        return listaDto
+        val listaAgendamento = repository.findByUsuarioIdAndDataInicioBetweenAndAtivoTrue(idUsuario, dataInicio, dataFim)
+
+        listValidation(listaAgendamento)
+        return listaAgendamento
+    }
+
+    fun buscarUltimos7Agendamentos(idUsuario: Int): List<Agendamento>{
+        idUsuarioValidation(idUsuario)
+
+        val listaAgendamento = repository.findTop7ByUsuarioIdAndAtivoTrueOrderByDataInicioDesc(idUsuario)
+        listValidation(listaAgendamento)
+        return listaAgendamento
+    }
+
+
+    fun atualizar(idUsuario: Int, idAgendamento: Int, agendamentoAtualizado: Agendamento): Agendamento {
+        idUsuarioValidation(agendamentoAtualizado.usuario!!.id!!)
+        idClienteValidation(agendamentoAtualizado.cliente!!.id!!)
+        idEtapaValidation(agendamentoAtualizado.etapa!!.id!!)
+
+
+        agendamentoAtualizado.usuario =
+            usuarioRepository.findById(agendamentoAtualizado.usuario!!.id!!).get()
+        agendamentoAtualizado.cliente =
+            clienteRepository.findById(agendamentoAtualizado.cliente!!.id!!).get()
+        agendamentoAtualizado.etapa
+            etapaRepository.findById(agendamentoAtualizado.etapa!!.id!!)
+
+
+        return repository.save(agendamentoAtualizado)
+    }
+
+    fun excluir(idUsuario: Int, idAgendamento: Int): Agendamento {
+        idUsuarioValidation(idUsuario)
+        idValidation(idAgendamento)
+
+        val agendamento = repository.findByUsuarioIdAndIdAndAtivoTrue(idUsuario, idAgendamento)
+
+        agendamento.ativo = false
+        return repository.save(agendamento)
     }
 }

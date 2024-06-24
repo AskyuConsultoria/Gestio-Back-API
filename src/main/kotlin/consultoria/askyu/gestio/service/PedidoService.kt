@@ -36,7 +36,7 @@ class PedidoService(
         if(etapaRepository.existsById(id)){
             return true
         }
-        throw ResponseStatusException(HttpStatusCode.valueOf(404), "A etapa não existe.")
+        throw ResponseStatusException(HttpStatusCode.valueOf(404), "A Pedido não existe.")
     }
 
     fun usuarioValidation(id:Int): Boolean{
@@ -65,10 +65,16 @@ class PedidoService(
         throw ResponseStatusException(HttpStatusCode.valueOf(404), "O pedido não existe.")
     }
 
+    fun activeValidation(idUsuario: Int, idPedido: Int){
+       val pedido = repository.findByUsuarioIdAndId(idUsuario, idPedido)
+        if(!pedido.ativo)
+            throw ResponseStatusException(HttpStatusCode.valueOf(404), "Pedido não foi encontrado")
+    }
+
     fun cadastrar(pedido: PedidoCadastroDTO): Pedido {
         usuarioValidation(pedido.usuario!!)
-        idClienteValidation(pedido.usuario!!)
-        idEtapaValidation(pedido.usuario!!)
+        idClienteValidation(pedido.cliente!!)
+        idEtapaValidation(pedido.etapa!!)
         idAgendamentoValidation(pedido.agendamento!!)
         idItemPedidoValidation(pedido.itemPedido!!)
 
@@ -83,18 +89,8 @@ class PedidoService(
         return repository.save(novoPedido)
     }
 
-    fun buscarUm(idCliente: Int): PedidoResponseDTO {
-        idValidation(idCliente)
-        val cliente = repository.findById(idCliente).get()
-
-        val response = mapper.map(cliente, PedidoResponseDTO::class.java)
-
-        return response
-    }
-
     fun buscar(idUsuario: Int): List<PedidoResponseDTO>{
-        //
-        val lista = repository.findByUsuarioId(idUsuario)
+        val lista = repository.findByUsuarioIdAndAtivoTrue(idUsuario)
         val listaDto = mutableListOf<PedidoResponseDTO>()
 
         listValidation(lista)
@@ -106,4 +102,42 @@ class PedidoService(
         return listaDto
     }
 
+    fun buscarUm(idUsuario: Int, idPedido: Int): PedidoResponseDTO {
+        usuarioValidation(idUsuario)
+        idValidation(idPedido)
+        activeValidation(idUsuario, idPedido)
+
+        val pedido = repository.findByUsuarioIdAndIdAndAtivoTrue(idUsuario, idPedido)
+
+
+        val response = mapper.map(pedido, PedidoResponseDTO::class.java)
+
+        return response
+    }
+
+    fun atualizar(idUsuario: Int, idPedido: Int, pedidoAtualizado: Pedido): Pedido {
+        usuarioValidation(pedidoAtualizado.usuario!!.id!!)
+        idClienteValidation(pedidoAtualizado.usuario!!.id!!)
+        idEtapaValidation(pedidoAtualizado.usuario!!.id!!)
+        idAgendamentoValidation(pedidoAtualizado.agendamento!!.id!!)
+        idItemPedidoValidation(pedidoAtualizado.itemPedido!!.id!!)
+        idValidation(idPedido)
+
+        pedidoAtualizado.etapa = etapaRepository.findById(pedidoAtualizado.etapa!!.id!!).get()
+        pedidoAtualizado.usuario = usuarioRepository.findById(pedidoAtualizado.usuario!!.id!!).get()
+        pedidoAtualizado.cliente = clienteRepository.findById(pedidoAtualizado.cliente!!.id!!).get()
+        pedidoAtualizado.itemPedido = itemPedidoRepository.findById(pedidoAtualizado.itemPedido!!.id!!).get()
+        pedidoAtualizado.agendamento = agendamentoRepository.findById(pedidoAtualizado.agendamento!!.id!!).get()
+        return repository.save(pedidoAtualizado)
+    }
+
+    fun excluir(idUsuario: Int, idPedido: Int): Pedido {
+        usuarioValidation(idUsuario)
+        idValidation(idPedido)
+
+        val pedido = repository.findByUsuarioIdAndIdAndAtivoTrue(idUsuario, idPedido)
+
+        pedido!!.ativo = false
+        return repository.save(pedido)
+    }
 }
