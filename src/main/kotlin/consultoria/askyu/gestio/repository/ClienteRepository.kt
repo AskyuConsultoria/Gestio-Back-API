@@ -7,4 +7,5 @@ interface ClienteRepository: JpaRepository<Cliente, Int>{
     fun findByUsuarioId(usuarioId: Int): List<Cliente>
     fun findByUsuarioIdAndId(usuarioId: Int, clienteId: Int): Boolean
     fun existsByUsuarioIdAndId(usuarioId: Int, clienteId: Int): Boolean
+    fun findByUsuarioIdAndNomeContainsIgnoreCase(usuarioId: Int, nome: String): List<Cliente>
 }

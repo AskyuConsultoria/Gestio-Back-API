@@ -62,13 +62,10 @@ class ClienteService (
         return clienteRepository.save(novoCliente)
     }
 
-    fun buscarUmCliente(idCliente: Int): ClienteResponse{
+    fun buscarUmCliente(idCliente: Int): Cliente{
         idValidation(idCliente)
         val cliente = clienteRepository.findById(idCliente).get()
-
-        val clienteResponse = mapper.map(cliente, ClienteResponse::class.java)
-
-        return clienteResponse
+        return cliente
     }
 
     fun buscarClientes(idUsuario: Int): List<ClienteResponse>{
@@ -82,6 +79,14 @@ class ClienteService (
         }
 
         return listaDto
+    }
+
+    fun buscarClientesPorNome(idUsuario: Int, nome: String): List<Cliente>{
+        val listaClientes = clienteRepository.findByUsuarioIdAndNomeContainsIgnoreCase(idUsuario, nome)
+
+        listValidation(listaClientes)
+
+        return listaClientes
     }
 
     fun desativarClientePorId(id:Int):Cliente{
