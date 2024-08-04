@@ -6,4 +6,5 @@ import org.springframework.stereotype.Repository
 
 @Repository
 interface ClienteViewRepository: JpaRepository<ClienteView, Int> {
+
 }
