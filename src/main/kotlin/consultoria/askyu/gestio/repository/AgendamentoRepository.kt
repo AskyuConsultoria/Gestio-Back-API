@@ -22,7 +22,7 @@ interface AgendamentoRepository: JpaRepository<Agendamento, Int> {
 
     fun findByUsuarioIdAndAtivoTrueAndEtapaId(usuarioId: Int, etapaId: Int): List<Agendamento>
 
-    fun findByUsuarioIdAndEtapaIdAndAtivoFalse(usuarioId: Int, etapaId: Int): List<Agendamento>
+    fun findByUsuarioIdAndAtivoFalseAndEtapaId(usuarioId: Int, etapaId: Int): List<Agendamento>
 
 
 }
