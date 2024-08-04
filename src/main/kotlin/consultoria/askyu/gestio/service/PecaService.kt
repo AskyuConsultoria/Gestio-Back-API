@@ -3,14 +3,17 @@ package consultoria.askyu.gestio.service
 import consultoria.askyu.gestio.dominio.Peca
 import consultoria.askyu.gestio.dtos.PecaCadastroRequest
 import consultoria.askyu.gestio.repository.PecaRepository
+import consultoria.askyu.gestio.repository.UsuarioRepository
 import org.modelmapper.ModelMapper
 import org.springframework.http.HttpStatusCode
 import org.springframework.stereotype.Service
 import org.springframework.web.server.ResponseStatusException
+import kotlin.jvm.optionals.getOrDefault
 
 @Service
 class PecaService(
     var pecaRepository: PecaRepository,
+    var usuarioRepository: UsuarioRepository,
     var usuarioService: UsuarioService,
     var mapper: ModelMapper = ModelMapper()
 ) {
@@ -39,7 +42,7 @@ class PecaService(
     fun postByUsuarioId(id: Int, novaPeca: PecaCadastroRequest): Peca{
         usuarioService.existenceValidation(id)
         val peca = mapper.map(novaPeca, Peca::class.java)
-        peca.usuario!!.id = id
+        peca.usuario = usuarioRepository.findById(id).get()
         peca.ativo = true
         return pecaRepository.save(peca)
     }
@@ -48,7 +51,7 @@ class PecaService(
         usuarioService.existenceValidation(usuarioId)
         validarSeAPecaExiste(usuarioId, pecaId)
         val peca = mapper.map(pecaAtualizada, Peca::class.java)
-        peca.usuario!!.id = usuarioId
+        peca.usuario = usuarioRepository.findById(usuarioId).getOrDefault(null)
         peca.id = pecaId
         return pecaRepository.save(peca)
     }
@@ -77,5 +80,10 @@ class PecaService(
                HttpStatusCode.valueOf(404), "Peça não foi encontrada."
            )
         }
+    }
+
+    fun findById(id:Int):Peca{
+        val peca = pecaRepository.findById(id).get()
+        return peca
     }
 }

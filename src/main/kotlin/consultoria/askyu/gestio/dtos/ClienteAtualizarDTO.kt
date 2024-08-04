@@ -2,21 +2,20 @@ package consultoria.askyu.gestio.dtos
 
 import jakarta.validation.constraints.NotBlank
 import java.time.LocalDate
-import java.util.*
 
 data class ClienteAtualizarDTO(
 
     @field:NotBlank
     var id:Int,
 
-    var nome:String,
+    var nome:String? = null,
 
-    var sobrenome:String,
+    var sobrenome:String? = null,
 
-    var dtNasc: LocalDate,
+    var dtNasc: LocalDate? = null,
 
-    var email:String,
+    var email:String? = null,
 
-    var responsavel: Int?,
+    var responsavel: Int? = null,
 
     )

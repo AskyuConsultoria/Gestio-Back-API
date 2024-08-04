@@ -39,7 +39,7 @@ class ItemPedidoServiceTest {
         usuarioService = UsuarioService(usuarioRepository)
         pecaRepository = mock(PecaRepository::class.java)
         clienteService = ClienteService(mapper, clienteRepository, usuarioRepository, usuarioService)
-        pecaService = PecaService(pecaRepository, usuarioService)
+        pecaService = PecaService(pecaRepository, usuarioRepository, usuarioService)
         itemPedidoService = ItemPedidoService(itemPedidoRepository, usuarioService, clienteService, pecaService, mapper)
     }
 

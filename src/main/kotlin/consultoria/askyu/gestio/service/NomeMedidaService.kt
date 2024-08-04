@@ -20,15 +20,15 @@ class NomeMedidaService(
         usuarioService.existenceValidation(usuarioId)
         val nomeMedida = mapper.map(novoNomeMedida, NomeMedida::class.java)
         validarSePecaExiste(usuarioId, pecaId)
-        nomeMedida.usuario!!.id = usuarioId
-        nomeMedida.peca!!.id = pecaId
+        nomeMedida.usuario = usuarioService.findById(usuarioId)
+        nomeMedida.peca = pecaService.findById(pecaId)
         nomeMedida.ativo = true
         return nomeMedidaRepository.save(nomeMedida)
     }
     fun getAllByUsuarioIdAndPecaId(usuarioId: Int, pecaId: Int): List<NomeMedida>{
         usuarioService.existenceValidation(usuarioId)
         validarSePecaExiste(usuarioId, pecaId)
-        var listaNomeMedida = nomeMedidaRepository.getByUsuarioIdAndPecaId(usuarioId, pecaId)
+        var listaNomeMedida = nomeMedidaRepository.getByUsuarioIdAndPecaIdAndAtivoIsTrue(usuarioId, pecaId)
         validarSeListaEstaVazia(listaNomeMedida)
         return listaNomeMedida
     }
@@ -36,7 +36,7 @@ class NomeMedidaService(
     fun getAllByUsuarioIdAndPecaIdAndNomeContains(usuarioId: Int, pecaId: Int, nome: String): List<NomeMedida>{
         usuarioService.existenceValidation(usuarioId)
         validarSePecaExiste(usuarioId, pecaId)
-        var listaNomeMedida = nomeMedidaRepository.getByUsuarioIdAndPecaIdAndNomeContainsIgnoreCase(usuarioId, pecaId, nome)
+        var listaNomeMedida = nomeMedidaRepository.getByUsuarioIdAndPecaIdAndNomeContainsIgnoreCaseAndAtivoIsTrue(usuarioId, pecaId, nome)
         validarSeListaEstaVazia(listaNomeMedida)
         return listaNomeMedida
     }
@@ -45,7 +45,7 @@ class NomeMedidaService(
         usuarioService.existenceValidation(usuarioId)
         validarSePecaExiste(usuarioId, pecaId)
         validarSeNomeMedidaExiste(usuarioId, pecaId, nomeMedidaId)
-        var nomeMedida = nomeMedidaRepository.getByUsuarioIdAndPecaIdAndId(usuarioId, pecaId, nomeMedidaId)
+        var nomeMedida = nomeMedidaRepository.getByUsuarioIdAndPecaIdAndIdAndAtivoIsTrue(usuarioId, pecaId, nomeMedidaId)
         return nomeMedida
     }
 
@@ -73,7 +73,7 @@ class NomeMedidaService(
         usuarioService.existenceValidation(usuarioId)
         validarSePecaExiste(usuarioId, pecaId)
         validarSeNomeMedidaExiste(usuarioId, pecaId, nomeMedidaId)
-        var nomeMedida = nomeMedidaRepository.getByUsuarioIdAndPecaIdAndId(usuarioId, pecaId, nomeMedidaId)
+        val nomeMedida = nomeMedidaRepository.getByUsuarioIdAndPecaIdAndIdAndAtivoIsTrue(usuarioId, pecaId, nomeMedidaId)
         nomeMedida.usuario!!.id = usuarioId
         nomeMedida.peca!!.id = pecaId
         nomeMedida.id = nomeMedidaId
@@ -86,7 +86,7 @@ class NomeMedidaService(
     }
 
     fun validarSeNomeMedidaExiste(usuarioId: Int, pecaId: Int, nomeMedidaId: Int){
-        if(!nomeMedidaRepository.existsByUsuarioIdAndPecaIdAndId(usuarioId, pecaId, nomeMedidaId)){
+        if(!nomeMedidaRepository.existsByUsuarioIdAndPecaIdAndIdAndAtivoIsTrue(usuarioId, pecaId, nomeMedidaId)){
             throw ResponseStatusException(
                 HttpStatusCode.valueOf(404), "O nome de medida não foi encontrado."
             )

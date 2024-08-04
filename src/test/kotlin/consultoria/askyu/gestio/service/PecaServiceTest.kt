@@ -23,13 +23,17 @@ class PecaServiceTest {
     lateinit var pecaService: PecaService
     lateinit var mapper: ModelMapper
 
+    var beforeUsuario = Usuario(2)
+    var afterUsuario = Usuario(1)
+
+
     @BeforeEach
     fun iniciar(){
         usuarioRepository = mock(UsuarioRepository::class.java)
         usuarioService = UsuarioService(usuarioRepository)
         pecaRepository = mock(PecaRepository::class.java)
         mapper = mock(ModelMapper::class.java)
-        pecaService = PecaService(pecaRepository, usuarioService, mapper)
+        pecaService = PecaService(pecaRepository, usuarioRepository, usuarioService, mapper)
     }
 
     @DisplayName("Deve retornar uma exceção com código 404 caso a peça não existir.")
@@ -160,7 +164,7 @@ class PecaServiceTest {
         val afterUsuario = Usuario(1)
 
         val novaPeca = PecaCadastroRequest(
-             "terno", "um terno padrão", beforeUsuario
+             "terno", "um terno padrão", 2
         )
 
         val pecaMapeada = Peca(
@@ -169,6 +173,8 @@ class PecaServiceTest {
         val esperado = Peca(
             1, "terno", "um terno padrão", afterUsuario)
 
+
+        `when`(usuarioRepository.findById(usuarioId)).thenReturn(Optional.of(afterUsuario))
         `when`(usuarioRepository.existsById(anyInt())).thenReturn(true)
         `when`(pecaService.mapper.map(novaPeca, Peca::class.java)).thenReturn(pecaMapeada)
         `when`(pecaRepository.save(any(Peca::class.java))).thenAnswer {
@@ -191,7 +197,7 @@ class PecaServiceTest {
         val afterUsuario = Usuario(1)
 
         val novaPeca = PecaCadastroRequest(
-            "terno", "um terno padrão", beforeUsuario
+            "terno", "um terno padrão", 2
         )
 
         val pecaMapeada = Peca(
@@ -200,6 +206,7 @@ class PecaServiceTest {
         val esperado = Peca(
             1, "terno", "um terno padrão", afterUsuario)
 
+        `when`(usuarioRepository.findById(anyInt())).thenReturn(Optional.of(afterUsuario))
         `when`(usuarioRepository.existsById(anyInt())).thenReturn(true)
         `when`(pecaRepository.existsByUsuarioIdAndId(anyInt(), anyInt())).thenReturn(true)
         `when`(pecaService.mapper.map(novaPeca, Peca::class.java)).thenReturn(pecaMapeada)

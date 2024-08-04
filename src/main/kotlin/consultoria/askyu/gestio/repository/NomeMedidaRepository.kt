@@ -4,12 +4,12 @@ import consultoria.askyu.gestio.dominio.NomeMedida
 import org.springframework.data.jpa.repository.JpaRepository
 
 interface NomeMedidaRepository: JpaRepository<NomeMedida, Int> {
-   fun getByUsuarioIdAndPecaId(usuarioId: Int, pecaId: Int): List<NomeMedida>
+   fun getByUsuarioIdAndPecaIdAndAtivoIsTrue(usuarioId: Int, pecaId: Int): List<NomeMedida>
 
-   fun getByUsuarioIdAndPecaIdAndNomeContainsIgnoreCase(usuarioId: Int, pecaId: Int, nome: String): List<NomeMedida>
+   fun getByUsuarioIdAndPecaIdAndNomeContainsIgnoreCaseAndAtivoIsTrue(usuarioId: Int, pecaId: Int, nome: String): List<NomeMedida>
 
-   fun getByUsuarioIdAndPecaIdAndId(usuarioId: Int, pecaId: Int, nomeMedidaId: Int): NomeMedida
+   fun getByUsuarioIdAndPecaIdAndIdAndAtivoIsTrue(usuarioId: Int, pecaId: Int, nomeMedidaId: Int): NomeMedida
 
-   fun existsByUsuarioIdAndPecaIdAndId(usuarioId: Int, pecaId: Int, nomeMedidaId: Int): Boolean
+   fun existsByUsuarioIdAndPecaIdAndIdAndAtivoIsTrue(usuarioId: Int, pecaId: Int, nomeMedidaId: Int): Boolean
 
 }
