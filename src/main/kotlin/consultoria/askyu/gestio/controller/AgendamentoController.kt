@@ -59,6 +59,26 @@ class AgendamentoController(
         return ResponseEntity.status(200).body(listaAgendamento)
     }
 
+    @Operation(summary = "Listagem de agendamentos pelo id do usuário e da etapa.",
+        description = "Busca todas os agendamentos com base no id do usuário e no id da etapa, buscando apenas os agendamentos ativos dentro do banco de dados.")
+    @ApiResponses(
+        value = [
+            ApiResponse(responseCode = "200", description = "Agendamentos encontradas com sucesso!"),
+            ApiResponse(responseCode = "204", description =  "Não foi encontrado nenhum agendamento"),
+            ApiResponse(responseCode = "404", description = "Usuário ou etapa não foi encontrada.", content = [Content(schema = Schema())]),
+        ],
+    )
+    @CrossOrigin(
+        origins = ["http://localhost:3333"],
+        methods = [RequestMethod.GET],
+        allowCredentials = "true"
+    )
+    @GetMapping("/etapa-ativo/{usuarioId}/{etapaId}")
+    fun buscarPorEtapaAtivo(@PathVariable usuarioId: Int, @PathVariable etapaId:Int): ResponseEntity<List<Agendamento>>{
+        val listaAgendamento = service.buscarPorEtapaAtivo(usuarioId, etapaId)
+        return ResponseEntity.status(200).body(listaAgendamento)
+    }
+
     @Operation(summary = "Busca um agendamento pelo id do usuário",
         description = "Busca um único agendamento com base no id do usuário.")
     @ApiResponses(

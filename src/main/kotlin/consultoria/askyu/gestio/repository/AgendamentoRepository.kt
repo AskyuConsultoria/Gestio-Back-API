@@ -20,4 +20,9 @@ interface AgendamentoRepository: JpaRepository<Agendamento, Int> {
 
     fun findTop7ByUsuarioIdAndAtivoTrueOrderByDataInicioDesc(usuarioId: Int): List<Agendamento>
 
+    fun findByUsuarioIdAndAtivoTrueAndEtapaId(usuarioId: Int, etapaId: Int): List<Agendamento>
+
+    fun findByUsuarioIdAndEtapaIdAndAtivoFalse(usuarioId: Int, etapaId: Int): List<Agendamento>
+
+
 }

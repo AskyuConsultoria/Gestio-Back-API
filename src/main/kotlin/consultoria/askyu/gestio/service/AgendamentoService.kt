@@ -92,6 +92,15 @@ class AgendamentoService(
         return agendamento
     }
 
+    fun buscarPorEtapaAtivo(usuarioId: Int, etapaId: Int): List<Agendamento>{
+        idUsuarioValidation(usuarioId)
+        idEtapaValidation(etapaId)
+
+        val listaAgendamento = repository.findByUsuarioIdAndAtivoTrueAndEtapaId(usuarioId, etapaId)
+        listValidation(listaAgendamento)
+        return listaAgendamento
+    }
+
     fun buscarPorIntervaloDeTempo(idUsuario: Int, dataInicio: LocalDateTime, dataFim: LocalDateTime): List<Agendamento>{
         idUsuarioValidation(idUsuario)
 
