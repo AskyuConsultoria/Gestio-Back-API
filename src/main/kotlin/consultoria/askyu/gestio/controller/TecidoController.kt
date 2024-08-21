@@ -1,5 +1,6 @@
 package consultoria.askyu.gestio
 
+import consultoria.askyu.gestio.dtos.TecidoCadastroRequest
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.responses.ApiResponse
 import io.swagger.v3.oas.annotations.responses.ApiResponses
@@ -10,7 +11,6 @@ import org.springframework.web.bind.annotation.*
 @RestController
 @RequestMapping("/tecidos")
 class TecidoController(
-    var tecidoRepository: TecidoRepository,
     var tecidoService: TecidoService
 ) {
 
@@ -19,13 +19,19 @@ class TecidoController(
     @ApiResponses(
         value = [
             ApiResponse(responseCode = "201", description = "Cadastro feito com sucesso!"),
+            ApiResponse(responseCode = "400", description = "Cadastro não foi concluido com sucesso!"),
         ],
+    )
+    @CrossOrigin(
+        origins = ["http://localhost:3333"],
+        methods = [RequestMethod.POST],
+        allowCredentials = "true"
     )
     @PostMapping("/{usuarioId}/{tecidoId}")
     fun cadastrar(
         @PathVariable usuarioId: Int,
         @PathVariable tecidoId: Int,
-        @RequestBody novoTecido: Tecido
+        @RequestBody novoTecido: TecidoCadastroRequest
     ): ResponseEntity<Tecido>{
         val tecido = tecidoService.salvar(usuarioId, tecidoId, novoTecido)
         return ResponseEntity.status(201).body(tecido)

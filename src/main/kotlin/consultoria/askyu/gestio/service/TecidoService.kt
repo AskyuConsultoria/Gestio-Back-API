@@ -1,5 +1,7 @@
 package consultoria.askyu.gestio
 
+import consultoria.askyu.gestio.dominio.Pedido
+import consultoria.askyu.gestio.dtos.TecidoCadastroRequest
 import consultoria.askyu.gestio.service.UsuarioService
 import org.modelmapper.ModelMapper
 import org.springframework.http.HttpStatusCode
@@ -12,17 +14,18 @@ class TecidoService(
     var tecidoRepository: TecidoRepository,
     val mapper: ModelMapper = ModelMapper()
 ){
-    fun salvar(usuarioId: Int, tecidoId: Int, novoTecido: Tecido): Tecido{
+    fun salvar(usuarioId: Int, tecidoId: Int, novoTecido: TecidoCadastroRequest): Tecido{
         usuarioService.existenceValidation(usuarioId)
-        novoTecido.usuario!!.id = usuarioId
-        novoTecido.id = tecidoId
-        return tecidoRepository.save(novoTecido)
+        val tecido = mapper.map(novoTecido, Tecido::class.java)
+        tecido.usuario = usuarioService.findById(usuarioId)
+        tecido.id = tecidoId
+        return tecidoRepository.save(tecido)
     }
 
     fun atualizar(usuarioId: Int, tecidoId: Int, tecidoAtualizado: Tecido): Tecido{
         usuarioService.existenceValidation(usuarioId)
         existenceValidation(usuarioId, tecidoId)
-        tecidoAtualizado.usuario!!.id = usuarioId
+        tecidoAtualizado.usuario = usuarioService.findById(usuarioId)
         tecidoAtualizado.id = tecidoId
         return tecidoRepository.save(tecidoAtualizado)
     }
