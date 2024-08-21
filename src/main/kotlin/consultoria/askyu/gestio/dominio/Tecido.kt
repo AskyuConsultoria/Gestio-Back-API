@@ -11,7 +11,7 @@ data class Tecido(
     var id:Int? = null,
     var nome:String? = null,
     @field:ManyToOne
-    val usuario: Usuario? = null,
+    var usuario: Usuario? = null,
     var ativo: Boolean? = true
 ){
     constructor(
