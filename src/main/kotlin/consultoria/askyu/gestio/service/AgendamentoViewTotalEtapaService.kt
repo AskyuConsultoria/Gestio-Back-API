@@ -12,6 +12,6 @@ class AgendamentoViewTotalEtapaService (
 
     fun visualizar(usuarioId: Int): List<AgendamentoViewTotalEtapa>{
         usuarioService.existenceValidation(usuarioId)
-        return agendamentoViewTotalEtapaRepository.findByUsuarioId(usuarioId)
+        return agendamentoViewTotalEtapaRepository.findByUsuarioIdAndAtivoTrue(usuarioId)
     }
 }

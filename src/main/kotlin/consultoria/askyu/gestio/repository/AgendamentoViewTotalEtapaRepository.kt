@@ -6,5 +6,5 @@ import org.springframework.stereotype.Repository
 
 @Repository
 interface AgendamentoViewTotalEtapaRepository: JpaRepository<AgendamentoViewTotalEtapa, Int> {
-   fun findByUsuarioId(usuarioId: Int): List<AgendamentoViewTotalEtapa>
+   fun findByUsuarioIdAndAtivoTrue(usuarioId: Int): List<AgendamentoViewTotalEtapa>
 }

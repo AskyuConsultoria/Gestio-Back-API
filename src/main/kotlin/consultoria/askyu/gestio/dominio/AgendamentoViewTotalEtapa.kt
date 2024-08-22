@@ -9,6 +9,7 @@ class AgendamentoViewTotalEtapa(
     var qtd_agendamento: Int? = null,
     @field:Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     var etapaId: Int? = null,
-    var usuarioId: Int? = null
+    var usuarioId: Int? = null,
+    var ativo: Boolean? = null
 ) {
 }
