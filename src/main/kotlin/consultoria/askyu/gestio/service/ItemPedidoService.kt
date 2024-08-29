@@ -2,6 +2,7 @@ package consultoria.askyu.gestio.service
 
 import consultoria.askyu.gestio.dominio.ItemPedido
 import consultoria.askyu.gestio.dtos.ItemPedidoCadastroRequest
+import consultoria.askyu.gestio.interfaces.Servico
 import consultoria.askyu.gestio.repository.ItemPedidoRepository
 import org.modelmapper.ModelMapper
 import org.springframework.http.HttpStatusCode
@@ -15,7 +16,7 @@ class ItemPedidoService(
     var clienteService: ClienteService,
     var pecaService: PecaService,
     var mapper: ModelMapper = ModelMapper()
-) {
+): Servico(itemPedidoRepository, mapper) {
 
     fun cadastrar(
         usuarioId: Int,

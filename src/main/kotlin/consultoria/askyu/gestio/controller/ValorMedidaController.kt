@@ -2,6 +2,7 @@ package consultoria.askyu.gestio.controller
 
 import consultoria.askyu.gestio.dominio.ValorMedida
 import consultoria.askyu.gestio.dtos.ValorMedidaCadastroRequest
+import consultoria.askyu.gestio.interfaces.Controlador
 import consultoria.askyu.gestio.service.ValorMedidaService
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.media.Content
@@ -16,7 +17,7 @@ import org.springframework.web.bind.annotation.*
 @RequestMapping("/valores-medidas")
 class ValorMedidaController(
     var valorMedidaService: ValorMedidaService
-) {
+): Controlador(valorMedidaService) {
 
     @Operation(summary = "Cadasta uma valor de medida com base em um nome de medida.",
         description = "Realiza um cadastro de uma valor de medida com base nos códigos de identificação do usuário, cliente, peça, nome de medida e ficha.")

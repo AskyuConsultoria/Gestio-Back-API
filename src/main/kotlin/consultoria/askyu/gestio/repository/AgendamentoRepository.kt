@@ -1,13 +1,14 @@
 package consultoria.askyu.gestio.repository
 
 import consultoria.askyu.gestio.dominio.Agendamento
+import consultoria.askyu.gestio.interfaces.IRepositorio
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.stereotype.Repository
 import java.time.LocalDateTime
 
 
 @Repository
-interface AgendamentoRepository: JpaRepository<Agendamento, Int> {
+interface AgendamentoRepository: JpaRepository<Agendamento, Int>, IRepositorio {
     fun findByUsuarioId(usuarioId: Int): List<Agendamento>
 
     fun findByUsuarioIdAndAtivoTrue(usuarioId: Int): List<Agendamento>

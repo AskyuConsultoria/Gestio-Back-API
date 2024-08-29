@@ -18,7 +18,7 @@ import org.modelmapper.ModelMapper
 import org.springframework.web.server.ResponseStatusException
 import java.util.*
 
-class NomeMedidaServiceTest {
+class NomeMedidaServicoTest {
     lateinit var usuarioRepository: UsuarioRepository
     lateinit var usuarioService: UsuarioService
     lateinit var clienteRepository: ClienteRepository

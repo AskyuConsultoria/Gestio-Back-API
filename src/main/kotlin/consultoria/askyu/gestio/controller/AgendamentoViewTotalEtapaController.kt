@@ -1,15 +1,17 @@
 package consultoria.askyu.gestio.controller
 
 import consultoria.askyu.gestio.dominio.AgendamentoViewTotalEtapa
-import consultoria.askyu.gestio.service.AgendamentoViewTotalEtapaService
+import consultoria.askyu.gestio.interfaces.ViewControlador
+import consultoria.askyu.gestio.interfaces.ViewServico
+import consultoria.askyu.gestio.service.AgendamentoViewTotalEtapaServico
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping("/agendamento-view-total-etapa")
 class AgendamentoViewTotalEtapaController (
-    val agendamentoViewTotalEtapaService: AgendamentoViewTotalEtapaService
-) {
+    val agendamentoViewTotalEtapaService: AgendamentoViewTotalEtapaServico
+):ViewControlador(agendamentoViewTotalEtapaService) {
 
     @CrossOrigin(
         origins = ["http://localhost:3333"],

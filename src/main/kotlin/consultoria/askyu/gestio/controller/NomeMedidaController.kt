@@ -2,6 +2,7 @@ package consultoria.askyu.gestio.controller
 
 import consultoria.askyu.gestio.dominio.NomeMedida
 import consultoria.askyu.gestio.dtos.NomeMedidaCadastroRequest
+import consultoria.askyu.gestio.interfaces.Controlador
 import consultoria.askyu.gestio.service.NomeMedidaService
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.media.Content
@@ -16,7 +17,7 @@ import org.springframework.web.bind.annotation.*
 @RequestMapping("/nomes-medidas")
 class NomeMedidaController(
     var nomeMedidaService: NomeMedidaService
-)
+): Controlador(nomeMedidaService)
  {
 
      @Operation(summary = "Cadastra um nome de medida com base no Id do usuário e da peça.",

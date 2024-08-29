@@ -2,6 +2,7 @@ package consultoria.askyu.gestio.service
 
 import consultoria.askyu.gestio.dominio.Agendamento
 import consultoria.askyu.gestio.dtos.AgendamentoCadastroDTO
+import consultoria.askyu.gestio.interfaces.Servico
 import consultoria.askyu.gestio.repository.AgendamentoRepository
 import consultoria.askyu.gestio.repository.ClienteRepository
 import consultoria.askyu.gestio.repository.EtapaRepository
@@ -19,7 +20,7 @@ class AgendamentoService(
     val clienteRepository: ClienteRepository,
     val etapaRepository: EtapaRepository,
     val usuarioRepository: UsuarioRepository
-) {
+): Servico(repository, mapper) {
     fun listValidation(lista:List<*>){
         if(lista.isEmpty()){
             throw ResponseStatusException(HttpStatusCode.valueOf(204), "O resultado da busca foi uma lista vazia")

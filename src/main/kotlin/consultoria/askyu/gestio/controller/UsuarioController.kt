@@ -2,6 +2,7 @@ package consultoria.askyu.gestio.controller
 
 import consultoria.askyu.gestio.dominio.Usuario
 import consultoria.askyu.gestio.dtos.UsuarioCadastroDTO
+import consultoria.askyu.gestio.interfaces.Controlador
 import consultoria.askyu.gestio.service.UsuarioService
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.media.Content
@@ -14,7 +15,7 @@ import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping("/usuarios")
-class UsuarioController(val service:UsuarioService) {
+class UsuarioController(val service:UsuarioService): Controlador(service) {
 
 
     @Operation(summary = "Cadastrar um Usuario",

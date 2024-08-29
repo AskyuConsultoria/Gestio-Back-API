@@ -2,6 +2,7 @@ package consultoria.askyu.gestio.controller
 
 import consultoria.askyu.gestio.dominio.Peca
 import consultoria.askyu.gestio.dtos.PecaCadastroRequest
+import consultoria.askyu.gestio.interfaces.Controlador
 import consultoria.askyu.gestio.service.PecaService
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.media.Content
@@ -16,7 +17,7 @@ import org.springframework.web.bind.annotation.*
 @RequestMapping("/pecas")
 class PecaController(
     var pecaService: PecaService,
-) {
+): Controlador(pecaService) {
 
     @Operation(summary = "Cadastra um peça com base no Id do usuário.",
         description = "Realiza um cadastro de uma peça de roupa.")

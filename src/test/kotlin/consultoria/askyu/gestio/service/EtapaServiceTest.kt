@@ -11,7 +11,7 @@ import org.mockito.Mockito.*
 import org.modelmapper.ModelMapper
 import org.springframework.web.server.ResponseStatusException
 
-class EtapaServiceTest {
+class EtapaServicoTest {
     lateinit var usuarioRepository: UsuarioRepository
     lateinit var clienteRepository: ClienteRepository
     lateinit var etapaRepository: EtapaRepository

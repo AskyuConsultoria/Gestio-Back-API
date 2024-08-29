@@ -15,7 +15,7 @@ import org.modelmapper.ModelMapper
 import org.springframework.web.server.ResponseStatusException
 import java.util.*
 
-class PecaServiceTest {
+class PecaServicoTest {
 
     lateinit var usuarioRepository: UsuarioRepository
     lateinit var usuarioService: UsuarioService

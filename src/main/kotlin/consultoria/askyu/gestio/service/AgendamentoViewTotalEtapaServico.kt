@@ -1,16 +1,17 @@
 package consultoria.askyu.gestio.service
 
 import consultoria.askyu.gestio.dominio.AgendamentoViewTotalEtapa
+import consultoria.askyu.gestio.interfaces.ViewServico
 import consultoria.askyu.gestio.repository.AgendamentoViewTotalEtapaRepository
 import org.springframework.stereotype.Service
 
 @Service
-class AgendamentoViewTotalEtapaService (
+class AgendamentoViewTotalEtapaServico (
     val agendamentoViewTotalEtapaRepository: AgendamentoViewTotalEtapaRepository,
     val usuarioService: UsuarioService
-) {
+): ViewServico(agendamentoViewTotalEtapaRepository, usuarioService){
 
-    fun visualizar(usuarioId: Int): List<AgendamentoViewTotalEtapa>{
+    override fun visualizar(usuarioId: Int): List<AgendamentoViewTotalEtapa>{
         usuarioService.existenceValidation(usuarioId)
         return agendamentoViewTotalEtapaRepository.findByUsuarioIdAndAtivoTrue(usuarioId)
     }

@@ -17,7 +17,7 @@ import org.mockito.Mockito.`when`
 import org.modelmapper.ModelMapper
 import org.springframework.web.server.ResponseStatusException
 
-class AgendamentoServiceTest {
+class AgendamentoServicoTest {
     lateinit var mapper: ModelMapper
     lateinit var agendamentoRepository: AgendamentoRepository 
     lateinit var clienteRepository: ClienteRepository

@@ -3,6 +3,7 @@ package consultoria.askyu.gestio.controller
 import consultoria.askyu.gestio.repository.EnderecoRepository
 import consultoria.askyu.gestio.dominio.Endereco
 import consultoria.askyu.gestio.dtos.CepCadastroDTO
+import consultoria.askyu.gestio.interfaces.Controlador
 import consultoria.askyu.gestio.service.EnderecoService
 import consultoria.askyu.gestio.service.UsuarioService
 import io.swagger.v3.oas.annotations.Operation
@@ -24,7 +25,7 @@ import org.springframework.web.util.UriComponentsBuilder
 @RestController
 @RequestMapping("/enderecos")
 class EnderecoController(val service: EnderecoService
-) {
+): Controlador(service) {
 
     @Operation(summary = "Buscar todas os endereços",
         description = "Retorna todas os endereços cadastrados.")
