@@ -5,6 +5,7 @@ import consultoria.askyu.gestio.dtos.ClienteAtualizarDTO
 import consultoria.askyu.gestio.dtos.ClienteCadastroDTO
 import consultoria.askyu.gestio.dtos.ClienteRelatorioResponse
 import consultoria.askyu.gestio.dtos.ClienteResponse
+import consultoria.askyu.gestio.interfaces.Controlador
 import consultoria.askyu.gestio.service.ClienteRelatorioService
 import consultoria.askyu.gestio.service.ClienteService
 import io.swagger.v3.oas.annotations.Operation
@@ -21,7 +22,7 @@ import org.springframework.web.bind.annotation.*
 class ClienteController (
     val service: ClienteService,
     val clienteRelatorioService: ClienteRelatorioService
-){
+): Controlador(service){
     @Operation(summary = "Cadastro de Cliente",
         description = "Cadastra um cliente no sistema do usuário.")
     @ApiResponses(

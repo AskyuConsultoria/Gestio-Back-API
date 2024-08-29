@@ -2,6 +2,7 @@ package consultoria.askyu.gestio.service
 
 import consultoria.askyu.gestio.dominio.NomeMedida
 import consultoria.askyu.gestio.dtos.NomeMedidaCadastroRequest
+import consultoria.askyu.gestio.interfaces.Servico
 import consultoria.askyu.gestio.repository.NomeMedidaRepository
 import org.modelmapper.ModelMapper
 import org.springframework.http.HttpStatusCode
@@ -14,7 +15,7 @@ class NomeMedidaService(
     var pecaService: PecaService,
     var usuarioService: UsuarioService,
     var mapper: ModelMapper = ModelMapper()
-) {
+): Servico(nomeMedidaRepository, mapper) {
 
     fun postByUsuarioIdAndPecaId(usuarioId: Int, pecaId: Int, novoNomeMedida: NomeMedidaCadastroRequest): NomeMedida{
         usuarioService.existenceValidation(usuarioId)

@@ -4,6 +4,7 @@ import consultoria.askyu.gestio.dominio.Cliente
 import consultoria.askyu.gestio.dtos.ClienteAtualizarDTO
 import consultoria.askyu.gestio.dtos.ClienteCadastroDTO
 import consultoria.askyu.gestio.dtos.ClienteResponse
+import consultoria.askyu.gestio.interfaces.Servico
 import consultoria.askyu.gestio.repository.ClienteRepository
 import consultoria.askyu.gestio.repository.UsuarioRepository
 import org.modelmapper.ModelMapper
@@ -17,7 +18,7 @@ class ClienteService (
     val clienteRepository:ClienteRepository,
     val usuarioRepository: UsuarioRepository,
     val usuarioService: UsuarioService
-){
+): Servico(clienteRepository, mapper){
 
     fun listValidation(lista:List<*>){
         if(lista.isEmpty()){

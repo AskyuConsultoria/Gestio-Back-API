@@ -1,6 +1,7 @@
 package consultoria.askyu.gestio.controller
 
 import consultoria.askyu.gestio.dominio.TecidoGraficoView
+import consultoria.askyu.gestio.interfaces.ViewControlador
 import consultoria.askyu.gestio.service.TecidoViewService
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
@@ -9,7 +10,7 @@ import org.springframework.web.bind.annotation.*
 @RequestMapping("/tecido-view")
 class TecidoViewController(
     var tecidoViewService: TecidoViewService
-) {
+):ViewControlador(tecidoViewService) {
 
     @CrossOrigin(
         origins = ["http://localhost:3333"],

@@ -1,6 +1,7 @@
 package consultoria.askyu.gestio.service
 
 import consultoria.askyu.gestio.dtos.PedidoRelatorioResponse
+import consultoria.askyu.gestio.interfaces.RelatorioServico
 import jakarta.persistence.EntityManager
 import jakarta.persistence.PersistenceContext
 import jakarta.persistence.StoredProcedureQuery
@@ -10,7 +11,7 @@ import org.springframework.stereotype.Service
 @Service
 class PedidoRelatorioService(
     @PersistenceContext private val entityManager: EntityManager
-) {
+): RelatorioServico(entityManager) {
     @Transactional
     fun getComparacaoPedidos(usuarioId: Int): PedidoRelatorioResponse {
         val query: StoredProcedureQuery = entityManager

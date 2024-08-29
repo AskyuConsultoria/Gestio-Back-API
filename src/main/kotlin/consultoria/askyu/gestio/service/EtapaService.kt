@@ -2,6 +2,7 @@ package consultoria.askyu.gestio.service
 
 import consultoria.askyu.gestio.dominio.Etapa
 import consultoria.askyu.gestio.dtos.EtapaCadastroDTO
+import consultoria.askyu.gestio.interfaces.Servico
 import consultoria.askyu.gestio.repository.EtapaRepository
 import consultoria.askyu.gestio.repository.UsuarioRepository
 import org.modelmapper.ModelMapper
@@ -14,7 +15,7 @@ class EtapaService(
     val mapper: ModelMapper = ModelMapper(),
     val repository: EtapaRepository,
     val usuarioRepository: UsuarioRepository
-) {
+): Servico(repository, mapper) {
         fun listValidation(lista:List<*>){
             if(lista.isEmpty()){
                 throw ResponseStatusException(HttpStatusCode.valueOf(204), "O resultado da busca foi uma lista vazia")

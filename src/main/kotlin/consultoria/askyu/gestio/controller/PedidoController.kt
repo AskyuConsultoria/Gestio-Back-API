@@ -4,6 +4,7 @@ import consultoria.askyu.gestio.dominio.Pedido
 import consultoria.askyu.gestio.dtos.PedidoCadastroDTO
 import consultoria.askyu.gestio.dtos.PedidoRelatorioResponse
 import consultoria.askyu.gestio.dtos.PedidoResponseDTO
+import consultoria.askyu.gestio.interfaces.Controlador
 import consultoria.askyu.gestio.service.PedidoRelatorioService
 import consultoria.askyu.gestio.service.PedidoService
 import io.swagger.v3.oas.annotations.Operation
@@ -20,7 +21,7 @@ import org.springframework.web.bind.annotation.*
 class PedidoController(
     val service: PedidoService,
     val pedidoRelatorioService: PedidoRelatorioService
-) {
+): Controlador(service) {
     @Operation(summary = "Cadastro de Pedido",
         description = "Cadastra um pedido no sistema.")
     @ApiResponses(

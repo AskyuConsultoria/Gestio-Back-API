@@ -2,6 +2,7 @@ package consultoria.askyu.gestio.controller
 
 import consultoria.askyu.gestio.dominio.Agendamento
 import consultoria.askyu.gestio.dtos.AgendamentoCadastroDTO
+import consultoria.askyu.gestio.interfaces.Controlador
 import consultoria.askyu.gestio.service.AgendamentoService
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.media.Content
@@ -18,7 +19,7 @@ import java.time.LocalDateTime
 @RequestMapping("/agendamento")
 class AgendamentoController(
     val service: AgendamentoService
-) {
+): Controlador(service) {
 
     @Operation(summary = "Cadastro de Agendamento",
         description = "Cadastra um agendamento no sistema.")

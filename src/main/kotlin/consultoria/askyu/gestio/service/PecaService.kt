@@ -2,6 +2,7 @@ package consultoria.askyu.gestio.service
 
 import consultoria.askyu.gestio.dominio.Peca
 import consultoria.askyu.gestio.dtos.PecaCadastroRequest
+import consultoria.askyu.gestio.interfaces.Servico
 import consultoria.askyu.gestio.repository.PecaRepository
 import consultoria.askyu.gestio.repository.UsuarioRepository
 import org.modelmapper.ModelMapper
@@ -16,7 +17,7 @@ class PecaService(
     var usuarioRepository: UsuarioRepository,
     var usuarioService: UsuarioService,
     var mapper: ModelMapper = ModelMapper()
-) {
+): Servico(pecaRepository, mapper) {
 
     fun getAllByUsuarioId(id: Int): List<Peca>{
         usuarioService.existenceValidation(id)

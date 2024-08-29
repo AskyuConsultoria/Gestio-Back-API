@@ -1,6 +1,7 @@
 package consultoria.askyu.gestio
 
 import consultoria.askyu.gestio.dtos.TecidoCadastroRequest
+import consultoria.askyu.gestio.interfaces.Controlador
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.responses.ApiResponse
 import io.swagger.v3.oas.annotations.responses.ApiResponses
@@ -12,7 +13,7 @@ import org.springframework.web.bind.annotation.*
 @RequestMapping("/tecidos")
 class TecidoController(
     var tecidoService: TecidoService
-) {
+): Controlador(tecidoService) {
 
     @Operation(summary = "Cadastra um tecido.",
         description = "Realiza um cadastro de um tecido.")

@@ -3,6 +3,7 @@ package consultoria.askyu.gestio.service
 import consultoria.askyu.gestio.TecidoService
 import consultoria.askyu.gestio.dominio.ColecaoTecido
 import consultoria.askyu.gestio.dtos.ColecaoTecidoCadastroRequest
+import consultoria.askyu.gestio.interfaces.Servico
 import consultoria.askyu.gestio.repository.ColecaoTecidoRepository
 import org.modelmapper.ModelMapper
 import org.springframework.http.HttpStatusCode
@@ -20,7 +21,7 @@ class ColecaoTecidoService(
     var colecaoTecidoRepository: ColecaoTecidoRepository,
     val mapper: ModelMapper = ModelMapper()
 
-) {
+): Servico(colecaoTecidoRepository, mapper) {
     fun cadastrar(
         usuarioId: Int,
         clienteId: Int,

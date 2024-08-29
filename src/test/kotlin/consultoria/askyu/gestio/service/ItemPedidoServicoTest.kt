@@ -18,7 +18,7 @@ import org.mockito.Mockito.*
 import org.modelmapper.ModelMapper
 import org.springframework.web.server.ResponseStatusException
 
-class ItemPedidoServiceTest {
+class ItemPedidoServicoTest {
 
     lateinit var itemPedidoRepository: ItemPedidoRepository
     lateinit var itemPedidoService: ItemPedidoService

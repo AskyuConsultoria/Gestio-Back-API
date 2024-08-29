@@ -19,7 +19,7 @@ import org.springframework.web.server.ResponseStatusException
 import java.time.LocalDate
 import java.util.*
 
-class ClienteServiceTest {
+class ClienteServicoTest {
 
     lateinit var repository: ClienteRepository
     lateinit var usuarioRepository: UsuarioRepository

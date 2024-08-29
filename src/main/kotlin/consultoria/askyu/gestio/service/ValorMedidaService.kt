@@ -2,6 +2,7 @@ package consultoria.askyu.gestio.service
 
 import consultoria.askyu.gestio.dominio.ValorMedida
 import consultoria.askyu.gestio.dtos.ValorMedidaCadastroRequest
+import consultoria.askyu.gestio.interfaces.Servico
 import consultoria.askyu.gestio.repository.ValorMedidaRepository
 import org.modelmapper.ModelMapper
 import org.springframework.http.HttpStatusCode
@@ -17,7 +18,7 @@ class ValorMedidaService(
     var itemPedidoService: ItemPedidoService,
     var valorMedidaRepository: ValorMedidaRepository,
     var mapper: ModelMapper = ModelMapper()
-) {
+): Servico(valorMedidaRepository, mapper) {
 
     fun postByIds(
         usuarioId: Int,

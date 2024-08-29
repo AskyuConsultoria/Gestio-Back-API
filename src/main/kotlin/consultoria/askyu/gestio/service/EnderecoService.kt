@@ -3,6 +3,7 @@ package consultoria.askyu.gestio.service
 import consultoria.askyu.gestio.Tecido
 import consultoria.askyu.gestio.dominio.Endereco
 import consultoria.askyu.gestio.dominio.Usuario
+import consultoria.askyu.gestio.interfaces.Servico
 import consultoria.askyu.gestio.repository.EnderecoRepository
 import org.modelmapper.ModelMapper
 import org.springframework.http.HttpMethod
@@ -18,7 +19,7 @@ import org.springframework.web.util.UriComponentsBuilder
 class EnderecoService(
     val repository: EnderecoRepository,
     val mapper: ModelMapper = ModelMapper()
-) {
+): Servico(repository, mapper) {
 
     // Validações
 

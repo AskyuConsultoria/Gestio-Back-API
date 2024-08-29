@@ -3,6 +3,7 @@ package consultoria.askyu.gestio.service
 import consultoria.askyu.gestio.dominio.Pedido
 import consultoria.askyu.gestio.dtos.PedidoCadastroDTO
 import consultoria.askyu.gestio.dtos.PedidoResponseDTO
+import consultoria.askyu.gestio.interfaces.Servico
 import consultoria.askyu.gestio.repository.*
 import org.modelmapper.ModelMapper
 import org.springframework.http.HttpStatusCode
@@ -18,7 +19,7 @@ class PedidoService(
     val etapaRepository: EtapaRepository,
     val itemPedidoRepository : ItemPedidoRepository,
     val agendamentoRepository : AgendamentoRepository
-) {
+): Servico(repository, mapper) {
     fun listValidation(lista:List<*>){
         if(lista.isEmpty()){
             throw ResponseStatusException(HttpStatusCode.valueOf(204), "O resultado da busca foi uma lista vazia")

@@ -2,6 +2,7 @@ package consultoria.askyu.gestio.controller
 
 import consultoria.askyu.gestio.dominio.Etapa
 import consultoria.askyu.gestio.dtos.EtapaCadastroDTO
+import consultoria.askyu.gestio.interfaces.Controlador
 import consultoria.askyu.gestio.service.EtapaService
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.media.Content
@@ -17,7 +18,7 @@ import org.springframework.web.bind.annotation.*
 
 class EtapaController(
     val service: EtapaService
-) {
+): Controlador(service) {
 
     @Operation(summary = "Cadastro de Etapa",
         description = "Cadastra uma Etapa no sistema.")

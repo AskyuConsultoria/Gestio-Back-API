@@ -2,6 +2,7 @@ package consultoria.askyu.gestio.service
 
 import consultoria.askyu.gestio.dominio.Usuario
 import consultoria.askyu.gestio.dtos.UsuarioCadastroDTO
+import consultoria.askyu.gestio.interfaces.Servico
 import consultoria.askyu.gestio.repository.UsuarioRepository
 import org.modelmapper.ModelMapper
 import org.springframework.http.HttpStatusCode
@@ -12,7 +13,7 @@ import org.springframework.web.server.ResponseStatusException
 class UsuarioService(
     val repository: UsuarioRepository,
     val mapper: ModelMapper = ModelMapper()
-)  {
+): Servico(repository, mapper)  {
     fun listValidation(lista:List<*>){
         if(lista.isEmpty()){
             throw ResponseStatusException(HttpStatusCode.valueOf(204), "O resultado da busca foi uma lista vazia")

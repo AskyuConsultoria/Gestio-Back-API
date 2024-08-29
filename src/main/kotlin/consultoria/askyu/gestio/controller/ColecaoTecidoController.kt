@@ -2,6 +2,7 @@ package consultoria.askyu.gestio.controller
 
 import consultoria.askyu.gestio.dominio.ColecaoTecido
 import consultoria.askyu.gestio.dtos.ColecaoTecidoCadastroRequest
+import consultoria.askyu.gestio.interfaces.Controlador
 import consultoria.askyu.gestio.service.ColecaoTecidoService
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.media.Content
@@ -16,7 +17,7 @@ import org.springframework.web.bind.annotation.*
 @RequestMapping("/colecoes-tecidos")
 class ColecaoTecidoController(
     val colecaoTecidoService: ColecaoTecidoService
-) {
+): Controlador(colecaoTecidoService) {
 
 
     @Operation(summary = "Cadasta uma coleção de tecido dentro de uma ficha.",

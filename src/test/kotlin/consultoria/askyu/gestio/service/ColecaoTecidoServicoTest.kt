@@ -12,7 +12,7 @@ import org.mockito.Mockito.*
 import org.modelmapper.ModelMapper
 import org.springframework.web.server.ResponseStatusException
 
-class ColecaoTecidoServiceTest{
+class ColecaoTecidoServicoTest{
     lateinit var usuarioRepository: UsuarioRepository
     lateinit var usuarioService: UsuarioService
     lateinit var clienteRepository: ClienteRepository
