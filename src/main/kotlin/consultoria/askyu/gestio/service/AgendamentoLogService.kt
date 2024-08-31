@@ -15,7 +15,7 @@ class AgendamentoLogService(
 
     fun buscarPorIdAgendamento(usuarioId: Int, agendamentoId: Int): List<AgendamentoLog>{
         usuarioService.existenceValidation(usuarioId)
-        agendamentoService.validateExistence(agendamentoId)
+        agendamentoService.idAgendamentoValidation(agendamentoId)
 
        val listaAgendamentoLog = repository.findByUsuarioIdAndAgendamentoId(usuarioId, agendamentoId)
         usuarioService.listValidation(listaAgendamentoLog)

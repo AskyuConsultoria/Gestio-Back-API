@@ -41,7 +41,7 @@ class AgendamentoService(
         throw ResponseStatusException(HttpStatusCode.valueOf(404), "A etapa não existe.")
     }
 
-    fun idAgendamento(id:Int): Boolean{
+    fun idAgendamentoValidation(id:Int): Boolean{
         if(repository.existsById(id)){
             return true
         }
