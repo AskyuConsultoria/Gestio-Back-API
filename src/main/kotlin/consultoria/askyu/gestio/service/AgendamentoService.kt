@@ -41,6 +41,14 @@ class AgendamentoService(
         throw ResponseStatusException(HttpStatusCode.valueOf(404), "A etapa não existe.")
     }
 
+    fun idAgendamento(id:Int): Boolean{
+        if(repository.existsById(id)){
+            return true
+        }
+        throw ResponseStatusException(HttpStatusCode.valueOf(404), "O Agendamento não existe.")
+    }
+
+
     fun idUsuarioValidation(id:Int): Boolean{
         if(usuarioRepository.existsById(id)){
             return true
@@ -135,7 +143,7 @@ class AgendamentoService(
         idClienteValidation(agendamentoAtualizado.cliente!!.id!!)
         idEtapaValidation(agendamentoAtualizado.etapa!!.id!!)
 
-
+        agendamentoAtualizado.id = idAgendamento
         agendamentoAtualizado.usuario =
             usuarioRepository.findById(agendamentoAtualizado.usuario!!.id!!).get()
         agendamentoAtualizado.cliente =
