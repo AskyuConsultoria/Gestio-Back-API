@@ -18,5 +18,7 @@ data class Agendamento(
     var etapa: Etapa? = null,
     @ManyToOne
     var cliente: Cliente? = null,
-    var ativo:Boolean = true
+    var ativo:Boolean = true,
+    @field:ManyToOne
+    var endereco: Endereco? = null
 )

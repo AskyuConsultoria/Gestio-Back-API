@@ -16,10 +16,4 @@ data class ClienteView(
     var email: String? = null,
     var telefone_id: Int? = null,
     var numero: String? = null,
-    var endereco_id: Int? = null,
-    var cep: String? = null,
-    var logradouro: String? = null,
-    var localidade: String? = null,
-    var bairro: String? = null,
-    var uf: String? = null
 )

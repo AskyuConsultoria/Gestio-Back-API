@@ -3,10 +3,7 @@ package consultoria.askyu.gestio.service
 import consultoria.askyu.gestio.dominio.Agendamento
 import consultoria.askyu.gestio.dtos.AgendamentoCadastroDTO
 import consultoria.askyu.gestio.interfaces.Servico
-import consultoria.askyu.gestio.repository.AgendamentoRepository
-import consultoria.askyu.gestio.repository.ClienteRepository
-import consultoria.askyu.gestio.repository.EtapaRepository
-import consultoria.askyu.gestio.repository.UsuarioRepository
+import consultoria.askyu.gestio.repository.*
 import org.modelmapper.ModelMapper
 import org.springframework.http.HttpStatusCode
 import org.springframework.stereotype.Service
@@ -19,7 +16,8 @@ class AgendamentoService(
     val repository : AgendamentoRepository,
     val clienteRepository: ClienteRepository,
     val etapaRepository: EtapaRepository,
-    val usuarioRepository: UsuarioRepository
+    val usuarioRepository: UsuarioRepository,
+    val enderecoRepository: EnderecoRepository
 ): Servico(repository, mapper) {
     fun listValidation(lista:List<*>){
         if(lista.isEmpty()){
@@ -79,7 +77,7 @@ class AgendamentoService(
         novoAgendamento.usuario = usuarioRepository.findById(agendamento.usuario!!).get()
         novoAgendamento.cliente = clienteRepository.findById(agendamento.cliente!!).get()
         novoAgendamento.etapa = etapaRepository.findById(agendamento.etapa!!).get()
-
+        novoAgendamento.endereco = enderecoRepository.findById(agendamento.endereco!!).get()
         return repository.save(novoAgendamento)
     }
 

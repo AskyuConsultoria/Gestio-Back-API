@@ -20,4 +20,6 @@ data class AgendamentoCadastroDTO(
     var etapa: Int? = null,
     @NotNull
     var cliente: Int? = null,
+    @NotNull
+    var endereco: Int? = null
 )
