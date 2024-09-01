@@ -1,8 +1,6 @@
 package consultoria.askyu.gestio.service
 
-import consultoria.askyu.gestio.Tecido
 import consultoria.askyu.gestio.dominio.Endereco
-import consultoria.askyu.gestio.dominio.Usuario
 import consultoria.askyu.gestio.interfaces.Servico
 import consultoria.askyu.gestio.repository.EnderecoRepository
 import org.modelmapper.ModelMapper
@@ -18,6 +16,8 @@ import org.springframework.web.util.UriComponentsBuilder
 @Service
 class EnderecoService(
     val repository: EnderecoRepository,
+    val usuarioService: UsuarioService,
+    val clienteService: ClienteService,
     val mapper: ModelMapper = ModelMapper()
 ): Servico(repository, mapper) {
 
@@ -52,6 +52,14 @@ class EnderecoService(
 
     fun buscar(cep:String): ResponseEntity<Endereco>{
         return ResponseEntity.of(repository.findByCep(cep))
+    }
+
+    fun listarPorCliente(usuarioId: Int, clienteId: Int): List<Endereco>{
+        usuarioService.existenceValidation(usuarioId)
+        clienteService.validateExistence(usuarioId, clienteId)
+
+        val listaEndereco = repository.findByUsuarioIdAndClienteIdAndAtivoTrue(usuarioId, clienteId)
+        return listaEndereco
     }
 
     fun cadastrarCEP(cep:String):Endereco{

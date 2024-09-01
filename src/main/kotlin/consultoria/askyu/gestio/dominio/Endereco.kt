@@ -1,27 +1,31 @@
 package consultoria.askyu.gestio.dominio
 
-import jakarta.persistence.Entity
-import jakarta.persistence.GeneratedValue
-import jakarta.persistence.GenerationType
-import jakarta.persistence.Id
-import jakarta.validation.constraints.NotBlank
+import jakarta.persistence.*
 import jakarta.validation.constraints.Size
 
 @Entity
 data class Endereco(
     @field:Id
     @field:GeneratedValue(strategy = GenerationType.IDENTITY)
-    var id:Int,
+    var id:Int? = null,
 
-    var cep:String,
+    var cep:String? = null,
 
-    var logradouro:String,
+    var logradouro:String? = null,
 
-    var bairro:String,
+    var bairro:String? = null,
 
-    var localidade:String,
+    var localidade:String? = null,
 
     @field:Size(min = 2, max = 2)
-    var uf:String
+    var uf:String? = null,
+
+    @field: ManyToOne
+    var usuario: Usuario? = null,
+
+    var ativo: Boolean = true,
+
+    @field: ManyToOne
+    var cliente: Cliente? = null
 )
 
