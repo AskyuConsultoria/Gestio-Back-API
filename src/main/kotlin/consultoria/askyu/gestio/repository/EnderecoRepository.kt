@@ -9,6 +9,8 @@ interface EnderecoRepository : JpaRepository<Endereco, Int>, IRepositorio {
 
     fun findByUsuarioIdAndClienteIdAndAtivoTrue(usuarioId: Int, clienteId: Int): List<Endereco>
 
+    fun findByUsuarioIdAndIdAndAtivoTrue(usuarioId: Int, enderecoId: Int): Endereco
+
     fun findByCep(cep:String): Optional<Endereco>
 
     fun countByCep(cep: String): Int

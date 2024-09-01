@@ -58,6 +58,26 @@ class EnderecoController(val service: EnderecoService
         return ResponseEntity.status(200).body(lista)
     }
 
+    @Operation(summary = "Buscaa um endereço com base em seu indentificador único.",
+        description = "Buscar um endereço com base em seu id.")
+    @ApiResponses(
+        value = [
+            ApiResponse(responseCode = "200", description = "Exibindo endereço cadastrado."),
+            ApiResponse(responseCode = "404", description = "Endereço não encontrado.", content = [Content(schema = Schema())]),
+        ],
+    )
+    @CrossOrigin(
+        origins = ["http://localhost:3333"],
+        methods = [RequestMethod.GET],
+        allowCredentials = "true"
+    )
+    @GetMapping("/buscar-um/{usuarioId}/{enderecoId}")
+    fun buscarPorId(@PathVariable usuarioId: Int, @PathVariable enderecoId: Int): ResponseEntity<Endereco> {
+        val endereco = service.buscarPorId(usuarioId, enderecoId)
+        return ResponseEntity.status(200).body(endereco)
+    }
+
+
     @Operation(summary = "Cadastrar endereço",
         description = "Cadastra uma endereço no sistema.")
     @ApiResponses(

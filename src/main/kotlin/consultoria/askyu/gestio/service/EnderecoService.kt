@@ -59,7 +59,16 @@ class EnderecoService(
         clienteService.validateExistence(usuarioId, clienteId)
 
         val listaEndereco = repository.findByUsuarioIdAndClienteIdAndAtivoTrue(usuarioId, clienteId)
+        usuarioService.listValidation(listaEndereco)
         return listaEndereco
+    }
+
+
+    fun buscarPorId(usuarioId: Int, enderecoId: Int): Endereco{
+        usuarioService.existenceValidation(usuarioId)
+        existenceValidation(enderecoId)
+        val endereco = repository.findByUsuarioIdAndIdAndAtivoTrue(usuarioId, enderecoId)
+        return endereco
     }
 
     fun cadastrarCEP(cep:String):Endereco{
