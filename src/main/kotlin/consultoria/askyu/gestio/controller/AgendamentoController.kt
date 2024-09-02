@@ -192,6 +192,31 @@ class AgendamentoController(
         return ResponseEntity.status(200).body(agendamento)
     }
 
+
+    @Operation(summary = "Atualiza o endereço do agendamento pelo id do endereço",
+        description = "Atualiza o endereço do agendamento através do id do usuário, agendamento e endereço.")
+    @ApiResponses(
+        value = [
+            ApiResponse(responseCode = "200", description = "Agendamento atualizado com sucesso!"),
+            ApiResponse(responseCode = "404", description = "Usuário ou agendamento não foi encontrado.", content = [Content(schema = Schema())]),
+        ],
+    )
+    @CrossOrigin(
+        origins = ["http://localhost:3333"],
+        methods = [RequestMethod.PATCH],
+        allowCredentials = "true"
+    )
+    @PatchMapping("atualizar-endereco/{idUsuario}/{idAgendamento}/{idEndereco}")
+    fun atualizarEndereco(
+        @PathVariable idUsuario: Int,
+        @PathVariable idAgendamento: Int,
+        @PathVariable idEndereco: Int
+    ): ResponseEntity<Agendamento>{
+        val agendamento = service.atualizarEndereco(idUsuario, idAgendamento, idEndereco)
+        return ResponseEntity.status(200).body(agendamento)
+    }
+
+
     @Operation(summary = "Exclui logicamente um agendamento pelo id do usuário e pelo próprio id do agendamento",
         description = "Exclui logicamente um único agendamento com base no id do usuário.")
     @ApiResponses(

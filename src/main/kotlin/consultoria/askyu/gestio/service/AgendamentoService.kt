@@ -46,6 +46,13 @@ class AgendamentoService(
         throw ResponseStatusException(HttpStatusCode.valueOf(404), "O Agendamento não existe.")
     }
 
+    fun idEnderecoValidation(id:Int): Boolean{
+        if(enderecoRepository.existsById(id)){
+            return true
+        }
+        throw ResponseStatusException(HttpStatusCode.valueOf(404), "O endereço não existe.")
+    }
+
 
     fun idUsuarioValidation(id:Int): Boolean{
         if(usuarioRepository.existsById(id)){
@@ -148,10 +155,21 @@ class AgendamentoService(
             clienteRepository.findById(agendamentoAtualizado.cliente!!.id!!).get()
         agendamentoAtualizado.etapa
             etapaRepository.findById(agendamentoAtualizado.etapa!!.id!!)
-
+        agendamentoAtualizado.endereco =
+            enderecoRepository.findById(agendamentoAtualizado.endereco!!.id!!).get()
 
         return repository.save(agendamentoAtualizado)
     }
+
+    fun atualizarEndereco(idUsuario: Int, idAgendamento: Int, idEndereco: Int): Agendamento{
+        idUsuarioValidation(idUsuario)
+        idAgendamentoValidation(idAgendamento)
+        idEnderecoValidation(idEndereco)
+        var agendamento = repository.findByUsuarioIdAndId(idUsuario, idAgendamento)
+        agendamento.endereco = enderecoRepository.findById(idEndereco).get()
+        return repository.save(agendamento)
+    }
+
 
     fun excluir(idUsuario: Int, idAgendamento: Int): Agendamento {
         idUsuarioValidation(idUsuario)
