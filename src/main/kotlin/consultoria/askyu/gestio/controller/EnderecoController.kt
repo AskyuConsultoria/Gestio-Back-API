@@ -38,6 +38,30 @@ class EnderecoController(val service: EnderecoService
     }
 
 
+    @Operation(summary = "Atualiza um endereço específico.",
+        description = "Atualiza um endereço especificado pelo id do usuário e do endereço.")
+    @ApiResponses(
+        value = [
+            ApiResponse(responseCode = "200", description = "Endereço Atualizado!"),
+            ApiResponse(responseCode = "404", description = "Usuário ou endereço não foram encontrados", content = [Content(schema = Schema())]),
+        ],
+    )
+    @CrossOrigin(
+        origins = ["http://localhost:3333"],
+        methods = [RequestMethod.PUT],
+        allowCredentials = "true"
+    )
+    @PutMapping("/{usuarioId}/{enderecoId}")
+    fun atualizar(
+        @PathVariable usuarioId: Int,
+        @PathVariable enderecoId: Int,
+        @RequestBody enderecoAtualizado: Endereco,
+    ): ResponseEntity<Endereco> {
+        val endereco = service.atualizar(usuarioId, enderecoId, enderecoAtualizado)
+        return ResponseEntity.status(200).body(endereco)
+    }
+
+
     @Operation(summary = "Buscar todas os endereços pelo id do usuário e do cliente",
         description = "Retorna todas os endereços cadastrados pelo id do usuário e do cliente.")
     @ApiResponses(

@@ -1,7 +1,6 @@
 package consultoria.askyu.gestio.dominio
 
 import jakarta.persistence.*
-import jakarta.validation.constraints.Size
 
 @Entity
 data class Endereco(
@@ -15,9 +14,8 @@ data class Endereco(
 
     var bairro:String? = null,
 
-    var localidade:String? = null,
+    var localidade: String? = null,
 
-    @field:Size(min = 2, max = 2)
     var uf:String? = null,
 
     @field: ManyToOne
@@ -26,6 +24,10 @@ data class Endereco(
     var ativo: Boolean = true,
 
     @field: ManyToOne
-    var cliente: Cliente? = null
+    var cliente: Cliente? = null,
+
+    var cidade: String? = null,
+
+    var numero: String? = null
 )
 

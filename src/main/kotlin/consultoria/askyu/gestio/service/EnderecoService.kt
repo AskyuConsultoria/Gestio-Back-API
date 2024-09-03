@@ -77,6 +77,15 @@ class EnderecoService(
         return repository.save(endereco)
     }
 
+    fun atualizar(usuarioId: Int, enderecoId: Int, enderecoAtualizado: Endereco): Endereco{
+        usuarioService.existenceValidation(usuarioId)
+        existenceValidation(enderecoId)
+        enderecoAtualizado.usuario!!.id = usuarioId
+        enderecoAtualizado.id = enderecoId
+
+        return repository.save(enderecoAtualizado)
+    }
+
     fun viaCep(cep:String):Endereco{
         try {
             val restTemplate = RestTemplate()
