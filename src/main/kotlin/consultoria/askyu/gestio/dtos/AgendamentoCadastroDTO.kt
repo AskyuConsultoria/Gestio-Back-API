@@ -21,5 +21,7 @@ data class AgendamentoCadastroDTO(
     @NotNull
     var cliente: Int? = null,
     @NotNull
-    var endereco: Int? = null
+    var endereco: Int? = null,
+    @NotNull
+    var telefone: Int? = null
 )

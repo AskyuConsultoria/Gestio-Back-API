@@ -17,7 +17,8 @@ class AgendamentoService(
     val clienteRepository: ClienteRepository,
     val etapaRepository: EtapaRepository,
     val usuarioRepository: UsuarioRepository,
-    val enderecoRepository: EnderecoRepository
+    val enderecoRepository: EnderecoRepository,
+    val telefoneRepository: TelefoneRepository
 ): Servico(repository, mapper) {
     fun listValidation(lista:List<*>){
         if(lista.isEmpty()){
@@ -85,6 +86,7 @@ class AgendamentoService(
         novoAgendamento.cliente = clienteRepository.findById(agendamento.cliente!!).get()
         novoAgendamento.etapa = etapaRepository.findById(agendamento.etapa!!).get()
         novoAgendamento.endereco = enderecoRepository.findById(agendamento.endereco!!).get()
+        novoAgendamento.telefone = telefoneRepository.findById(agendamento.telefone!!).get()
         return repository.save(novoAgendamento)
     }
 
@@ -157,6 +159,8 @@ class AgendamentoService(
             etapaRepository.findById(agendamentoAtualizado.etapa!!.id!!)
         agendamentoAtualizado.endereco =
             enderecoRepository.findById(agendamentoAtualizado.endereco!!.id!!).get()
+        agendamentoAtualizado.telefone =
+            telefoneRepository.findById(agendamentoAtualizado.telefone!!.id!!).get()
 
         return repository.save(agendamentoAtualizado)
     }
@@ -169,6 +173,15 @@ class AgendamentoService(
         agendamento.endereco = enderecoRepository.findById(idEndereco).get()
         return repository.save(agendamento)
     }
+
+    fun atualizarTelefone(idUsuario: Int, idAgendamento: Int, idTelefone: Int): Agendamento{
+        idUsuarioValidation(idUsuario)
+        idAgendamentoValidation(idAgendamento)
+        var agendamento = repository.findByUsuarioIdAndId(idUsuario, idAgendamento)
+        agendamento.telefone = telefoneRepository.findById(idTelefone).get()
+        return repository.save(agendamento)
+    }
+
 
 
     fun excluir(idUsuario: Int, idAgendamento: Int): Agendamento {

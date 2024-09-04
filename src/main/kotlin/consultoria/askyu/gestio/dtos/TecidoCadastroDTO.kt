@@ -1,6 +1,6 @@
 package consultoria.askyu.gestio.dtos
 
-import consultoria.askyu.gestio.dominio.Usuario
+
 import jakarta.validation.constraints.NotBlank
 
 data class TecidoCadastroRequest(

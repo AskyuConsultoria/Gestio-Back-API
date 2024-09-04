@@ -20,5 +20,7 @@ data class Agendamento(
     var cliente: Cliente? = null,
     var ativo:Boolean = true,
     @field:ManyToOne
-    var endereco: Endereco? = null
+    var endereco: Endereco? = null,
+    @field:ManyToOne
+    var telefone: Telefone? = null
 )

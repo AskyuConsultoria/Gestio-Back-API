@@ -216,6 +216,30 @@ class AgendamentoController(
         return ResponseEntity.status(200).body(agendamento)
     }
 
+    @Operation(summary = "Atualiza o telefone do agendamento pelo id do telefone",
+        description = "Atualiza o endereço do agendamento através do id do usuário, agendamento e telefone.")
+    @ApiResponses(
+        value = [
+            ApiResponse(responseCode = "200", description = "Agendamento atualizado com sucesso!"),
+            ApiResponse(responseCode = "404", description = "Usuário ou agendamento não foi encontrado.", content = [Content(schema = Schema())]),
+        ],
+    )
+    @CrossOrigin(
+        origins = ["http://localhost:3333"],
+        methods = [RequestMethod.PATCH],
+        allowCredentials = "true"
+    )
+    @PatchMapping("/atualizar-telefone/{idUsuario}/{idAgendamento}/{idTelefone}")
+    fun atualizarTelefone(
+        @PathVariable idUsuario: Int,
+        @PathVariable idAgendamento: Int,
+        @PathVariable idTelefone: Int
+    ): ResponseEntity<Agendamento>{
+        val agendamento = service.atualizarTelefone(idUsuario, idAgendamento, idTelefone)
+        return ResponseEntity.status(200).body(agendamento)
+    }
+
+
 
     @Operation(summary = "Exclui logicamente um agendamento pelo id do usuário e pelo próprio id do agendamento",
         description = "Exclui logicamente um único agendamento com base no id do usuário.")

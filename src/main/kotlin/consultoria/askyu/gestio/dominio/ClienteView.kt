@@ -14,6 +14,4 @@ data class ClienteView(
     var nome: String? = null,
     var sobrenome: String? = null,
     var email: String? = null,
-    var telefone_id: Int? = null,
-    var numero: String? = null,
 )
