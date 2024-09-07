@@ -1,9 +1,6 @@
 package consultoria.askyu.gestio.llm
 
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RequestBody
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
 import java.io.BufferedReader
 import java.io.InputStreamReader
 import java.nio.charset.StandardCharsets
@@ -12,6 +9,11 @@ import java.nio.charset.StandardCharsets
 @RequestMapping("/api-llm")
 class IaController {
 
+    @CrossOrigin(
+        origins = ["http://localhost:3333"],
+        methods = [RequestMethod.POST],
+        allowCredentials = "true"
+    )
     @PostMapping()
     fun processarInput(@RequestBody ia: IA): String {
         val processBuilder = ProcessBuilder("C:/Users/kayky/AppData/Local/Programs/Python/Python312/python.exe", "C:/py/teste_2.py", ia.contexto, ia.etapa, ia.input)
@@ -30,13 +32,13 @@ class IaController {
 
         val exitCode = process.waitFor()
 
-        print("ExitCode: ${exitCode}")
+        println("ExitCode: ${exitCode}")
 
         if (exitCode != 0) {
             return "Erro: O processo Python terminou com o código de saída $exitCode\nOutput:\n$output"
         }
 
-        print("Output: $output")
+        println("Output: $output")
 
         return output.toString()
 
