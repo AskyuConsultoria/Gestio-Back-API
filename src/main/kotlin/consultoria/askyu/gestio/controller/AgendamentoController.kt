@@ -249,6 +249,7 @@ class AgendamentoController(
             ApiResponse(responseCode = "404", description = "Usuário ou Agendamento não foi encontrado.", content = [Content(schema = Schema())]),
         ],
     )
+  
     @CrossOrigin(
         origins = ["http://localhost:3333"],
         methods = [RequestMethod.PUT],
