@@ -104,6 +104,15 @@ class PedidoService(
         return listaDto
     }
 
+        fun buscarPorAgendamentoId(usuarioId: Int, agendamentoId: Int): List<Pedido>{
+        usuarioValidation(usuarioId)
+        idAgendamentoValidation(agendamentoId)
+
+        val listaAgendamento = repository.findByUsuarioIdAndAgendamentoIdAndAtivoTrue(usuarioId, agendamentoId)
+        listValidation(listaAgendamento)
+        return listaAgendamento
+    }
+
     fun buscarUm(idUsuario: Int, idPedido: Int): PedidoResponseDTO {
         usuarioValidation(idUsuario)
         validateExistence(idPedido)

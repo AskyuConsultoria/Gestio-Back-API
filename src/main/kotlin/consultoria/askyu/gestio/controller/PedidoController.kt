@@ -84,6 +84,30 @@ class PedidoController(
         return ResponseEntity.status(200).body(pedido)
     }
 
+    @Operation(summary = "Lista todos os pedidos pelo id do agendamento",
+        description = "Busca todos os pedidos id do usuário e de um agendamento.")
+    @ApiResponses(
+        value = [
+            ApiResponse(responseCode = "200", description = "Pedidos encontrados com sucesso!"),
+            ApiResponse(responseCode = "204", description = "Este agendamento ainda não possui nenhum pedido."),
+            ApiResponse(responseCode = "404", description = "Usuário ou agendamento não encontrado.", content = [Content(schema = Schema())]),
+        ],
+    )
+    @CrossOrigin(
+        origins = ["http://localhost:3333"],
+        methods = [RequestMethod.GET],
+        allowCredentials = "true"
+    )
+    @GetMapping("buscar-por-agendamento/{usuarioId}/{agendamentoId}")
+    fun buscarPorAgendamentoId(
+        @PathVariable usuarioId: Int,
+        @PathVariable agendamentoId: Int,
+    ): ResponseEntity<List<Pedido>>{
+        val listaPedido = service.buscarPorAgendamentoId(usuarioId, agendamentoId)
+        return ResponseEntity.status(200).body(listaPedido)
+    }
+
+
 
     @Operation(summary = "Retorna a quantidade de pedidos no mês e no mês passado no mesmo período",
         description = "Realiza operações dentro do banco de dados através de uma View, calulca a quantidade de períodos do primeiro dia do mês até o dia atual. Esse cálculo também é feito com o mês anterior, e por fim ela retorna a quantidade de pedidos no mês atual até o dia de hoje e a quantidade de pedidos no mês passado no mesmo dia.")
