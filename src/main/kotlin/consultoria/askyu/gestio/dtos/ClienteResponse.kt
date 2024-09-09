@@ -2,19 +2,18 @@ package consultoria.askyu.gestio.dtos
 
 import consultoria.askyu.gestio.dominio.Cliente
 import java.time.LocalDate
-import java.util.*
 
 data class ClienteResponse(
 
-    var id:Int,
+    var id:Int? = null,
 
-    var nome:String,
+    var nome:String? = null,
 
-    var sobrenome:String,
+    var sobrenome:String? = null,
 
-    var dtNasc: LocalDate,
+    var dtNasc: LocalDate? = null,
 
-    var email:String,
+    var email:String? = null,
 
-    var responsavel: Cliente?,
+    var responsavel: Cliente? = null,
     )

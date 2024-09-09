@@ -77,7 +77,7 @@ class ClienteController (
         allowCredentials = "true"
     )
     @GetMapping("/{idUsuario}")
-    fun getTodosOsClientes (@RequestParam idUsuario: Int): ResponseEntity<List<ClienteResponse>>{
+    fun getTodosOsClientes (@PathVariable idUsuario: Int): ResponseEntity<List<ClienteResponse>>{
         val listaCliente = service.buscarClientes(idUsuario)
 
         return ResponseEntity.status(200).body(listaCliente)
