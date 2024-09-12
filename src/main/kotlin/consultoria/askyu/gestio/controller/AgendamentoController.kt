@@ -169,6 +169,54 @@ class AgendamentoController(
         return ResponseEntity.status(200).body(listaAgendamento)
     }
 
+    @Operation(summary = "Listagem dos agendamentos com base no id do usuário e no nome dos clientes",
+        description = "Busca os agendamentos com base no id do usuário e no nome dos clientes.")
+    @ApiResponses(
+        value = [
+            ApiResponse(responseCode = "200", description = "Agendamentos encontradas com sucesso!"),
+            ApiResponse(responseCode = "204", description =  "Não foi encontrado nenhum agendamento"),
+            ApiResponse(responseCode = "404", description = "Usuário não foi encontrado.", content = [Content(schema = Schema())]),
+        ],
+    )
+    @CrossOrigin(
+        origins = ["http://localhost:3333"],
+        methods = [RequestMethod.GET],
+        allowCredentials = "true"
+    )
+    @GetMapping("/filtro-cliente-nome/{idUsuario}")
+    fun buscarPorClienteNome(
+        @PathVariable idUsuario: Int,
+        @RequestParam nome: String,
+    ): ResponseEntity<List<Agendamento>> {
+        val listaAgendamento =
+            service.buscarPorClienteNome(idUsuario, nome)
+        return ResponseEntity.status(200).body(listaAgendamento)
+    }
+
+    @Operation(summary = "Listagem dos agendamentos com base no id do usuário e no email dos clientes",
+        description = "Busca os agendamentos com base no id do usuário e no email dos clientes.")
+    @ApiResponses(
+        value = [
+            ApiResponse(responseCode = "200", description = "Agendamentos encontradas com sucesso!"),
+            ApiResponse(responseCode = "204", description =  "Não foi encontrado nenhum agendamento"),
+            ApiResponse(responseCode = "404", description = "Usuário não foi encontrado.", content = [Content(schema = Schema())]),
+        ],
+    )
+    @CrossOrigin(
+        origins = ["http://localhost:3333"],
+        methods = [RequestMethod.GET],
+        allowCredentials = "true"
+    )
+    @GetMapping("/filtro-cliente-email/{idUsuario}")
+    fun buscarPorClienteEmail(
+        @PathVariable idUsuario: Int,
+        @RequestParam email: String,
+    ): ResponseEntity<List<Agendamento>> {
+        val listaAgendamento =
+            service.buscarPorClienteEmail(idUsuario, email)
+        return ResponseEntity.status(200).body(listaAgendamento)
+    }
+
     @Operation(summary = "Atualiza um agendamento pelo id do usuário e pelo próprio id do próprio agendamento",
         description = "Atualiza um único agendamento com base no id do usuário.")
     @ApiResponses(
