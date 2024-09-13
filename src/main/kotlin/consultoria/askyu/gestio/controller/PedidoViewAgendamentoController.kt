@@ -15,10 +15,22 @@ class PedidoViewAgendamentoPecaController(
         methods = [RequestMethod.GET],
         allowCredentials = "true"
     )
-    @GetMapping("/{usuarioId}")
+    @GetMapping("/por-peca/{usuarioId}")
     fun visualizar(@PathVariable usuarioId: Int, @RequestParam nome: String): ResponseEntity<List<PedidoViewAgendamentoPeca>> {
         val listaAgendamento =
             service.visualizarPorNomeDaPeca(usuarioId, nome)
+        return ResponseEntity.status(200).body(listaAgendamento)
+    }
+
+    @CrossOrigin(
+        origins = ["http://localhost:3333"],
+        methods = [RequestMethod.GET],
+        allowCredentials = "true"
+    )
+    @GetMapping("/por-tecido/{usuarioId}")
+    fun visualizarPorNomeTecido(@PathVariable usuarioId: Int, @RequestParam nome: String): ResponseEntity<List<PedidoViewAgendamentoPeca>> {
+        val listaAgendamento =
+            service.visualizarPorNomeDoTecido(usuarioId, nome)
         return ResponseEntity.status(200).body(listaAgendamento)
     }
 

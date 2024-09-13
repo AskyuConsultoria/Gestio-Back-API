@@ -16,5 +16,6 @@ class PedidoViewAgendamentoPeca(
     var nome: String? = null,
     var sobrenome: String? = null,
     var pecanome: String? = null,
+    var tecidonome: String? = null
 ) {
 }

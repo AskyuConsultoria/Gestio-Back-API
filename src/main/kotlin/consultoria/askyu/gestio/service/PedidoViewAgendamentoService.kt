@@ -18,4 +18,12 @@ class PedidoViewAgendamentoPecaService(
         return listaAgendamento
     }
 
+    fun visualizarPorNomeDoTecido(usuarioId: Int, nome: String): List<PedidoViewAgendamentoPeca>{
+        usuarioService.existenceValidation(usuarioId)
+        val listaAgendamento =
+            repository.findByUsuarioIdAndTecidonomeContainsIgnoreCaseAndAtivoTrue(usuarioId, nome)
+        usuarioService.listValidation(listaAgendamento)
+        return listaAgendamento
+    }
+
 }

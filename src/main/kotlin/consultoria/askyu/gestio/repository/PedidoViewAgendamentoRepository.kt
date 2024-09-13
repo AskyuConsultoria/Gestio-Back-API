@@ -8,4 +8,6 @@ import org.springframework.stereotype.Repository
 interface PedidoViewAgendamentoPecaRepository: JpaRepository<PedidoViewAgendamentoPeca, Int> {
 
     fun findByUsuarioIdAndPecanomeContainsIgnoreCaseAndAtivoTrue(usuarioId: Int, nome: String): List<PedidoViewAgendamentoPeca>
+
+    fun findByUsuarioIdAndTecidonomeContainsIgnoreCaseAndAtivoTrue(usuarioId: Int, nome: String): List<PedidoViewAgendamentoPeca>
 }
