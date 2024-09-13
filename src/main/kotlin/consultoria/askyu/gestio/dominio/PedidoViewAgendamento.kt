@@ -6,7 +6,7 @@ import java.time.LocalDate
 
 @Entity
 @Table(name = "vw_pedido_agendamento_peca")
-class PedidoViewAgendamentoPeca(
+class PedidoViewAgendamento(
     @field:Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Int,
     var dataInicio: LocalDate? = null,

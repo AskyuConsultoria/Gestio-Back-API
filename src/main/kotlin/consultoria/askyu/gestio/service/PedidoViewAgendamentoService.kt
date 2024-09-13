@@ -1,16 +1,16 @@
 package consultoria.askyu.gestio.service
 
-import consultoria.askyu.gestio.dominio.PedidoViewAgendamentoPeca
-import consultoria.askyu.gestio.repository.PedidoViewAgendamentoPecaRepository
+import consultoria.askyu.gestio.dominio.PedidoViewAgendamento
+import consultoria.askyu.gestio.repository.PedidoViewAgendamentoRepository
 import org.springframework.stereotype.Service
 
 @Service
-class PedidoViewAgendamentoPecaService(
-    val repository: PedidoViewAgendamentoPecaRepository,
+class PedidoViewAgendamentoService(
+    val repository: PedidoViewAgendamentoRepository,
     val usuarioService: UsuarioService
 ) {
 
-    fun visualizarPorNomeDaPeca(usuarioId: Int, nome: String): List<PedidoViewAgendamentoPeca>{
+    fun visualizarPorNomeDaPeca(usuarioId: Int, nome: String): List<PedidoViewAgendamento>{
         usuarioService.existenceValidation(usuarioId)
         val listaAgendamento =
             repository.findByUsuarioIdAndPecanomeContainsIgnoreCaseAndAtivoTrue(usuarioId, nome)
@@ -18,7 +18,7 @@ class PedidoViewAgendamentoPecaService(
         return listaAgendamento
     }
 
-    fun visualizarPorNomeDoTecido(usuarioId: Int, nome: String): List<PedidoViewAgendamentoPeca>{
+    fun visualizarPorNomeDoTecido(usuarioId: Int, nome: String): List<PedidoViewAgendamento>{
         usuarioService.existenceValidation(usuarioId)
         val listaAgendamento =
             repository.findByUsuarioIdAndTecidonomeContainsIgnoreCaseAndAtivoTrue(usuarioId, nome)
