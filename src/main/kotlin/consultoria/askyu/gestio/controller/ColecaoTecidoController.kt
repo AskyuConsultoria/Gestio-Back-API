@@ -19,7 +19,6 @@ class ColecaoTecidoController(
     val colecaoTecidoService: ColecaoTecidoService
 ): Controlador(colecaoTecidoService) {
 
-
     @Operation(summary = "Cadasta uma coleção de tecido dentro de uma ficha.",
         description = "Realiza um cadastro de uma coleção de tecido com base nos códigos de identificação do usuário, cliente, peça, ficha (o item do pedido) e o tecido.")
     @ApiResponses(
@@ -72,12 +71,11 @@ class ColecaoTecidoController(
         return ResponseEntity.status(200).body(listaColecaoTecidos)
     }
 
-
     @Operation(summary = "Exclui uma coleção tecido com base no código de identificação daquela coleção.",
         description = "Realiza uma exclusão genuína da coleção de tecido dentro do banco de dados através do código de identificação do usuário e da coleção de tecido.")
     @ApiResponses(
         value = [
-            ApiResponse(responseCode = "204", description = "Coleção de tecidos excluída com sucess0", content = [Content(schema = Schema())]),
+            ApiResponse(responseCode = "204", description = "Coleção de tecidos excluída com sucesso", content = [Content(schema = Schema())]),
             ApiResponse(responseCode = "404", description = "Usuário ou Coleção de tecido não existem.", content = [Content(schema = Schema())])
         ],
     )
@@ -94,6 +92,5 @@ class ColecaoTecidoController(
         colecaoTecidoService.excluir(usuarioId, colecaoTecidoId)
         return ResponseEntity.status(204).build()
     }
-
 
 }

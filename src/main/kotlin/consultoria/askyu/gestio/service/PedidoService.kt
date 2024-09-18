@@ -9,6 +9,7 @@ import org.modelmapper.ModelMapper
 import org.springframework.http.HttpStatusCode
 import org.springframework.stereotype.Service
 import org.springframework.web.server.ResponseStatusException
+import java.util.*
 
 @Service
 class PedidoService(
@@ -25,6 +26,18 @@ class PedidoService(
             throw ResponseStatusException(HttpStatusCode.valueOf(204), "O resultado da busca foi uma lista vazia")
         }
     }
+
+    fun QueueValidation(queue: Queue<*>){
+        if(queue.isEmpty()){
+            throw ResponseStatusException(HttpStatusCode.valueOf(204), "O resultado da busca foi uma lista vazia")
+        }
+    }
+
+    fun transformarEmQueue(arrayList: ArrayList<Pedido>): Queue<Pedido>{
+        return LinkedList(arrayList)
+    }
+
+
 
     fun idClienteValidation(id:Int): Boolean{
         if(clienteRepository.existsById(id)){
@@ -150,5 +163,57 @@ class PedidoService(
 
         pedido!!.ativo = false
         return repository.save(pedido)
+    }
+
+    fun buscarPedidosCancelados(idUsuario: Int, idAgendamento: Int): ArrayList<Pedido>{
+        usuarioValidation(idUsuario)
+        idAgendamentoValidation(idAgendamento)
+
+        val arrayPedido = repository.findByUsuarioIdAndAgendamentoIdAndAtivoIs(idUsuario, idAgendamento, false)
+
+        listValidation(arrayPedido)
+        return arrayPedido
+    }
+
+    fun excluirPorAgendamento(idUsuario: Int, idAgendamento: Int): Array<Pedido> {
+        usuarioValidation(idUsuario)
+        idAgendamentoValidation(idAgendamento)
+
+        val filaPedido = transformarEmQueue(
+            repository.findByUsuarioIdAndAgendamentoIdAndAtivoIs(idUsuario, idAgendamento, true)
+        )
+
+        QueueValidation(filaPedido)
+
+        val arrayPedido = Array<Pedido>(filaPedido.size){ Pedido(null, null, null, null, null, null, false) }
+
+        for(i in 0..filaPedido.size - 1){
+            var elemento = filaPedido.remove()
+            elemento!!.ativo = false
+            arrayPedido[i] = repository.save(elemento)
+        }
+
+        return arrayPedido
+    }
+
+    fun reativarPorAgendamento(idUsuario: Int, idAgendamento: Int): Array<Pedido> {
+        usuarioValidation(idUsuario)
+        idAgendamentoValidation(idAgendamento)
+
+        val filaPedido = transformarEmQueue(
+            repository.findByUsuarioIdAndAgendamentoIdAndAtivoIs(idUsuario, idAgendamento, false)
+        )
+
+        QueueValidation(filaPedido)
+
+        val arrayPedido = Array<Pedido>(filaPedido.size){ Pedido(null, null, null, null, null, null, true) }
+
+        for(i in 0..filaPedido.size - 1){
+            var elemento = filaPedido.remove()
+            elemento!!.ativo = true
+            arrayPedido[i] = repository.save(elemento)
+        }
+
+        return arrayPedido
     }
 }

@@ -26,4 +26,5 @@ data class Cliente(
     var usuario:Usuario? = null,
 
     var ativo: Boolean = true
+
 )

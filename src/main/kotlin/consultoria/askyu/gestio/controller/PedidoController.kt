@@ -107,7 +107,28 @@ class PedidoController(
         return ResponseEntity.status(200).body(listaPedido)
     }
 
-
+    @Operation(summary = "Lista todos os pedidos cancelados pelo id do agendamento",
+        description = "Busca todos os pedidos cancelados id do usuário e de um agendamento.")
+    @ApiResponses(
+        value = [
+            ApiResponse(responseCode = "200", description = "Pedidos encontrados com sucesso!"),
+            ApiResponse(responseCode = "204", description = "Este agendamento ainda não possui nenhum pedido."),
+            ApiResponse(responseCode = "404", description = "Usuário ou agendamento não encontrado.", content = [Content(schema = Schema())]),
+        ],
+    )
+    @CrossOrigin(
+        origins = ["http://localhost:3333"],
+        methods = [RequestMethod.GET],
+        allowCredentials = "true"
+    )
+    @GetMapping("/buscar-por-agendamento-cancelado/{usuarioId}/{agendamentoId}")
+    fun buscarPedidosCanceladosPorAgendamentoId(
+        @PathVariable usuarioId: Int,
+        @PathVariable agendamentoId: Int,
+    ): ResponseEntity<ArrayList<Pedido>>{
+        val arrayPedido = service.buscarPedidosCancelados(usuarioId, agendamentoId)
+        return ResponseEntity.status(200).body(arrayPedido)
+    }
 
     @Operation(summary = "Retorna a quantidade de pedidos no mês e no mês passado no mesmo período",
         description = "Realiza operações dentro do banco de dados através de uma View, calulca a quantidade de períodos do primeiro dia do mês até o dia atual. Esse cálculo também é feito com o mês anterior, e por fim ela retorna a quantidade de pedidos no mês atual até o dia de hoje e a quantidade de pedidos no mês passado no mesmo dia.")
@@ -171,6 +192,54 @@ class PedidoController(
     ): ResponseEntity<Pedido>{
         val pedido = service.excluir(idUsuario, idPedido)
         return ResponseEntity.status(200).body(pedido)
+    }
+
+
+    @Operation(summary = "Exclui logicamente todos os pedidos com base em um agendamento",
+        description = "Exclui logicamente todos os pedidos com base no id do usuário e de um agendamento.")
+    @ApiResponses(
+        value = [
+            ApiResponse(responseCode = "200", description = "Pedidos encontradas com sucesso!"),
+            ApiResponse(responseCode = "204", description = "Nenhum pedido cadastrado no agendamento."),
+            ApiResponse(responseCode = "404", description = "Usuário ou Agendamento não foi encontrada.", content = [Content(schema = Schema())]),
+        ],
+    )
+    @CrossOrigin(
+        origins = ["http://localhost:3333"],
+        methods = [RequestMethod.DELETE],
+        allowCredentials = "true"
+    )
+    @DeleteMapping("/excluir-por-agendamento/{idUsuario}/{idAgendamento}")
+    fun excluirPorAgendamento(
+        @PathVariable idUsuario: Int,
+        @PathVariable idAgendamento: Int,
+    ): ResponseEntity<Array<Pedido>>{
+        val arrayPedido = service.excluirPorAgendamento(idUsuario, idAgendamento)
+        return ResponseEntity.status(200).body(arrayPedido)
+    }
+
+
+    @Operation(summary = "Reativa logicamente todos os pedidos com base em um agendamento",
+        description = "Reativa logicamente todos os pedidos com base no id do usuário e de um agendamento.")
+    @ApiResponses(
+        value = [
+            ApiResponse(responseCode = "200", description = "Pedidos encontradas com sucesso!"),
+            ApiResponse(responseCode = "204", description = "Nenhum pedido cadastrado no agendamento."),
+            ApiResponse(responseCode = "404", description = "Usuário ou Agendamento não foi encontrada.", content = [Content(schema = Schema())]),
+        ],
+    )
+    @CrossOrigin(
+        origins = ["http://localhost:3333"],
+        methods = [RequestMethod.PATCH],
+        allowCredentials = "true"
+    )
+    @PatchMapping("/reativar-por-agendamento/{idUsuario}/{idAgendamento}")
+    fun reativarPorAgendamento(
+        @PathVariable idUsuario: Int,
+        @PathVariable idAgendamento: Int,
+    ): ResponseEntity<Array<Pedido>>{
+        val arrayPedido = service.reativarPorAgendamento(idUsuario, idAgendamento)
+        return ResponseEntity.status(200).body(arrayPedido)
     }
 
 

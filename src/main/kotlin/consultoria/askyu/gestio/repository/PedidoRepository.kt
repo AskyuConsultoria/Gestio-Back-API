@@ -16,6 +16,7 @@ interface PedidoRepository: JpaRepository<Pedido, Int>, IRepositorio {
     fun findByUsuarioIdAndIdAndAtivoTrue(usuarioId: Int, pedidoId: Int): Pedido?
 
     fun findByUsuarioIdAndAgendamentoIdAndAtivoTrue(usuarioId: Int, agendamentoId: Int): List<Pedido>
+    fun findByUsuarioIdAndAgendamentoIdAndAtivoIs(usuarioId: Int, agendamentoId: Int, ativo: Boolean): ArrayList<Pedido>
 
     @Procedure(name = "getComparacaoClientes")
     fun buscarRelatorioPedido(usuarioId: Int): ClienteRelatorioResponse
