@@ -144,11 +144,11 @@ class AgendamentoService(
         return listaAgendamento
     }
 
-    fun buscarPorClienteNome(idUsuario: Int, nome: String): List<Agendamento>{
+    fun buscarPorClienteNome(idUsuario: Int, nome: String, ativo: Boolean): List<Agendamento>{
         idUsuarioValidation(idUsuario)
 
         val listaAgendamento =
-            repository.findByUsuarioIdAndClienteNomeContainsIgnoreCaseAndAtivoTrue(idUsuario, nome)
+            repository.findByUsuarioIdAndClienteNomeContainsIgnoreCaseAndAtivoIs(idUsuario, nome, ativo)
         listValidation(listaAgendamento)
         return listaAgendamento
     }

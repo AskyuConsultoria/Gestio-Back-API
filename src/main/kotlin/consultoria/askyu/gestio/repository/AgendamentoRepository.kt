@@ -25,7 +25,7 @@ interface AgendamentoRepository: JpaRepository<Agendamento, Int>, IRepositorio {
 
     fun findByUsuarioIdAndAtivoFalseAndEtapaId(usuarioId: Int, etapaId: Int): List<Agendamento>
 
-    fun findByUsuarioIdAndClienteNomeContainsIgnoreCaseAndAtivoTrue(usuarioId: Int, nome: String): List<Agendamento>
+    fun findByUsuarioIdAndClienteNomeContainsIgnoreCaseAndAtivoIs(usuarioId: Int, nome: String, ativo: Boolean): List<Agendamento>
 
     fun findByUsuarioIdAndAndClienteEmailContainsIgnoreCaseAndAtivoTrue(usuarioId: Int, email: String): List<Agendamento>
 

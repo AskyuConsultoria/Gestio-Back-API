@@ -187,9 +187,10 @@ class AgendamentoController(
     fun buscarPorClienteNome(
         @PathVariable idUsuario: Int,
         @RequestParam nome: String,
+        @RequestParam ativo: Boolean
     ): ResponseEntity<List<Agendamento>> {
         val listaAgendamento =
-            service.buscarPorClienteNome(idUsuario, nome)
+            service.buscarPorClienteNome(idUsuario, nome, ativo)
         return ResponseEntity.status(200).body(listaAgendamento)
     }
 

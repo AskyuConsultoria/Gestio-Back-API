@@ -180,7 +180,7 @@ class PedidoService(
         idAgendamentoValidation(idAgendamento)
 
         val filaPedido = transformarEmQueue(
-            repository.findByUsuarioIdAndAgendamentoIdAndAtivoIs(idUsuario, idAgendamento, true)
+            repository.findByUsuarioIdAndAgendamentoIdAndAtivoIs(idUsuario, idAgendamento, false)
         )
 
         QueueValidation(filaPedido)
