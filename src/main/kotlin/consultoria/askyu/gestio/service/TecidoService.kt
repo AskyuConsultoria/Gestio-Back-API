@@ -54,9 +54,7 @@ class TecidoService(
             // Se o tecido atual for igual ao nome procurado, retorna o tecido.
             when {
                 tecidoAtual.nome == nome -> return tecidoAtual
-                // Se o tecido atual é menor, ajusta 'inicio' para a direita.
                 tecidoAtual.nome!! < nome -> inicio = meio + 1
-                // Se o tecido atual é maior, ajusta 'fim' para a esquerda.
                 else -> fim = meio - 1
             }
         }
