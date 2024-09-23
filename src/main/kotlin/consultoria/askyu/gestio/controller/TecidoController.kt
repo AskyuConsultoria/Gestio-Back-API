@@ -58,7 +58,7 @@ class TecidoController(
     }
 
 
-    @Operation(summary = "Busca tecidos por um nome.",
+    @Operation(summary = "Busca tecidos por um nome",
         description = "Retorna uma lista de tecidos identificado pelo seu nome.")
     @ApiResponses(
         value = [
@@ -71,12 +71,11 @@ class TecidoController(
         methods = [RequestMethod.GET],
         allowCredentials = "true"
     )
-    @GetMapping("{usuarioId}/filtro-nome")
-    fun listarPorNome(@PathVariable usuarioId: Int, @RequestParam nome: String): ResponseEntity<List<Tecido>>{
+    @GetMapping("{usuarioId}/buscaNome")
+    fun buscarBinarioPorNome(@PathVariable usuarioId: Int, @RequestParam nome: String): ResponseEntity<Tecido>{
         val listaTecido = tecidoService.listarPorNome(usuarioId, nome)
         return ResponseEntity.status(200).body(listaTecido)
     }
-
 
     @Operation(summary = "Busca um tecido por um código de indentificação.",
         description = "Retorna um tecido por um código de indentificação.")

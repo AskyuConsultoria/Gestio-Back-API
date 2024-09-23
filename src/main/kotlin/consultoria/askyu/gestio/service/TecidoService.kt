@@ -37,11 +37,37 @@ class TecidoService(
         return listaTecido
     }
 
-    fun listarPorNome(usuarioId:Int,  nome: String): List<Tecido> {
-        val listaTecido = tecidoRepository.findByUsuarioIdAndNomeContainsIgnoreCase(usuarioId,nome)
+    fun listarPorNome(usuarioId: Int, nome: String): Tecido? {
+        // busca os tecidos pelo usuario e ordena por nome (ordem alfabetica)
+        val listaTecido = tecidoRepository.findByUsuarioId(usuarioId).sortedBy { it.nome }
         validarSeListaEVazia(listaTecido)
-        return listaTecido
+
+        // chuta o inicio e fim da lista, pegando size - 1 para equiparar a posição real
+        var inicio = 0
+        var fim = listaTecido.size - 1
+
+       // Enquanto inicio for menor ou igual a fim, há uma faixa válida para buscar.
+        while (inicio <= fim) {
+            val meio = (inicio + fim) / 2
+            val tecidoAtual = listaTecido[meio]
+
+            // Se o tecido atual for igual ao nome procurado, retorna o tecido.
+            when {
+                tecidoAtual.nome == nome -> return tecidoAtual
+                // Se o tecido atual é menor, ajusta 'inicio' para a direita.
+                tecidoAtual.nome!! < nome -> inicio = meio + 1
+                // Se o tecido atual é maior, ajusta 'fim' para a esquerda.
+                else -> fim = meio - 1
+            }
+        }
+
+        return null
     }
+
+    // Versão simplificada do kotlin:
+//    val index = listaTecido.binarySearch { it.nome!!.compareTo(nome) }
+//    return if (index >= 0) listaTecido[index] else null
+
 
     fun buscarTecidoPorId(usuarioId: Int, tecidoId: Int): Tecido {
         usuarioService.existenceValidation(usuarioId)
