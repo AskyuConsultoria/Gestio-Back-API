@@ -33,8 +33,20 @@ class PedidoService(
         }
     }
 
+    fun StackValidation(stack: Stack<*>){
+        if(stack.isEmpty()){
+            throw ResponseStatusException(HttpStatusCode.valueOf(204), "O resultado da busca foi uma lista vazia")
+        }
+    }
+
     fun transformarEmQueue(arrayList: ArrayList<Pedido>): Queue<Pedido>{
         return LinkedList(arrayList)
+    }
+
+    fun transformarEmStack(arrayList: ArrayList<Pedido>): Stack<Pedido>{
+        val stack = Stack<Pedido>()
+        for(i in 0.. arrayList.size - 1) stack.push(arrayList[i])
+        return stack
     }
 
 
@@ -180,7 +192,7 @@ class PedidoService(
         idAgendamentoValidation(idAgendamento)
 
         val filaPedido = transformarEmQueue(
-            repository.findByUsuarioIdAndAgendamentoIdAndAtivoIs(idUsuario, idAgendamento, false)
+            repository.findByUsuarioIdAndAgendamentoIdAndAtivoIs(idUsuario, idAgendamento, true)
         )
 
         QueueValidation(filaPedido)
@@ -200,16 +212,16 @@ class PedidoService(
         usuarioValidation(idUsuario)
         idAgendamentoValidation(idAgendamento)
 
-        val filaPedido = transformarEmQueue(
+        val pilhaPedido = transformarEmStack(
             repository.findByUsuarioIdAndAgendamentoIdAndAtivoIs(idUsuario, idAgendamento, false)
         )
 
-        QueueValidation(filaPedido)
+        StackValidation(pilhaPedido)
 
-        val arrayPedido = Array<Pedido>(filaPedido.size){ Pedido(null, null, null, null, null, null, true) }
+        val arrayPedido = Array<Pedido>(pilhaPedido.size){ Pedido(null, null, null, null, null, null, true) }
 
-        for(i in 0..filaPedido.size - 1){
-            var elemento = filaPedido.remove()
+        for(i in 0..pilhaPedido.size - 1){
+            var elemento = pilhaPedido.pop()
             elemento!!.ativo = true
             arrayPedido[i] = repository.save(elemento)
         }
