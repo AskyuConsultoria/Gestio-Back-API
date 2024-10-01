@@ -108,9 +108,9 @@ class ClienteController (
         methods = [RequestMethod.GET],
         allowCredentials = "true"
     )
-    @GetMapping("/{usuarioId}/relatorio-kpi")
-    fun buscarRelatorioPedido(@PathVariable usuarioId: Int): ResponseEntity<ClienteRelatorioResponse> {
-        val relatorioPedido = clienteRelatorioService.getComparacaoClientes(usuarioId)
+    @GetMapping("relatorio-kpi/{usuarioId}")
+    fun buscarRelatorioPedido(@PathVariable usuarioId: Int, @RequestParam anoEscolhido: Int, @RequestParam mesEscolhido: Int, @RequestParam periodo: Int): ResponseEntity<ClienteRelatorioResponse> {
+        val relatorioPedido = clienteRelatorioService.getComparacaoClientes(usuarioId, anoEscolhido, mesEscolhido, periodo)
         return ResponseEntity.status(200).body(relatorioPedido)
     }
 

@@ -1,11 +1,12 @@
 package consultoria.askyu.gestio.controller
 
 import consultoria.askyu.gestio.dominio.PedidoGraficoView
-import consultoria.askyu.gestio.interfaces.Controlador
 import consultoria.askyu.gestio.interfaces.ViewControlador
 import consultoria.askyu.gestio.service.PedidoViewService
+import org.springframework.format.annotation.DateTimeFormat
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
+import java.time.LocalDateTime
 
 @RestController
 @RequestMapping("/pedido-view")
@@ -19,8 +20,13 @@ class PedidoViewController(
         allowCredentials = "true"
     )
     @GetMapping("/{usuarioId}")
-    fun visualizar(@PathVariable usuarioId: Int): ResponseEntity<List<PedidoGraficoView>> {
-        val relatorioPedido = pedidoViewService.visualizar(usuarioId)
+    fun visualizar(
+        @PathVariable usuarioId: Int,
+        @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) dataInicio: LocalDateTime,
+    ): ResponseEntity<List<PedidoGraficoView>> {
+        val relatorioPedido = pedidoViewService.visualizar(usuarioId, dataInicio)
         return ResponseEntity.status(200).body(relatorioPedido)
     }
+
+
 }

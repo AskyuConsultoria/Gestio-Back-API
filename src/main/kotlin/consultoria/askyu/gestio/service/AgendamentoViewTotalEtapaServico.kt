@@ -11,7 +11,7 @@ class AgendamentoViewTotalEtapaServico (
     val usuarioService: UsuarioService
 ): ViewServico(agendamentoViewTotalEtapaRepository, usuarioService){
 
-    override fun visualizar(usuarioId: Int): List<AgendamentoViewTotalEtapa>{
+     fun visualizar(usuarioId: Int): List<AgendamentoViewTotalEtapa>{
         usuarioService.existenceValidation(usuarioId)
         return agendamentoViewTotalEtapaRepository.findByUsuarioIdAndAtivoTrue(usuarioId)
     }

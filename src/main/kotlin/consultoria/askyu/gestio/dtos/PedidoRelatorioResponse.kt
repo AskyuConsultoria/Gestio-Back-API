@@ -4,12 +4,8 @@ package consultoria.askyu.gestio.dtos
 
 
 class PedidoRelatorioResponse(
-
-    var quantidadePedidoMesPassado: Int? = null,
-    var quantidadePedidoMesAtual: Int? = null
+    var quantidadePedidoPassado: Int? = null,
+    var quantidadePedidoAtual: Int? = null
 ) {
 
-    fun getPorcentagemPedido(){
-      var porcentagem = quantidadePedidoMesAtual!!/quantidadePedidoMesPassado!! * 100
-    }
 }

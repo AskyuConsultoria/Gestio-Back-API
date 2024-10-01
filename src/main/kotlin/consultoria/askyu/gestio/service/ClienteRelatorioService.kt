@@ -14,20 +14,27 @@ class ClienteRelatorioService(
     @PersistenceContext private val entityManager: EntityManager
 ):RelatorioServico(entityManager){
         @Transactional
-        fun getComparacaoClientes(usuarioId: Int): ClienteRelatorioResponse {
+        fun getComparacaoClientes(usuarioId: Int, anoEscolhido: Int, mesEscolhido: Int, periodo: Int): ClienteRelatorioResponse {
         val query: StoredProcedureQuery = entityManager
             .createStoredProcedureQuery("getComparacaoClientes")
             .registerStoredProcedureParameter("usuario_id_input", Int::class.java, jakarta.persistence.ParameterMode.IN)
-            .registerStoredProcedureParameter("quantidade_cliente_mes_passado", Int::class.java, jakarta.persistence.ParameterMode.OUT)
-            .registerStoredProcedureParameter("quantidade_cliente_mes_atual", Int::class.java, jakarta.persistence.ParameterMode.OUT)
+            .registerStoredProcedureParameter("ano_escolhido", Int::class.java, jakarta.persistence.ParameterMode.IN)
+            .registerStoredProcedureParameter("mes_escolhido", Int::class.java, jakarta.persistence.ParameterMode.IN)
+            .registerStoredProcedureParameter("periodo", Int::class.java, jakarta.persistence.ParameterMode.IN)
+            .registerStoredProcedureParameter("quantidade_cliente_passado", Int::class.java, jakarta.persistence.ParameterMode.OUT)
+            .registerStoredProcedureParameter("quantidade_cliente_atual", Int::class.java, jakarta.persistence.ParameterMode.OUT)
             .setParameter("usuario_id_input", usuarioId)
+            .setParameter("ano_escolhido", anoEscolhido)
+            .setParameter("mes_escolhido", mesEscolhido)
+            .setParameter("periodo", periodo)
+
 
         query.execute()
 
-        val quantidadeClienteMesPassado = query.getOutputParameterValue("quantidade_cliente_mes_passado") as Int
-        val quantidadeClienteMesAtual = query.getOutputParameterValue("quantidade_cliente_mes_atual") as Int
+        val quantidadeClientePassado = query.getOutputParameterValue("quantidade_cliente_passado") as Int
+        val quantidadeClienteAtual = query.getOutputParameterValue("quantidade_cliente_atual") as Int
 
-        return ClienteRelatorioResponse(quantidadeClienteMesPassado, quantidadeClienteMesAtual)
+        return ClienteRelatorioResponse(quantidadeClientePassado, quantidadeClienteAtual)
 
         }
 }

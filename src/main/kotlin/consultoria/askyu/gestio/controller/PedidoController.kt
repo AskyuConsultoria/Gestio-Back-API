@@ -134,7 +134,7 @@ class PedidoController(
         description = "Realiza operações dentro do banco de dados através de uma View, calulca a quantidade de períodos do primeiro dia do mês até o dia atual. Esse cálculo também é feito com o mês anterior, e por fim ela retorna a quantidade de pedidos no mês atual até o dia de hoje e a quantidade de pedidos no mês passado no mesmo dia.")
     @ApiResponses(
         value = [
-            ApiResponse(responseCode = "201", description = "Pedido encontrado com sucesso!"),
+            ApiResponse(responseCode = "200", description = "Pedido encontrado com sucesso!"),
             ApiResponse(responseCode = "404", description = "Usuário ou pedido não encontrado.", content = [Content(schema = Schema())]),
         ],
     )
@@ -143,9 +143,9 @@ class PedidoController(
         methods = [RequestMethod.GET],
         allowCredentials = "true"
     )
-    @GetMapping("/{usuarioId}/relatorio-kpi")
-    fun buscarRelatorioPedido(@PathVariable usuarioId: Int): ResponseEntity<PedidoRelatorioResponse> {
-        val relatorioPedido = pedidoRelatorioService.getComparacaoPedidos(usuarioId)
+    @GetMapping("/relatorio-kpi/{usuarioId}")
+    fun buscarRelatorioPedido(@PathVariable usuarioId: Int, @RequestParam anoEscolhido: Int, @RequestParam mesEscolhido: Int, @RequestParam periodo: Int): ResponseEntity<PedidoRelatorioResponse> {
+        val relatorioPedido = pedidoRelatorioService.getComparacaoPedidos(usuarioId, anoEscolhido, mesEscolhido, periodo)
         return ResponseEntity.status(200).body(relatorioPedido)
     }
 

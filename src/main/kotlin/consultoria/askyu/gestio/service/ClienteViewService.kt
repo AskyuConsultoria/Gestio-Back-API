@@ -12,7 +12,7 @@ class ClienteViewService(
     val clienteViewRepository: ClienteViewRepository
 ):ViewServico(clienteViewRepository, clienteService) {
 
-    override fun visualizar(id: Int): ClienteView{
+     fun visualizar(id: Int): ClienteView{
         clienteService.idValidation(id)
 
         var clienteDado = clienteViewRepository.findById(id).get()

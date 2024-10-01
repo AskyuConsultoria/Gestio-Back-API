@@ -1,6 +1,7 @@
 package consultoria.askyu.gestio.dominio
 
 import jakarta.persistence.*
+import java.time.LocalDateTime
 import java.util.*
 
 
@@ -12,7 +13,8 @@ data class TecidoGraficoView(
     var id: UUID? = null,
     var nome: String? = null,
     var qtdTecidos: Int? = null,
-    var usuarioId: Int? = null
+    var usuarioId: Int? = null,
+    var dataInicio: LocalDateTime? = null
 ) {
 
 }

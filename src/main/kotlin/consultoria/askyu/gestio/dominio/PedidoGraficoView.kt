@@ -1,6 +1,7 @@
 package consultoria.askyu.gestio.dominio
 
 import jakarta.persistence.*
+import java.time.LocalDateTime
 import java.util.*
 
 
@@ -24,5 +25,7 @@ class PedidoGraficoView(
     var id: UUID,
     var nome: String,
     var qtdPedidos: Int,
-    var usuarioId: Int
+    var usuarioId: Int,
+    var dataInicio: LocalDateTime
+
 )
