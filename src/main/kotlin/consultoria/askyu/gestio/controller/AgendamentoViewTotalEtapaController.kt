@@ -14,7 +14,7 @@ class AgendamentoViewTotalEtapaController (
 ):ViewControlador(agendamentoViewTotalEtapaService) {
 
     @CrossOrigin(
-        origins = ["http://localhost:3333"],
+        origins = ["http://localhost:3333", "http://192.168.15.3:3333/"],
         methods = [RequestMethod.GET],
         allowCredentials = "true"
     )

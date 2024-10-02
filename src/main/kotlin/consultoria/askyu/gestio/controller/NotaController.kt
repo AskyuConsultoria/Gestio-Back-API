@@ -33,7 +33,7 @@ class NotaController(
 
 
     @CrossOrigin(
-        origins = ["http://localhost:3333"],
+        origins = ["http://localhost:3333", "http://192.168.15.3:3333/"],
         methods = [RequestMethod.GET],
         allowCredentials = "true"
     )
@@ -55,7 +55,7 @@ class NotaController(
 
 
     @CrossOrigin(
-        origins = ["http://localhost:3333"],
+        origins = ["http://localhost:3333", "http://192.168.15.3:3333/"],
         methods = [RequestMethod.GET],
         allowCredentials = "true"
     )
@@ -76,7 +76,7 @@ class NotaController(
 
 
     @CrossOrigin(
-        origins = ["http://localhost:3333"],
+        origins = ["http://localhost:3333", "http://192.168.15.3:3333/"],
         methods = [RequestMethod.GET],
         allowCredentials = "true"
     )
@@ -97,7 +97,7 @@ class NotaController(
 
 
     @CrossOrigin(
-        origins = ["http://localhost:3333"],
+        origins = ["http://localhost:3333", "http://192.168.15.3:3333/"],
         methods = [RequestMethod.GET],
         allowCredentials = "true"
     )
@@ -118,7 +118,7 @@ class NotaController(
 
 
     @CrossOrigin(
-        origins = ["http://localhost:3333"],
+        origins = ["http://localhost:3333", "http://192.168.15.3:3333/"],
         methods = [RequestMethod.PUT],
         allowCredentials = "true"
     )
@@ -150,7 +150,7 @@ class NotaController(
         ],
     )
     @CrossOrigin(
-        origins = ["http://localhost:3333"],
+        origins = ["http://localhost:3333", "http://192.168.15.3:3333/"],
         methods = [RequestMethod.DELETE],
         allowCredentials = "true"
     )
