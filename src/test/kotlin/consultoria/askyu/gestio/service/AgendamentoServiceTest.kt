@@ -3,10 +3,7 @@ package consultoria.askyu.gestio.service
 import consultoria.askyu.gestio.dominio.Agendamento
 import consultoria.askyu.gestio.dominio.Etapa
 import consultoria.askyu.gestio.dominio.Usuario
-import consultoria.askyu.gestio.repository.AgendamentoRepository
-import consultoria.askyu.gestio.repository.ClienteRepository
-import consultoria.askyu.gestio.repository.EtapaRepository
-import consultoria.askyu.gestio.repository.UsuarioRepository
+import consultoria.askyu.gestio.repository.*
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.DisplayName
@@ -24,7 +21,8 @@ class AgendamentoServicoTest {
     lateinit var etapaRepository: EtapaRepository
     lateinit var usuarioRepository: UsuarioRepository
     lateinit var agendamentoService: AgendamentoService
-    
+    lateinit var enderecoRepository: EnderecoRepository
+    lateinit var telefoneRepository: TelefoneRepository
     @BeforeEach
     fun iniciar(){
         mapper = mock(ModelMapper::class.java)
@@ -32,7 +30,8 @@ class AgendamentoServicoTest {
         agendamentoRepository = mock(AgendamentoRepository::class.java)
         etapaRepository = mock(EtapaRepository::class.java)
         usuarioRepository = mock(UsuarioRepository::class.java)
-        agendamentoService = AgendamentoService(mapper, agendamentoRepository, clienteRepository, etapaRepository, usuarioRepository)
+        enderecoRepository = mock(EnderecoRepository::class.java)
+        agendamentoService = AgendamentoService(mapper, agendamentoRepository, clienteRepository, etapaRepository, usuarioRepository, enderecoRepository, telefoneRepository)
     }
 
     val afterUsuario = Usuario(1)

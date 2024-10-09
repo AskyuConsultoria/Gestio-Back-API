@@ -2,11 +2,10 @@ package consultoria.askyu.gestio.service
 
 import consultoria.askyu.gestio.dominio.Endereco
 import consultoria.askyu.gestio.repository.EnderecoRepository
-import org.junit.jupiter.api.Test
-
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.BeforeEach
-import org.mockito.Mockito.*
+import org.junit.jupiter.api.Test
+import org.mockito.Mockito.mock
 import org.mockito.Mockito.`when`
 import org.modelmapper.ModelMapper
 import org.springframework.web.client.RestTemplate
@@ -18,6 +17,8 @@ class EnderecoServicoTest {
 
     lateinit var repository: EnderecoRepository
     lateinit var service: EnderecoService
+    lateinit var usuarioService: UsuarioService
+    lateinit var clienteService: ClienteService
     lateinit var mapper: ModelMapper
 
     val restTemplate = RestTemplate()
@@ -31,7 +32,7 @@ class EnderecoServicoTest {
     fun iniciar() {
         repository = mock(EnderecoRepository::class.java)
         mapper = mock(ModelMapper::class.java)
-        service = EnderecoService(repository, mapper)
+        service = consultoria.askyu.gestio.service.EnderecoService(repository, usuarioService, clienteService, mapper)
     }
 
 
