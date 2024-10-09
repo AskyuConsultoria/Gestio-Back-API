@@ -22,7 +22,7 @@ class TelefoneService (
 
     fun buscarPorId(usuarioId: Int, telefoneId: Int): Telefone{
         usuarioService.existenceValidation(usuarioId)
-        telefoneValidation(usuarioId, telefoneId)
+        validarTelefone(usuarioId, telefoneId)
         val telefone = telefoneRepository.findByUsuarioIdAndIdAndAtivoTrue(usuarioId, telefoneId)
         return telefone
     }
@@ -58,23 +58,24 @@ class TelefoneService (
         }
     }
 
-    fun telefoneValidation(usuarioId:Int, telefoneId: Int){
-        if(!telefoneRepository.existsByUsuarioIdAndAndId(usuarioId, telefoneId)){
 
-            throw ResponseStatusException(HttpStatusCode.valueOf(404), "O Telefone não existe.")
+    fun validarTelefone (usuarioId: Int, telefoneId: Int){
+
+        if (!telefoneRepository.existsByUsuarioIdAndId(usuarioId, telefoneId)){
+            throw ResponseStatusException(HttpStatusCode.valueOf(404), "O telefone não existe")
         }
-
     }
 
-    fun validarTelefone (usuarioId: Int, tipoTelefoneId: Int, telefoneId: Int){
-
-        if (!telefoneRepository.existsByUsuarioIdAndId(usuarioId, tipoTelefoneId)){
-            throw ResponseStatusException(HttpStatusCode.valueOf(204), "Lista de telefone está vazia")
-        }
+    fun atualizarTelefone(usuarioId: Int, telefoneId: Int, numero: String): Telefone{
+        usuarioService.existenceValidation(usuarioId)
+        validarTelefone(usuarioId, telefoneId)
+        val telefone = telefoneRepository.findByUsuarioIdAndIdAndAtivoTrue(usuarioId,telefoneId)
+        telefone.numero = numero
+        return telefoneRepository.save(telefone)
     }
 
     fun deletarTelefone(usuarioId:Int, clienteId: Int, tipoTelefoneId: Int, telefoneId: Int): Telefone {
-        telefoneValidation(usuarioId, clienteId)
+        validarTelefone(usuarioId, clienteId)
 
         val telefone = telefoneRepository.findByUsuarioIdAndIdAndAtivoTrue(usuarioId, tipoTelefoneId)
 

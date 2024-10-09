@@ -117,6 +117,26 @@ class TelefoneController(
         return ResponseEntity.status(200).body(listaTelefone)
     }
 
+
+    @Operation(summary = "Atualiza um número de telefone pelo id do usuário e seu próprio id.",
+        description = "Atualiza um número de telefone pelo id do usuário e seu próprio id.")
+    @ApiResponses(
+        value = [
+            ApiResponse(responseCode = "200", description = "Numero atualizado!"),
+            ApiResponse(responseCode = "404", description = "Usuário ou telefone não foram encontrados")
+        ],
+    )
+    @CrossOrigin(
+        origins = ["http://localhost:3333", "http://192.168.15.3:3333/"],
+        methods = [RequestMethod.PATCH],
+        allowCredentials = "true"
+    )
+    @PatchMapping("/{usuarioId}/{telefoneId}")
+    fun atualizarNumero(@PathVariable usuarioId: Int, @PathVariable telefoneId: Int, @RequestParam numero: String): ResponseEntity<Telefone>{
+        val telefone = telefoneService.atualizarTelefone(usuarioId, telefoneId, numero)
+        return ResponseEntity.status(200).body(telefone)
+    }
+
     @CrossOrigin(
         origins = ["http://localhost:3333", "http://192.168.15.3:3333/"],
         methods = [RequestMethod.DELETE],
