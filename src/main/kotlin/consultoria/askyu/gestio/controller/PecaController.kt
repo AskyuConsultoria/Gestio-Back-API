@@ -2,8 +2,11 @@ package consultoria.askyu.gestio.controller
 
 import consultoria.askyu.gestio.dominio.Peca
 import consultoria.askyu.gestio.dtos.PecaCadastroRequest
+import consultoria.askyu.gestio.dtos.PecaRelatorioPorAnoResponse
+import consultoria.askyu.gestio.dtos.PedidoRelatorioPorMesResponse
 import consultoria.askyu.gestio.interfaces.Controlador
 import consultoria.askyu.gestio.service.PecaService
+import consultoria.askyu.gestio.service.PecaViewRelatorioService
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.media.Content
 import io.swagger.v3.oas.annotations.media.Schema
@@ -17,6 +20,7 @@ import org.springframework.web.bind.annotation.*
 @RequestMapping("/pecas")
 class PecaController(
     var pecaService: PecaService,
+    var pecaViewRelatorioService: PecaViewRelatorioService
 ): Controlador(pecaService) {
 
     @Operation(summary = "Cadastra um peça com base no Id do usuário.",
@@ -140,7 +144,27 @@ class PecaController(
         return ResponseEntity.status(204).build()
     }
 
-
+    @Operation(summary = "Busca Pecas mais utilizadas no ano.",
+        description = "Busca Pecas mais utilizadas no ano.")
+    @ApiResponses(
+        value = [
+            ApiResponse(responseCode = "200", description = "Lista encontrada com sucesso", content = [Content(schema = Schema())]),
+            ApiResponse(responseCode = "404", description = "Usuário ou Peças não existem.", content = [Content(schema = Schema())])
+        ],
+    )
+    @CrossOrigin(
+        origins = ["http://localhost:3333", "http://192.168.15.3:3333/"],
+        methods = [RequestMethod.GET],
+        allowCredentials = "true"
+    )
+    @GetMapping("/view/{usuarioId}")
+    fun visualizarPorAno(
+        @PathVariable usuarioId: Int,
+        @RequestParam ano: Int,
+    ): ResponseEntity<List<PecaRelatorioPorAnoResponse>> {
+        val relatorioPeca = pecaViewRelatorioService.getPecasVendidasPorUsuarioEAno(usuarioId, ano)
+        return ResponseEntity.status(200).body(relatorioPeca)
+    }
 
 
 }
