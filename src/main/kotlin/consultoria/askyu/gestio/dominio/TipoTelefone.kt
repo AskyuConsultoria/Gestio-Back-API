@@ -7,11 +7,11 @@ class TipoTelefone (
 
     @field:Id
     @field:GeneratedValue(strategy = GenerationType.IDENTITY)
-    var id:Int,
+    var id:Int? = null,
 
-    var nome:String,
+    var nome:String? = null,
 
-    var digitos:Int,
+    var digitos:Int? = null,
 
     @field:ManyToOne
     var usuario: Usuario? = null
