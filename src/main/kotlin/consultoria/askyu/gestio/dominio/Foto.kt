@@ -12,8 +12,10 @@ data class Foto(
     var id:Int? = null,
     var nomeArquivo:String? = null,
     var dadoArquivo: ByteArray? = null,
-    var itemPedido:Int? = null,
-    var usuario:Int? = null
+    @field:ManyToOne
+    var itemPedido:ItemPedido? = null,
+    @field:ManyToOne
+    var usuario:Usuario? = null
 
 
     )

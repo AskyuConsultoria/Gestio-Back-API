@@ -13,4 +13,6 @@ interface UsuarioRepository: JpaRepository<Usuario, Int>, IRepositorio {
     fun findByUsuarioAndSenha(usuario: String, senha: String): Usuario
 
     fun findByUsuario(usuario: String): Usuario
+
+    fun findByUsuarioId(usuarioId: Int): Int
 }
