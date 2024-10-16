@@ -115,10 +115,30 @@ class EnderecoController(val service: EnderecoService
         methods = [RequestMethod.POST],
         allowCredentials = "true"
     )
-    @PostMapping
+    @PostMapping("/por-cep")
     fun cadastrarPorCEP(@Valid @RequestParam cep:CepCadastroDTO):ResponseEntity<Endereco> {
         val salvo = service.cadastrarCEP(cep.cep)
-        return ResponseEntity.status(200).body(salvo)
+        return ResponseEntity.status(201).body(salvo)
+    }
+
+
+    @Operation(summary = "Cadastrar endereço",
+        description = "Cadastra uma endereço no sistema com base no id do usuário.")
+    @ApiResponses(
+        value = [
+            ApiResponse(responseCode = "201", description = "Endereço cadastrado com sucesso"),
+            ApiResponse(responseCode = "404", description = "Usuário não existe", content = [Content(schema = Schema())])
+        ],
+    )
+    @CrossOrigin(
+        origins = ["http://localhost:3333", "http://192.168.15.3:3333/"],
+        methods = [RequestMethod.POST],
+        allowCredentials = "true"
+    )
+    @PostMapping("/{usuarioId}")
+    fun cadastrar(@PathVariable usuarioId: Int, @RequestBody novoEndereco: Endereco):ResponseEntity<Endereco> {
+        val endereco = service.cadastrar(usuarioId, novoEndereco)
+        return ResponseEntity.status(201).body(endereco)
     }
 
     @Operation(summary = "Obtem um endereço",

@@ -71,6 +71,13 @@ class EnderecoService(
         return endereco
     }
 
+
+    fun cadastrar(usuarioId: Int, novoEndereco: Endereco): Endereco{
+        usuarioService.existenceValidation(usuarioId)
+        novoEndereco.usuario!!.id = usuarioId
+        return repository.save(novoEndereco)
+    }
+
     fun cadastrarCEP(cep:String):Endereco{
         validarCepExiste(cep)
         val endereco = viaCep(cep)
