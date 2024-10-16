@@ -104,7 +104,9 @@ class FotoService(
         idUsuarioValidation(usuarioId)
         validateExistence(fotoId)
 
-        val etapa = repository.deleteByUsuarioIdAndId(usuarioId, fotoId)
+        val foto = repository.deleteByUsuarioIdAndId(usuarioId, fotoId)
+
+
     }
 
 

@@ -8,10 +8,7 @@ import consultoria.askyu.gestio.interfaces.Controlador
 import consultoria.askyu.gestio.service.FotoService
 import jakarta.validation.Valid
 import org.springframework.http.ResponseEntity
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PathVariable
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RequestBody
+import org.springframework.web.bind.annotation.*
 
 class FotoController(
     val service: FotoService
@@ -35,5 +32,34 @@ class FotoController(
         val foto = service.buscarUm(usuarioId,fotoId)
         return ResponseEntity.status(200).body(foto)
     }
+
+    @CrossOrigin(
+        origins = ["http://localhost:3333", "http://192.168.15.3:3333/"],
+        methods = [RequestMethod.PUT],
+        allowCredentials = "true"
+    )
+    @PutMapping("/{idUsuario}/{idFoto}")
+    fun atualizar(@PathVariable idUsuario: Int, @PathVariable idFoto: Int, @RequestBody fotoAtualizada: Foto): ResponseEntity<Foto>{
+        val foto = service.atualizar(idUsuario, idFoto, fotoAtualizada)
+        return ResponseEntity.status(200).body(foto)
+    }
+
+    @CrossOrigin(
+        origins = ["http://localhost:3333", "http://192.168.15.3:3333/"],
+        methods = [RequestMethod.DELETE],
+        allowCredentials = "true"
+    )
+    @DeleteMapping("/{idUsuario}/{idFoto}")
+    fun excluir(
+        @PathVariable idUsuario: Int,
+        @PathVariable idFoto: Int,
+    ): ResponseEntity<Void>{
+        val foto = service.excluir(idUsuario, idFoto)
+        return ResponseEntity.status(200).build()
+    }
+
+
+
+
 
 }
