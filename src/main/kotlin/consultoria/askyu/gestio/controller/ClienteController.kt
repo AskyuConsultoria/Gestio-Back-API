@@ -102,6 +102,12 @@ class ClienteController (
         return ResponseEntity.status(200).body(listaCliente)
     }
 
+    @GetMapping("/por-responsavel/{usuarioId}/{responsavelId}")
+    fun buscarClientesPorResponsavel(@PathVariable usuarioId: Int, @PathVariable responsavelId: Int): ResponseEntity<List<Cliente>> {
+        val listaCliente = service.buscarClientesPorResponsavel(usuarioId, responsavelId)
+        return ResponseEntity.status(200).body(listaCliente)
+    }
+
 
     @CrossOrigin(
         origins = ["http://localhost:3333", "http://192.168.15.3:3333/"],
@@ -153,6 +159,26 @@ class ClienteController (
 
         return ResponseEntity.status(200).body(clienteAtualizado)
     }
+
+    @PatchMapping("/{usuarioId}/{clienteId}/{responsavelId}")
+    fun atualizarResponsavel(
+        @PathVariable usuarioId: Int,
+        @PathVariable clienteId: Int,
+        @PathVariable responsavelId: Int,
+    ): ResponseEntity<Cliente>{
+        val cliente = service.atualizarResponsavel(usuarioId, clienteId, responsavelId)
+        return ResponseEntity.status(200).body(cliente)
+    }
+
+    @PatchMapping("/{usuarioId}/{clienteId}")
+    fun retirarResponsavel(
+        @PathVariable usuarioId: Int,
+        @PathVariable clienteId: Int,
+    ): ResponseEntity<Cliente>{
+        val cliente = service.retirarResponsavel(usuarioId, clienteId)
+        return ResponseEntity.status(200).body(cliente)
+    }
+
 
 }
 

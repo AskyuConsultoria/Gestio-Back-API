@@ -90,6 +90,17 @@ class ClienteService (
         return listaClientes
     }
 
+    fun buscarClientesPorResponsavel(usuarioId: Int, responsavelId: Int): List<Cliente>{
+        usuarioService.existenceValidation(usuarioId)
+        idValidation(responsavelId)
+
+        val listaClientesDependentes = clienteRepository.findByUsuarioIdAndResponsavelId(usuarioId, responsavelId)
+        listValidation(listaClientesDependentes)
+
+        return listaClientesDependentes
+    }
+
+
     fun desativarClientePorId(id:Int):Cliente{
         idValidation(id)
         val deletado = clienteRepository.findById(id).get()
@@ -114,6 +125,25 @@ class ClienteService (
             cliente.responsavel = clienteRepository.findById(dadoAtualizado.responsavel!!).get()
         }
 
+        return clienteRepository.save(cliente)
+    }
+
+    fun atualizarResponsavel(usuarioId: Int, clienteId: Int, responsavelId: Int): Cliente {
+        usuarioService.existenceValidation(usuarioId)
+        idValidation(clienteId)
+        idValidation(responsavelId)
+
+        val cliente = clienteRepository.findByUsuarioIdAndId(usuarioId, clienteId)
+        cliente.responsavel = clienteRepository.findByUsuarioIdAndId(usuarioId, responsavelId)
+        return clienteRepository.save(cliente)
+    }
+
+    fun retirarResponsavel(usuarioId: Int, clienteId: Int): Cliente{
+        usuarioService.existenceValidation(usuarioId)
+        idValidation(clienteId)
+
+        val cliente = clienteRepository.findByUsuarioIdAndId(usuarioId, clienteId)
+        cliente.responsavel = null
         return clienteRepository.save(cliente)
     }
 
