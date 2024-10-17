@@ -14,5 +14,4 @@ interface UsuarioRepository: JpaRepository<Usuario, Int>, IRepositorio {
 
     fun findByUsuario(usuario: String): Usuario
 
-    fun findByUsuarioId(usuarioId: Int): Int
 }

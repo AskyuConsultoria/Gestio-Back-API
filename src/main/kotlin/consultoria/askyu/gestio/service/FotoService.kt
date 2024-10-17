@@ -1,18 +1,17 @@
 package consultoria.askyu.gestio.service
 
-import consultoria.askyu.gestio.dominio.Agendamento
-import consultoria.askyu.gestio.dominio.Etapa
 import consultoria.askyu.gestio.dominio.Foto
-import consultoria.askyu.gestio.dominio.ItemPedido
 import consultoria.askyu.gestio.dtos.FotoCadastroDTO
 import consultoria.askyu.gestio.interfaces.Servico
-import consultoria.askyu.gestio.repository.ClienteRepository
 import consultoria.askyu.gestio.repository.FotoRepository
 import consultoria.askyu.gestio.repository.ItemPedidoRepository
 import consultoria.askyu.gestio.repository.UsuarioRepository
 import org.modelmapper.ModelMapper
 import org.springframework.http.HttpStatusCode
+import org.springframework.stereotype.Service
 import org.springframework.web.server.ResponseStatusException
+
+@Service
 
 class FotoService(
     val mapper: ModelMapper = ModelMapper(),
@@ -66,6 +65,7 @@ class FotoService(
 
     }
 
+
     fun buscarUm(usuarioId: Int, fotoId:Int): Foto{
         idUsuarioValidation(usuarioId)
         validateExistence(fotoId)
@@ -75,6 +75,13 @@ class FotoService(
 
         return foto
     }
+
+    fun buscarDadoArquivo(usuarioId: Int, fotoId: Int): ByteArray{
+        idUsuarioValidation(usuarioId)
+        validateExistence(fotoId)
+        return repository.findByUsuarioIdAndId(usuarioId, fotoId)!!.dadoArquivo!!
+    }
+
     fun buscar(usuarioId: Int): List<Foto>{
         idUsuarioValidation(usuarioId)
 
@@ -98,6 +105,12 @@ class FotoService(
         fotoAtualizada.usuario!!.id = fotoAtualizada.id
         fotoAtualizada.id = fotoId
         return repository.save(fotoAtualizada)
+    }
+
+    fun atualizarFoto(usuarioId: Int, fotoId: Int, dadoArquivo: ByteArray): Foto{
+        var foto = repository.findByUsuarioIdAndId(usuarioId, fotoId)
+        foto!!.dadoArquivo = dadoArquivo
+        return repository.save(foto)
     }
 
     fun excluir(usuarioId: Int, fotoId: Int) {

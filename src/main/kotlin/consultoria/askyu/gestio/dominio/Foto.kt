@@ -1,7 +1,6 @@
 package consultoria.askyu.gestio.dominio
 
 import jakarta.persistence.*
-import org.jetbrains.annotations.NotNull
 
 
 @Entity
@@ -16,6 +15,4 @@ data class Foto(
     var itemPedido:ItemPedido? = null,
     @field:ManyToOne
     var usuario:Usuario? = null
-
-
-    )
+)
