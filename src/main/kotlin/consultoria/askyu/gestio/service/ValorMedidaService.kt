@@ -20,6 +20,12 @@ class ValorMedidaService(
     var mapper: ModelMapper = ModelMapper()
 ): Servico(valorMedidaRepository, mapper) {
 
+   fun idValidation(id: Int){
+        if(!valorMedidaRepository.existsById(id)){
+            throw ResponseStatusException(HttpStatusCode.valueOf(404), "Valor de medida não encontrado.")
+        }
+    }
+
     fun postByIds(
         usuarioId: Int,
         clienteId: Int,
@@ -53,6 +59,13 @@ class ValorMedidaService(
         return listaValorMedida
     }
 
+    fun buscarUm(usuarioId: Int, valorMedidaId: Int, valorMedidaAtualizado: Float): ValorMedida{
+        usuarioService.existenceValidation(usuarioId)
+        idValidation(valorMedidaId)
+        val valorMedida = valorMedidaRepository.findByUsuarioIdAndAndId(usuarioId,valorMedidaId)
+        return valorMedida
+    }
+
 //    fun getSimples(usuarioId: Int, itemPedidoId: Int): List<ValorMedida>{
 //        usuarioService.existenceValidation(usuarioId)
 //        itemPedidoService.validateExistence(usuarioId, itemPedidoId)
@@ -63,19 +76,15 @@ class ValorMedidaService(
 //        return listaValorMedida
 //    }
 
-    fun putByUsuarioIdAndItemPedidoIdAndId(
+    fun putByUsuarioIdAndAndId(
         usuarioId: Int,
-        itemPedidoId: Int,
         valorMedidaId: Int,
-        valorMedidaAtualizado: ValorMedidaCadastroRequest
+        valorMedidaAtualizado: Float
     ): ValorMedida {
         usuarioService.existenceValidation(usuarioId)
-        itemPedidoService.validateExistence(usuarioId, itemPedidoId)
-        validarSeValorExiste(usuarioId, itemPedidoId, valorMedidaId)
-        valorMedidaAtualizado.usuario!!.id = usuarioId
-        valorMedidaAtualizado.itemPedido!!.id = itemPedidoId
-        val valorMedida = mapper.map(valorMedidaAtualizado, ValorMedida::class.java)
-        valorMedida.id = valorMedidaId
+        idValidation(valorMedidaId)
+        val valorMedida = valorMedidaRepository.findByUsuarioIdAndAndId(usuarioId, valorMedidaId)
+        valorMedida.valor = valorMedidaAtualizado
         valorMedidaRepository.save(valorMedida)
         return valorMedida
     }

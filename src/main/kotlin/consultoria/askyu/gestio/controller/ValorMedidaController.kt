@@ -72,6 +72,31 @@ class ValorMedidaController(
         return ResponseEntity.status(200).body(listaValorMedida)
     }
 
+
+    @Operation(summary = "Busca uma valor de medida específico.",
+        description = "Buscar um valor de medida específico pelo Id do usuário e do valor de medida.")
+    @ApiResponses(
+        value = [
+            ApiResponse(responseCode = "201", description = "Busca feito com sucesso!"),
+            ApiResponse(responseCode = "204", description = "Nenhuma valor de medida foi encontrado."),
+            ApiResponse(responseCode = "404", description = "Um dos códigos de identificação utilizados não foram encontrados dentro da base de dados.", content = [Content(schema = Schema())])
+        ],
+    )
+    @CrossOrigin(
+        origins = ["http://localhost:3333", "http://192.168.15.3:3333/"],
+        methods = [RequestMethod.GET],
+        allowCredentials = "true"
+    )
+    @GetMapping("/{usuarioId}/{valorMedidaId}/buscar-um")
+    fun buscarUm(
+        @PathVariable usuarioId: Int,
+        @PathVariable valorMedidaId: Int,
+        @RequestParam valorMedidaAtualizado: Float,
+    ): ResponseEntity<ValorMedida>{
+        val valorMedida = valorMedidaService.buscarUm(usuarioId, valorMedidaId, valorMedidaAtualizado)
+        return ResponseEntity.status(200).body(valorMedida)
+    }
+
 //    @GetMapping("/simples/{usuarioId}/{itemPedidoId}")
 //    fun buscarSimples(
 //        @PathVariable usuarioId: Int,
@@ -97,16 +122,15 @@ class ValorMedidaController(
         methods = [RequestMethod.PUT],
         allowCredentials = "true"
     )
-    @PutMapping("/{usuarioId}/{itemPedidoId}/{valorMedidaId}")
+    @PutMapping("/{usuarioId}/{valorMedidaId}")
     fun atualizar(
         @Valid
         @PathVariable usuarioId: Int,
-        @PathVariable itemPedidoId: Int,
         @PathVariable valorMedidaId: Int,
-        @RequestBody valorMedidaAtualizado: ValorMedidaCadastroRequest
+        @RequestParam valorMedidaAtualizado: Float
     ): ResponseEntity<ValorMedida>{
-        val valorMedida = valorMedidaService.putByUsuarioIdAndItemPedidoIdAndId(
-            usuarioId, itemPedidoId, valorMedidaId, valorMedidaAtualizado
+        val valorMedida = valorMedidaService.putByUsuarioIdAndAndId(
+            usuarioId, valorMedidaId, valorMedidaAtualizado
         )
         return ResponseEntity.status(200).body(valorMedida)
     }

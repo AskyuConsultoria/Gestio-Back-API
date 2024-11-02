@@ -21,4 +21,6 @@ interface ValorMedidaRepository: JpaRepository<ValorMedida, Int>, IRepositorio {
         itemPedidoId: Int,
         valorMedidaId: Int
     ): Boolean
+
+    fun findByUsuarioIdAndAndId(usuarioId: Int, valorMedidaId: Int): ValorMedida
 }

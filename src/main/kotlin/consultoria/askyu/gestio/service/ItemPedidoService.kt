@@ -42,6 +42,12 @@ class ItemPedidoService(
         return listaItemPedido
     }
 
+    fun buscarUm(usuarioId: Int, itemPedidoId: Int): ItemPedido {
+        usuarioService.existenceValidation(usuarioId)
+        validateExistence(usuarioId, itemPedidoId)
+        return itemPedidoRepository.findByUsuarioIdAndId(usuarioId, itemPedidoId)
+    }
+
     fun getByUsuarioIdAndClientId(usuarioId: Int, clienteId: Int): List<ItemPedido>{
         usuarioService.existenceValidation(usuarioId)
         clienteService.validateExistence(usuarioId, clienteId)

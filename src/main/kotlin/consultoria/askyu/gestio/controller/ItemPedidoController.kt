@@ -88,6 +88,26 @@ class ItemPedidoController(
         return ResponseEntity.status(200).body(listaItemPedido)
     }
 
+
+    @Operation(summary = "Busca uma ficha.",
+        description = "Busca uam ficha com base no Id do usuário e da própria ficha.")
+    @ApiResponses(
+        value = [
+            ApiResponse(responseCode = "200", description = "Fichas encontradas!"),
+            ApiResponse(responseCode = "404", description = "Usuário não existe.", content = [Content(schema = Schema())])
+        ],
+    )
+    @CrossOrigin(
+        origins = ["http://localhost:3333", "http://192.168.15.3:3333/"],
+        methods = [RequestMethod.GET],
+        allowCredentials = "true"
+    )
+    @GetMapping("{usuarioId}/{itemPedidoId}/buscar-um")
+   fun buscarUm(@PathVariable usuarioId: Int, @PathVariable itemPedidoId: Int): ResponseEntity<ItemPedido>{
+        val itemPedido = itemPedidoService.buscarUm(usuarioId, itemPedidoId)
+        return ResponseEntity.status(200).body(itemPedido)
+    }
+
     @Operation(summary = "Desativa uma ficha pelo Id do usuário e da própria ficha.",
         description = "Realiza a exclusão lógica de uma ficha pelo Id do usuário e da própria medida.")
     @ApiResponses(

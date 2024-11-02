@@ -102,6 +102,11 @@ class ClienteController (
         return ResponseEntity.status(200).body(listaCliente)
     }
 
+    @CrossOrigin(
+        origins = ["http://localhost:3333", "http://192.168.15.3:3333/"],
+        methods = [RequestMethod.GET],
+        allowCredentials = "true"
+    )
     @GetMapping("/por-responsavel/{usuarioId}/{responsavelId}")
     fun buscarClientesPorResponsavel(@PathVariable usuarioId: Int, @PathVariable responsavelId: Int): ResponseEntity<List<Cliente>> {
         val listaCliente = service.buscarClientesPorResponsavel(usuarioId, responsavelId)
@@ -155,11 +160,16 @@ class ClienteController (
     )
     @PutMapping("/{idCliente}")
     fun atualizarCliente(@Valid @PathVariable idCliente: Int, @RequestBody dados: ClienteAtualizarDTO): ResponseEntity<Cliente>{
-        val clienteAtualizado = service.atualizarCliente(dados)
+        val clienteAtualizado = service.atualizarCliente(idCliente, dados)
 
         return ResponseEntity.status(200).body(clienteAtualizado)
     }
 
+    @CrossOrigin(
+        origins = ["http://localhost:3333", "http://192.168.15.3:3333/"],
+        methods = [RequestMethod.PATCH],
+        allowCredentials = "true"
+    )
     @PatchMapping("/{usuarioId}/{clienteId}/{responsavelId}")
     fun atualizarResponsavel(
         @PathVariable usuarioId: Int,
@@ -170,6 +180,11 @@ class ClienteController (
         return ResponseEntity.status(200).body(cliente)
     }
 
+    @CrossOrigin(
+        origins = ["http://localhost:3333", "http://192.168.15.3:3333/"],
+        methods = [RequestMethod.PATCH],
+        allowCredentials = "true"
+    )
     @PatchMapping("/{usuarioId}/{clienteId}")
     fun retirarResponsavel(
         @PathVariable usuarioId: Int,

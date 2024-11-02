@@ -110,15 +110,14 @@ class ClienteService (
         return clienteRepository.save(deletado)
     }
 
-    fun atualizarCliente(dadoAtualizado: ClienteAtualizarDTO): Cliente{
-        idValidation(dadoAtualizado.id)
+    fun atualizarCliente(idCliente: Int, dadoAtualizado: ClienteAtualizarDTO): Cliente{
+        idValidation(idCliente)
 
-        val cliente = clienteRepository.findById(dadoAtualizado.id).get()
+        val cliente = clienteRepository.findById(idCliente).get()
 
         cliente.nome = dadoAtualizado.nome
         cliente.sobrenome = dadoAtualizado.sobrenome
         cliente.email = dadoAtualizado.email
-        cliente.dtNasc = dadoAtualizado.dtNasc
 
         if(dadoAtualizado.responsavel != null){
             idValidation(dadoAtualizado.responsavel!!)
