@@ -214,7 +214,7 @@ class PedidoController(
         @PathVariable idUsuario: Int,
         @PathVariable idAgendamento: Int,
     ): ResponseEntity<Array<Pedido>>{
-        val arrayPedido = service.excluirPorAgendamento(idUsuario, idAgendamento)
+        val arrayPedido  = service.excluirPorAgendamento(idUsuario, idAgendamento)
         return ResponseEntity.status(200).body(arrayPedido)
     }
 
