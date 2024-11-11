@@ -7,11 +7,11 @@ import consultoria.askyu.gestio.dominio.Peca
 import consultoria.askyu.gestio.dominio.Usuario
 
 data class ColecaoTecidoCadastroRequest(
-    var tecido: Tecido? = null,
-    val itemPedido: ItemPedido? = null,
-    var cliente: Cliente? = null,
     var usuario: Usuario? = null,
+    val itemPedido: ItemPedido? = null,
+    var tecido: Tecido? = null,
+    var cliente: Cliente? = null,
     var peca: Peca? = null
-) {
+    ) {
 
 }

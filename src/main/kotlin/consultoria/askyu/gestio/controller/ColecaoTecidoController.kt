@@ -32,17 +32,15 @@ class ColecaoTecidoController(
         methods = [RequestMethod.POST],
         allowCredentials = "true"
     )
-    @PostMapping("/{usuarioId}/{clienteId}/{pecaId}/{itemPedidoId}/{tecidoId}")
+    @PostMapping("/{usuarioId}/{itemPedidoId}/{tecidoId}")
     fun cadastrar(
         @PathVariable usuarioId: Int,
-        @PathVariable clienteId: Int,
-        @PathVariable pecaId: Int,
         @PathVariable itemPedidoId: Int,
         @PathVariable tecidoId: Int,
         @RequestBody novaColecaoTecido: ColecaoTecidoCadastroRequest
     ): ResponseEntity<ColecaoTecido>{
         val colecaoTecido = colecaoTecidoService.cadastrar(
-            usuarioId, clienteId, pecaId, itemPedidoId, tecidoId, novaColecaoTecido
+            usuarioId, itemPedidoId, tecidoId, novaColecaoTecido
         )
         return ResponseEntity.status(201).body(colecaoTecido)
     }

@@ -26,8 +26,8 @@ class ClienteService (
         }
     }
 
-    fun validateExistence(usuarioId: Int, itemPedidoId: Int){
-        if(!clienteRepository.existsByUsuarioIdAndId(usuarioId, itemPedidoId)){
+    fun validateExistence(usuarioId: Int, clienteId: Int){
+        if(!clienteRepository.existsByUsuarioIdAndId(usuarioId, clienteId)){
             throw ResponseStatusException(
                 HttpStatusCode.valueOf(404), "Cliente não foi encontrado!"
             )

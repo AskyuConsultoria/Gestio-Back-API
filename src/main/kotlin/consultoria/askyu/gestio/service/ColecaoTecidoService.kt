@@ -24,23 +24,25 @@ class ColecaoTecidoService(
 ): Servico(colecaoTecidoRepository, mapper) {
     fun cadastrar(
         usuarioId: Int,
-        clienteId: Int,
-        pecaId: Int,
         itemPedidoId: Int,
         tecidoId: Int,
         novoColecaoTecido: ColecaoTecidoCadastroRequest
     ): ColecaoTecido {
         usuarioService.existenceValidation(usuarioId)
-        clienteService.validateExistence(usuarioId, itemPedidoId)
-        pecaService.validarSeAPecaExiste(usuarioId, pecaId)
         itemPedidoService.validateExistence(usuarioId, itemPedidoId)
         tecidoService.existenceValidation(usuarioId, tecidoId)
+        val itemPedido = itemPedidoService.buscarUm(usuarioId, itemPedidoId)
+        clienteService.validateExistence(usuarioId, itemPedido.cliente!!.id!!)
+        pecaService.validarSeAPecaExiste(usuarioId, itemPedido.peca!!.id!!)
+
+       novoColecaoTecido.peca = pecaService.getByUsuarioIdAndId(usuarioId, itemPedido.peca!!.id!!)
+       novoColecaoTecido.cliente = clienteService.buscarUmCliente(itemPedido.cliente!!.id!!)
+
         val colecaoTecido = mapper.map(novoColecaoTecido, ColecaoTecido::class.java)
         colecaoTecido.usuario!!.id = usuarioId
-        colecaoTecido.cliente!!.id = clienteId
-        colecaoTecido.peca!!.id = pecaId
         colecaoTecido.itemPedido!!.id = itemPedidoId
         colecaoTecido.tecido!!.id = tecidoId
+
         return colecaoTecidoRepository.save(colecaoTecido)
     }
 
