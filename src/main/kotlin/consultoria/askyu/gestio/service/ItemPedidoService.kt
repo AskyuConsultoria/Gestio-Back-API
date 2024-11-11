@@ -37,7 +37,7 @@ class ItemPedidoService(
 
     fun getByUsuarioId(usuarioId: Int): List<ItemPedido>{
         usuarioService.existenceValidation(usuarioId)
-        val listaItemPedido = itemPedidoRepository.findByUsuarioId(usuarioId)
+        val listaItemPedido = itemPedidoRepository.findByUsuarioIdAndAtivoTrue(usuarioId)
         validarSeListaEstaVazia(listaItemPedido)
         return listaItemPedido
     }
@@ -51,7 +51,7 @@ class ItemPedidoService(
     fun getByUsuarioIdAndClientId(usuarioId: Int, clienteId: Int): List<ItemPedido>{
         usuarioService.existenceValidation(usuarioId)
         clienteService.validateExistence(usuarioId, clienteId)
-        val listaItemPedido = itemPedidoRepository.findByUsuarioIdAndClienteId(usuarioId, clienteId)
+        val listaItemPedido = itemPedidoRepository.findByUsuarioIdAndClienteIdAndAtivoTrue(usuarioId, clienteId)
         validarSeListaEstaVazia(listaItemPedido)
         return listaItemPedido
     }
