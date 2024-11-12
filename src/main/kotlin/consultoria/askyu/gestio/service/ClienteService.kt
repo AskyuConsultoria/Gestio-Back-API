@@ -70,7 +70,7 @@ class ClienteService (
     }
 
     fun buscarClientes(idUsuario: Int): List<ClienteResponse>{
-        val listaClientes = clienteRepository.findByUsuarioId(idUsuario)
+        val listaClientes = clienteRepository.findByUsuarioIdAndAtivoTrue(idUsuario)
         val listaDto = mutableListOf<ClienteResponse>()
 
         listValidation(listaClientes)
@@ -94,19 +94,18 @@ class ClienteService (
         usuarioService.existenceValidation(usuarioId)
         idValidation(responsavelId)
 
-        val listaClientesDependentes = clienteRepository.findByUsuarioIdAndResponsavelId(usuarioId, responsavelId)
+        val listaClientesDependentes = clienteRepository.findByUsuarioIdAndResponsavelIdAndAtivoTrue(usuarioId, responsavelId)
         listValidation(listaClientesDependentes)
 
         return listaClientesDependentes
     }
 
 
-    fun desativarClientePorId(id:Int):Cliente{
-        idValidation(id)
-        val deletado = clienteRepository.findById(id).get()
+    fun desativarClientePorId(usuarioId: Int, clienteId: Int):Cliente{
+        idValidation(clienteId)
 
+        val deletado = clienteRepository.findByUsuarioIdAndId(usuarioId, clienteId)
         deletado.ativo = false
-
         return clienteRepository.save(deletado)
     }
 

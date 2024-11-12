@@ -74,10 +74,10 @@ class TelefoneService (
         return telefoneRepository.save(telefone)
     }
 
-    fun deletarTelefone(usuarioId:Int, clienteId: Int, tipoTelefoneId: Int, telefoneId: Int): Telefone {
-        validarTelefone(usuarioId, clienteId)
+    fun deletarTelefone(usuarioId:Int,  telefoneId: Int): Telefone {
+        validarTelefone(usuarioId, telefoneId)
 
-        val telefone = telefoneRepository.findByUsuarioIdAndIdAndAtivoTrue(usuarioId, tipoTelefoneId)
+        val telefone = telefoneRepository.findByUsuarioIdAndIdAndAtivoTrue(usuarioId, telefoneId)
 
         telefone.usuario!!.id
         telefone.cliente!!.id

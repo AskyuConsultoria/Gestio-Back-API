@@ -138,11 +138,10 @@ class ClienteController (
         methods = [RequestMethod.DELETE],
         allowCredentials = "true"
     )
-    @DeleteMapping("/{idCliente}")
-    fun desativarCliente(@RequestParam idCliente: Int): ResponseEntity<ClienteResponse>{
-        service.desativarClientePorId(idCliente)
-
-        return ResponseEntity.status(204).build()
+    @DeleteMapping("/{usuarioId}/{clienteId}")
+    fun desativarCliente(@PathVariable usuarioId: Int, @PathVariable clienteId: Int ): ResponseEntity<Cliente> {
+        val cliente = service.desativarClientePorId(usuarioId, clienteId)
+        return ResponseEntity.status(200).body(cliente)
     }
 
     @Operation(summary = "Atualizar Cliente",

@@ -159,4 +159,23 @@ class EnderecoController(val service: EnderecoService
         return service.buscar(cep)
     }
 
+    @Operation(summary = "Desativa um endereço.",
+        description = "Desativa um endereço com base no Id do usuário e do Endereço.")
+    @ApiResponses(
+        value = [
+            ApiResponse(responseCode = "200", description = "Endereço encontrado com sucesso"),
+            ApiResponse(responseCode = "404", description = "Endereço não foi encontrado.", content = [Content(schema = Schema())])
+        ],
+    )
+    @CrossOrigin(
+        origins = ["http://localhost:3333", "http://192.168.15.3:3333/"],
+        methods = [RequestMethod.DELETE],
+        allowCredentials = "true"
+    )
+    @DeleteMapping("{usuarioId}/{enderecoId}")
+    fun desativarEndereco(@PathVariable usuarioId: Int, @PathVariable enderecoId: Int): ResponseEntity<Endereco> {
+        val endereco = service.desativar(usuarioId, enderecoId)
+        return ResponseEntity.status(200).body(endereco)
+    }
+
 }

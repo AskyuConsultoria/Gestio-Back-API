@@ -142,17 +142,13 @@ class TelefoneController(
         methods = [RequestMethod.DELETE],
         allowCredentials = "true"
     )
-    @DeleteMapping("/{usuarioId}/{clienteId}/{tipoTelefoneId}/{telefoneId}")
+    @DeleteMapping("/{usuarioId}/{telefoneId}")
     fun deletarTelefone(
         @PathVariable usuarioId: Int,
-        @PathVariable clienteId: Int,
-        @PathVariable tipoTelefoneId: Int,
         @PathVariable telefoneId: Int
     ): ResponseEntity<Void> {
-
-        telefoneService.deletarTelefone(usuarioId, clienteId, tipoTelefoneId, telefoneId)
-
-        return ResponseEntity.status(200).build()
+        telefoneService.deletarTelefone(usuarioId, telefoneId)
+        return ResponseEntity.status(204).build()
     }
 
 

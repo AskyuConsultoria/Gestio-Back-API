@@ -93,6 +93,14 @@ class EnderecoService(
         return repository.save(enderecoAtualizado)
     }
 
+    fun desativar(usuarioId: Int, enderecoId: Int): Endereco{
+        usuarioService.existenceValidation(usuarioId)
+        existenceValidation(enderecoId)
+        val endereco = repository.findByUsuarioIdAndIdAndAtivoTrue(usuarioId, enderecoId)
+        endereco.ativo = false
+        return repository.save(endereco)
+    }
+
     fun viaCep(cep:String):Endereco{
         try {
             val restTemplate = RestTemplate()
