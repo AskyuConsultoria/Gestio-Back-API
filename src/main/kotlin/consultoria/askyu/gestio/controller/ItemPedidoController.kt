@@ -108,6 +108,25 @@ class ItemPedidoController(
         return ResponseEntity.status(200).body(itemPedido)
     }
 
+    @Operation(summary = "Atualiza o observação de uma ficha.",
+        description = "atualiza a observação de uma ficha específica.")
+    @ApiResponses(
+        value = [
+            ApiResponse(responseCode = "200", description = "Fichas encontradas!"),
+            ApiResponse(responseCode = "404", description = "Usuário não existe.", content = [Content(schema = Schema())])
+        ],
+    )
+    @CrossOrigin(
+        origins = ["http://localhost:3333", "http://192.168.15.3:3333/"],
+        methods = [RequestMethod.PATCH],
+        allowCredentials = "true"
+    )
+    @PatchMapping("{usuarioId}/{itemPedidoId}")
+    fun atualizarObservacao(@PathVariable usuarioId: Int, @PathVariable itemPedidoId: Int, @RequestParam observacao: String): ResponseEntity<ItemPedido>{
+        val itemPedido = itemPedidoService.atualizarObservacao(usuarioId, itemPedidoId, observacao)
+        return ResponseEntity.status(200).body(itemPedido)
+    }
+
     @Operation(summary = "Desativa uma ficha pelo Id do usuário e da própria ficha.",
         description = "Realiza a exclusão lógica de uma ficha pelo Id do usuário e da própria medida.")
     @ApiResponses(

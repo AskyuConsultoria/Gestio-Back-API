@@ -56,6 +56,14 @@ class ItemPedidoService(
         return listaItemPedido
     }
 
+    fun atualizarObservacao(usuarioId: Int, itemPedidoId: Int, observacao: String): ItemPedido {
+        usuarioService.existenceValidation(usuarioId)
+        validateExistence(usuarioId, itemPedidoId)
+        val itemPedido = itemPedidoRepository.findByUsuarioIdAndId(usuarioId, itemPedidoId)
+        itemPedido.observacao = observacao
+        return itemPedidoRepository.save(itemPedido)
+    }
+
     fun deleteByUsuarioIdAndId(usuarioId: Int, itemPedidoId: Int): ItemPedido{
         validateExistence(usuarioId, itemPedidoId)
         var itemPedido = itemPedidoRepository.findByUsuarioIdAndId(

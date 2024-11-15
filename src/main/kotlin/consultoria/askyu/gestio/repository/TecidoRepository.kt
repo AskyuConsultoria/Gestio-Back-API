@@ -7,7 +7,7 @@ interface TecidoRepository: JpaRepository<Tecido, Int>, IRepositorio {
 
     fun existsByUsuarioIdAndId(usuarioId: Int, tecidoId: Int): Boolean
 
-    fun findByUsuarioId(usuarioId: Int): List<Tecido>
+    fun findByUsuarioIdAndAtivoTrue(usuarioId: Int): List<Tecido>
 
     fun findByUsuarioIdAndId(usuarioId: Int, tecidoId: Int): Tecido
 

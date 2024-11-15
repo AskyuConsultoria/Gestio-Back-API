@@ -1,6 +1,5 @@
 package consultoria.askyu.gestio
 
-import consultoria.askyu.gestio.dominio.Pedido
 import consultoria.askyu.gestio.dtos.TecidoCadastroRequest
 import consultoria.askyu.gestio.interfaces.Servico
 import consultoria.askyu.gestio.service.UsuarioService
@@ -32,7 +31,7 @@ class TecidoService(
     }
 
     fun listar(usuarioId: Int): List<Tecido> {
-      val listaTecido = tecidoRepository.findByUsuarioId(usuarioId)
+      val listaTecido = tecidoRepository.findByUsuarioIdAndAtivoTrue(usuarioId)
         validarSeListaEVazia(listaTecido)
         return listaTecido
     }

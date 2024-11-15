@@ -83,7 +83,7 @@ class ClienteService (
     }
 
     fun buscarClientesPorNome(idUsuario: Int, nome: String): List<Cliente>{
-        val listaClientes = clienteRepository.findByUsuarioIdAndNomeContainsIgnoreCase(idUsuario, nome)
+        val listaClientes = clienteRepository.findByUsuarioIdAndNomeContainsIgnoreCaseAndAtivoTrue(idUsuario, nome)
 
         listValidation(listaClientes)
 
