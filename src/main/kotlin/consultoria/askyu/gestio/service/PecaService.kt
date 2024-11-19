@@ -21,7 +21,7 @@ class PecaService(
 
     fun getAllByUsuarioId(id: Int): List<Peca>{
         usuarioService.existenceValidation(id)
-        var listaPeca = pecaRepository.findByUsuarioId(id)
+        var listaPeca = pecaRepository.findByUsuarioIdAndAtivoTrue(id)
         validarSeListaEstaVazia(listaPeca)
         return listaPeca
     }
