@@ -16,6 +16,8 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses
 import jakarta.validation.Valid
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
+import org.springframework.web.multipart.MultipartFile
+import java.io.File
 
 @RestController
 @RequestMapping("/clientes")
@@ -42,6 +44,36 @@ class ClienteController (
 
         return ResponseEntity.status(200).body(service)
     }
+
+    @Operation(
+        summary = "Cadastro de Cliente ou mais por txt",
+        description = "Cadastra um ou mais clientes no sistema a partir de um arquivo txt."
+    )
+    @ApiResponses(
+        value = [
+            ApiResponse(responseCode = "200", description = "Cliente cadastrado com sucesso"),
+            ApiResponse(responseCode = "400", description = "Erro ao processar o arquivo.", content = [Content(schema = Schema())]),
+        ]
+    )
+    @CrossOrigin(
+        origins = ["http://localhost:3333", "http://192.168.15.3:3333/"],
+        methods = [RequestMethod.POST],
+        allowCredentials = "true"
+    )
+    @PostMapping("/txt", consumes = ["multipart/form-data"])
+    fun cadastroTxt(@RequestParam("file") novoCliente: MultipartFile): ResponseEntity<List<Cliente>> {
+        if (novoCliente.isEmpty) {
+            return ResponseEntity.badRequest().build()
+        }
+        val tempFile = File.createTempFile("clientes-", ".txt")
+
+        novoCliente.transferTo(tempFile)
+
+        val clientes = service.cadastrarTxt(tempFile)
+
+        return ResponseEntity.status(200).body(clientes)
+    }
+
 
     @Operation(summary = "Pesquisar um cliente",
         description = "Busca um cliente do usuário.")

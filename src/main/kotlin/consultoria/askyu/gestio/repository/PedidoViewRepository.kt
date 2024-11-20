@@ -10,4 +10,6 @@ import java.util.*
 @Repository
 interface PedidoViewRepository: JpaRepository<PedidoGraficoView, UUID>, IRepositorio {
    fun findByUsuarioIdAndDataInicioGreaterThanEqual(usuarioId: Int, dataInicio: LocalDateTime): List<PedidoGraficoView>
+
+   fun findByUsuarioId(usuarioId: Int): List<PedidoGraficoView>
 }
