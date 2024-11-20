@@ -13,4 +13,6 @@ interface TecidoRepository: JpaRepository<Tecido, Int>, IRepositorio {
 
     fun findByUsuarioIdAndNomeContainsIgnoreCase(usuarioId: Int, nome: String): List<Tecido>
 
+    fun findByUsuarioIdAndAtivo(usuarioId: Int, ativo:Boolean): List<Tecido>
+
 }

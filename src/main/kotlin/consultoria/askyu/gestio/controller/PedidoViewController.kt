@@ -10,7 +10,10 @@ import io.swagger.v3.oas.annotations.media.Content
 import io.swagger.v3.oas.annotations.media.Schema
 import io.swagger.v3.oas.annotations.responses.ApiResponse
 import io.swagger.v3.oas.annotations.responses.ApiResponses
+import org.springframework.core.io.Resource
 import org.springframework.format.annotation.DateTimeFormat
+import org.springframework.http.HttpHeaders
+import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 import java.time.LocalDateTime
@@ -44,6 +47,23 @@ class PedidoViewController(
         return ResponseEntity.status(200).body(relatorioPedido)
     }
 
+    @CrossOrigin(
+        origins = ["http://localhost:3333", "http://192.168.15.3:3333/"],
+        methods = [RequestMethod.GET],
+        allowCredentials = "true"
+    )
+    @GetMapping("/extrair/{usuarioId}")
+    fun exportarClientesPedidos(
+        @PathVariable usuarioId:Int
+    ): ResponseEntity<Resource>{
+        val csvTecido = pedidoViewService.exportar(usuarioId)
+        val headers = HttpHeaders()
+        headers.contentType = MediaType.APPLICATION_OCTET_STREAM
+        headers.setContentDispositionFormData("attachment", csvTecido.file.name)
+        return ResponseEntity.status(200).body(csvTecido)
+
+    }
+
     @Operation(summary = "Exibe dados para graficos",
         description = "Exibe dados para graficos")
     @ApiResponses(
@@ -66,5 +86,21 @@ class PedidoViewController(
         return ResponseEntity.status(200).body(relatorioPedido)
     }
 
+    @CrossOrigin(
+        origins = ["http://localhost:3333", "http://192.168.15.3:3333/"],
+        methods = [RequestMethod.GET],
+        allowCredentials = "true"
+    )
+    @GetMapping("/mes/extrair/{usuarioId}")
+    fun exportarPedidosPorMes(
+        @PathVariable usuarioId:Int
+    ): ResponseEntity<Resource>{
+        val csvPedido = pedidoPorMesService.exportar(usuarioId)
+        val headers = HttpHeaders()
+        headers.contentType = MediaType.APPLICATION_OCTET_STREAM
+        headers.setContentDispositionFormData("attachment", csvPedido.file.name)
+        return ResponseEntity.status(200).body(csvPedido)
+
+    }
 
 }

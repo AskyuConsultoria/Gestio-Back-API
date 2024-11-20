@@ -6,7 +6,13 @@ import jakarta.persistence.EntityManager
 import jakarta.persistence.PersistenceContext
 import jakarta.persistence.StoredProcedureQuery
 import jakarta.transaction.Transactional
+import org.springframework.core.io.FileSystemResource
 import org.springframework.stereotype.Service
+import java.io.File
+import java.io.FileWriter
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
+import java.util.*
 
 @Service
 class PedidoPorMesRelatorioService(
@@ -36,6 +42,29 @@ class PedidoPorMesRelatorioService(
         }
 
         return relatorio
+    }
+
+    fun exportar(usuarioId: Int): FileSystemResource {
+
+        val file = File("csv-pedidos.csv")
+        val fileWriter = FileWriter(file)
+        val output = Formatter(fileWriter)
+        val ano = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy")).toInt() - 1
+        val list = getComparacaoPedidos(usuarioId, ano)
+
+        list.map {
+            output.format("%s;%d\n",
+                it.mes,
+                it.qtdPedido
+            )
+        }
+
+        output.close()
+        fileWriter.close()
+
+        val resource = FileSystemResource(file)
+
+        return resource
     }
 }
 

@@ -24,6 +24,7 @@ class PedidoGraficoView(
     @field:GeneratedValue(strategy = GenerationType.UUID)
     var id: UUID,
     var nome: String,
+    var sobrenome: String,
     var qtdPedidos: Int,
     var usuarioId: Int,
     var dataInicio: LocalDateTime
