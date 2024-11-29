@@ -11,6 +11,10 @@ import org.modelmapper.ModelMapper
 import org.springframework.http.HttpStatusCode
 import org.springframework.stereotype.Service
 import org.springframework.web.server.ResponseStatusException
+import java.io.File
+import java.io.FileReader
+import java.time.LocalDate
+import java.util.*
 
 @Service
 class ClienteService (
@@ -61,6 +65,48 @@ class ClienteService (
         }
 
         return clienteRepository.save(novoCliente)
+    }
+
+    fun cadastrarTxt (fileCliente: File): List<Cliente>{
+        val leitor = Scanner(fileCliente)
+        val listaCliente = mutableListOf<Cliente>()
+
+        while(leitor.hasNext()){
+            val linha = leitor.nextLine()
+
+            val registro = linha.substring(0, 2)
+
+            if(registro == "02"){
+                val nome = linha.substring(2,32).trim()
+
+                val sobrenome = linha.substring(32,62).trim()
+
+                val dtNascString = linha.substring(62,72).trim()
+                val dtNasc = LocalDate.parse(dtNascString)
+
+                val email = linha.substring(72,102).trim()
+
+                val responsavelId = linha.substring(102,105).trim()
+                var responsavel:Cliente? = null
+                if(responsavelId != "") {
+                    idValidation(responsavelId.toInt())
+                    responsavel = clienteRepository.findById(responsavelId.toInt()).get()
+                }
+
+                val usuarioId = linha.substring(105,108).trim().toInt()
+
+                usuarioValidation(usuarioId)
+                val usuario = usuarioRepository.findById(usuarioId).get()
+
+                val cliente = Cliente(null, nome, sobrenome, dtNasc, email, responsavel, usuario)
+
+                listaCliente.add(cliente)
+                clienteRepository.save(cliente)
+            }
+        }
+        leitor.close()
+
+        return listaCliente
     }
 
     fun buscarUmCliente(idCliente: Int): Cliente{
