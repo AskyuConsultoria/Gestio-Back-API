@@ -4,19 +4,6 @@ import jakarta.persistence.*
 import java.time.LocalDateTime
 import java.util.*
 
-
-//@Entity
-//@Immutable
-//@Table(name = "vw_rank_cliente")
-//class PedidoGraficoView(
-//    @EmbeddedId
-//    val id: PedidoGraficoViewId? = null,
-//
-//
-//) {
-//
-//}
-
 @Entity
 @Table(name = "vw_rank_cliente")
 class PedidoGraficoView(
@@ -27,6 +14,6 @@ class PedidoGraficoView(
     var sobrenome: String,
     var qtdPedidos: Int,
     var usuarioId: Int,
-    var dataInicio: LocalDateTime
+    var dataInicio: Int
 
 )

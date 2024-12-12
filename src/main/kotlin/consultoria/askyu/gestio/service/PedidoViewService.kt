@@ -17,7 +17,7 @@ class PedidoViewService(
 ): ViewServico(pedidoViewRepository, usuarioService) {
      fun visualizar(usuarioId: Int, dataInicio: LocalDateTime): List<PedidoGraficoView> {
         usuarioService.existenceValidation(usuarioId)
-        return pedidoViewRepository.findByUsuarioIdAndDataInicioGreaterThanEqual(usuarioId, dataInicio)
+        return pedidoViewRepository.findByUsuarioIdAndDataInicioEquals(usuarioId, dataInicio.monthValue)
     }
 
     fun exportar(usuarioId: Int): FileSystemResource {

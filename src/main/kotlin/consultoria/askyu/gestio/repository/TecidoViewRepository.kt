@@ -7,7 +7,7 @@ import java.time.LocalDateTime
 import java.util.*
 
 interface TecidoViewRepository: JpaRepository<TecidoGraficoView, UUID>, IRepositorio {
-    fun findByUsuarioIdAndDataInicioGreaterThan(usuarioId: Int, dataInicio: LocalDateTime): List<TecidoGraficoView>
+    fun findByUsuarioIdAndDataInicioEquals(usuarioId: Int, dataInicio: Int): List<TecidoGraficoView>
 
     fun findByUsuarioId(usuarioId: Int): List<TecidoGraficoView>
 }

@@ -24,7 +24,7 @@ class TecidoViewService(
 
     fun visualizar(usuarioId: Int, dataInicio: LocalDateTime): List<TecidoGraficoView>{
         usuarioService.existenceValidation(usuarioId)
-        return tecidoViewRepository.findByUsuarioIdAndDataInicioGreaterThan(usuarioId, dataInicio)
+        return tecidoViewRepository.findByUsuarioIdAndDataInicioEquals(usuarioId, dataInicio.year)
     }
 
     fun exportar(usuarioId: Int): FileSystemResource {
