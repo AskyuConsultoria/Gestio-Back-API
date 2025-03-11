@@ -10,11 +10,7 @@ import org.springframework.web.bind.annotation.*
 class AgendamentoViewClienteDependenteController(
     val service: AgendamentoViewClienteDependenteService
 ){
-    @CrossOrigin(
-        origins = ["http://localhost:3333", "http://192.168.15.3:3333/"],
-        methods = [RequestMethod.GET],
-        allowCredentials = "true"
-    )
+
     @GetMapping("/{usuarioId}/{responsavelId}")
     fun visualizar(@PathVariable usuarioId: Int, @PathVariable responsavelId: Int, @RequestParam nome: String): ResponseEntity<List<AgendamentoViewClienteDependente>> {
         val listaAgendamento =

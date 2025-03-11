@@ -28,11 +28,7 @@ class EtapaController(
             ApiResponse(responseCode = "404", description = "Não foi possível criar essa etapa.", content = [Content(schema = Schema())]),
         ],
     )
-    @CrossOrigin(
-        origins = ["http://localhost:3333", "http://192.168.15.3:3333/"],
-        methods = [RequestMethod.POST],
-        allowCredentials = "true"
-    )
+
     @PostMapping
     fun cadastro(@Valid @RequestBody novaEtapa: EtapaCadastroDTO): ResponseEntity<Etapa> {
         val service = service.cadastrar(novaEtapa)
@@ -49,11 +45,7 @@ class EtapaController(
             ApiResponse(responseCode = "404", description = "Usuário não foi encontrado.", content = [Content(schema = Schema())]),
         ],
     )
-    @CrossOrigin(
-        origins = ["http://localhost:3333", "http://192.168.15.3:3333/"],
-        methods = [RequestMethod.GET],
-        allowCredentials = "true"
-    )
+
     @GetMapping("/{idUsuario}")
     fun buscar(@PathVariable idUsuario: Int): ResponseEntity<List<Etapa>>{
         val listaEtapa = service.buscar(idUsuario)
@@ -68,11 +60,7 @@ class EtapaController(
             ApiResponse(responseCode = "404", description = "Usuário não foi encontrado.", content = [Content(schema = Schema())]),
         ],
     )
-    @CrossOrigin(
-        origins = ["http://localhost:3333", "http://192.168.15.3:3333/"],
-        methods = [RequestMethod.GET],
-        allowCredentials = "true"
-    )
+
     @GetMapping("/{idUsuario}/{idEtapa}")
     fun buscarUm(@PathVariable idUsuario: Int, @PathVariable idEtapa: Int): ResponseEntity<Etapa>{
         val etapa = service.buscarUm(idUsuario, idEtapa)
@@ -87,11 +75,7 @@ class EtapaController(
             ApiResponse(responseCode = "404", description = "Usuário ou Etapa não foi encontrada.", content = [Content(schema = Schema())]),
         ],
     )
-    @CrossOrigin(
-        origins = ["http://localhost:3333", "http://192.168.15.3:3333/"],
-        methods = [RequestMethod.PUT],
-        allowCredentials = "true"
-    )
+
     @PutMapping("/{idUsuario}/{idEtapa}")
     fun atualizar(
         @PathVariable idUsuario: Int,
@@ -110,11 +94,7 @@ class EtapaController(
             ApiResponse(responseCode = "404", description = "Usuário ou Etapa não foi encontrada.", content = [Content(schema = Schema())]),
         ],
     )
-    @CrossOrigin(
-        origins = ["http://localhost:3333", "http://192.168.15.3:3333/"],
-        methods = [RequestMethod.PUT],
-        allowCredentials = "true"
-    )
+
     @DeleteMapping("/{idUsuario}/{idEtapa}")
     fun excluir(
         @PathVariable idUsuario: Int,

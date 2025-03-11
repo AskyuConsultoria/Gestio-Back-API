@@ -28,11 +28,7 @@ class NomeMedidaController(
              ApiResponse(responseCode = "404", description = "Usuário ou Peça não existem.", content = [Content(schema = Schema())])
          ],
      )
-     @CrossOrigin(
-         origins = ["http://localhost:3333", "http://192.168.15.3:3333/"],
-         methods = [RequestMethod.POST],
-         allowCredentials = "true"
-     )
+
      @PostMapping("{usuarioId}/{pecaId}")
      fun postByUsuarioIdAndPecaId(
          @Valid
@@ -54,11 +50,7 @@ class NomeMedidaController(
              ApiResponse(responseCode = "404", description = "Usuário ou Peça não existem.", content = [Content(schema = Schema())])
          ],
      )
-     @CrossOrigin(
-         origins = ["http://localhost:3333", "http://192.168.15.3:3333/"],
-         methods = [RequestMethod.GET],
-         allowCredentials = "true"
-     )
+
     @GetMapping("{usuarioId}/{pecaId}")
     fun getAllByUsuarioIdAndPecaId(
         @PathVariable usuarioId: Int,
@@ -77,11 +69,7 @@ class NomeMedidaController(
              ApiResponse(responseCode = "404", description = "Nenhum nome de medida foi encontrada com este nome.", content = [Content(schema = Schema())])
          ],
      )
-     @CrossOrigin(
-         origins = ["http://localhost:3333", "http://192.168.15.3:3333/"],
-         methods = [RequestMethod.GET],
-         allowCredentials = "true"
-     )
+
      @GetMapping("{usuarioId}/{pecaId}/filtro-nome")
      fun getAllByUsuarioIdAndPecaIdAndNome(
          @PathVariable usuarioId: Int,
@@ -100,11 +88,7 @@ class NomeMedidaController(
              ApiResponse(responseCode = "404", description = "Nome de medida não foi encontrado.", content = [Content(schema = Schema())])
          ],
      )
-     @CrossOrigin(
-         origins = ["http://localhost:3333", "http://192.168.15.3:3333/"],
-         methods = [RequestMethod.GET],
-         allowCredentials = "true"
-     )
+
      @GetMapping("{usuarioId}/{pecaId}/{nomeMedidaId}")
          fun getByUsuarioIdAndPecaIdAndId(
              @PathVariable usuarioId: Int,
@@ -124,11 +108,7 @@ class NomeMedidaController(
              ApiResponse(responseCode = "404", description = "Nome de medida não foi encontrado.", content = [Content(schema = Schema())])
          ],
      )
-     @CrossOrigin(
-         origins = ["http://localhost:3333", "http://192.168.15.3:3333/"],
-         methods = [RequestMethod.PUT],
-         allowCredentials = "true"
-     )
+
      @PutMapping("{usuarioId}/{pecaId}/{nomeMedidaId}")
      fun putByUsuarioIdAndPecaIdAndId(
          @PathVariable usuarioId: Int,
@@ -150,11 +130,7 @@ class NomeMedidaController(
              ApiResponse(responseCode = "404", description = "Nome de medida não foi encontrado.", content = [Content(schema = Schema())])
          ],
      )
-     @CrossOrigin(
-         origins = ["http://localhost:3333", "http://192.168.15.3:3333/"],
-         methods = [RequestMethod.DELETE],
-         allowCredentials = "true"
-     )
+
      @DeleteMapping("{usuarioId}/{pecaId}/{nomeMedidaId}")
      fun deleteByUsuarioIdAndPecaIdAndId(
          @PathVariable usuarioId: Int,

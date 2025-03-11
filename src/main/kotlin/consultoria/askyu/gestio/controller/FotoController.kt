@@ -39,11 +39,8 @@ class FotoController(
         return ResponseEntity.status(200).body(foto)
     }
 
-    @CrossOrigin(
-        origins = ["http://localhost:3333", "http://192.168.15.3:3333/"],
-        methods = [RequestMethod.PUT],
-        allowCredentials = "true"
-    )
+
+
     @PutMapping("/{idUsuario}/{idFoto}")
     fun atualizar(@PathVariable idUsuario: Int, @PathVariable idFoto: Int, @RequestBody fotoAtualizada: Foto): ResponseEntity<Foto>{
         val foto = service.atualizar(idUsuario, idFoto, fotoAtualizada)
@@ -61,11 +58,7 @@ class FotoController(
     }
 
 
-    @CrossOrigin(
-        origins = ["http://localhost:3333", "http://192.168.15.3:3333/"],
-        methods = [RequestMethod.DELETE],
-        allowCredentials = "true"
-    )
+
     @DeleteMapping("/{idUsuario}/{idFoto}")
     fun excluir(
         @PathVariable idUsuario: Int,

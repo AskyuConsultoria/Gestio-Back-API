@@ -27,11 +27,7 @@ class ValorMedidaController(
             ApiResponse(responseCode = "404", description = "Um dos códigos de identificação utilizados não foram encontrados dentro da base de dados.", content = [Content(schema = Schema())])
         ],
     )
-    @CrossOrigin(
-        origins = ["http://localhost:3333", "http://192.168.15.3:3333/"],
-        methods = [RequestMethod.POST],
-        allowCredentials = "true"
-    )
+
     @PostMapping("/{usuarioId}/{clienteId}/{pecaId}/{nomeMedidaId}/{itemPedidoId}")
     fun cadastrar(
        @PathVariable usuarioId: Int,
@@ -56,11 +52,7 @@ class ValorMedidaController(
             ApiResponse(responseCode = "404", description = "Um dos códigos de identificação utilizados não foram encontrados dentro da base de dados.", content = [Content(schema = Schema())])
         ],
     )
-    @CrossOrigin(
-        origins = ["http://localhost:3333", "http://192.168.15.3:3333/"],
-        methods = [RequestMethod.GET],
-        allowCredentials = "true"
-    )
+
     @GetMapping("/{usuarioId}/{itemPedidoId}")
     fun buscarPorItemPedido(
         @PathVariable usuarioId: Int,
@@ -82,11 +74,7 @@ class ValorMedidaController(
             ApiResponse(responseCode = "404", description = "Um dos códigos de identificação utilizados não foram encontrados dentro da base de dados.", content = [Content(schema = Schema())])
         ],
     )
-    @CrossOrigin(
-        origins = ["http://localhost:3333", "http://192.168.15.3:3333/"],
-        methods = [RequestMethod.GET],
-        allowCredentials = "true"
-    )
+
     @GetMapping("/{usuarioId}/{valorMedidaId}/buscar-um")
     fun buscarUm(
         @PathVariable usuarioId: Int,
@@ -117,11 +105,7 @@ class ValorMedidaController(
             ApiResponse(responseCode = "404", description = "Um dos códigos de identificação utilizados não foram encontrados dentro da base de dados.", content = [Content(schema = Schema())])
         ],
     )
-    @CrossOrigin(
-        origins = ["http://localhost:3333", "http://192.168.15.3:3333/"],
-        methods = [RequestMethod.PUT],
-        allowCredentials = "true"
-    )
+
     @PutMapping("/{usuarioId}/{valorMedidaId}")
     fun atualizar(
         @Valid

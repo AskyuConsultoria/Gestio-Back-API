@@ -27,11 +27,7 @@ class UsuarioController(val service:UsuarioService): Controlador(service) {
             ApiResponse(responseCode = "409", description = "Esse usuário já esta cadastrado!", content = [Content(schema = Schema())]),
         ],
     )
-    @CrossOrigin(
-        origins = ["http://localhost:3333", "http://192.168.15.3:3333/"],
-        methods = [RequestMethod.POST],
-        allowCredentials = "true"
-    )
+
     @PostMapping
     fun cadastrarUsuario(@Valid @RequestBody novoUsuario:UsuarioCadastroDTO):ResponseEntity<Usuario>{
         val usuario = service.cadastrar(novoUsuario)
@@ -48,11 +44,7 @@ class UsuarioController(val service:UsuarioService): Controlador(service) {
             ApiResponse(responseCode = "409", description = "Esse usuario ja esta logado.", content = [Content(schema = Schema())]),
         ],
     )
-        @CrossOrigin(
-            origins = ["http://localhost:3333", "http://192.168.15.3:3333/"],
-            methods = [RequestMethod.GET],
-            allowCredentials = "true",
-        )
+
         @GetMapping("/login")
     fun logar(@RequestParam usuario:String, @RequestParam senha:String):ResponseEntity<Usuario>{
         val user = service.logar(usuario, senha)
@@ -67,11 +59,7 @@ class UsuarioController(val service:UsuarioService): Controlador(service) {
             ApiResponse(responseCode = "204", description = "Não há Usuarios cadastrados!", content = [Content(schema = Schema())]),
         ],
     )
-    @CrossOrigin(
-        origins = ["http://localhost:3333", "http://192.168.15.3:3333/"],
-        methods = [RequestMethod.GET],
-        allowCredentials = "true"
-    )
+
     @GetMapping
     fun listarUsuarios(): ResponseEntity<List<Usuario>> {
         val lista = service.findAll()
@@ -87,11 +75,7 @@ class UsuarioController(val service:UsuarioService): Controlador(service) {
             ApiResponse(responseCode = "409", description = "Esse usuario não esta logado.", content = [Content(schema = Schema())]),
         ],
     )
-    @CrossOrigin(
-        origins = ["http://localhost:3333", "http://192.168.15.3:3333/"],
-        methods = [RequestMethod.POST],
-        allowCredentials = "true"
-    )
+
     @PostMapping("/login/deslogar")
     fun deslogar(@RequestParam usuario:String):ResponseEntity<Usuario>{
         val user = service.deslogar(usuario)
@@ -106,11 +90,7 @@ class UsuarioController(val service:UsuarioService): Controlador(service) {
             ApiResponse(responseCode = "404", description = "Usuario não encontrado", content = [Content(schema = Schema())]),
         ],
     )
-    @CrossOrigin(
-        origins = ["http://localhost:3333", "http://192.168.15.3:3333/"],
-        methods = [RequestMethod.GET],
-        allowCredentials = "true"
-    )
+
     @GetMapping("/info/{id}")
     fun getInfo(@RequestParam id:Int):ResponseEntity<Usuario>{
         val info = service.obterInfo(id)
@@ -125,11 +105,7 @@ class UsuarioController(val service:UsuarioService): Controlador(service) {
             ApiResponse(responseCode = "404", description = "Usuário não encontrado!", content = [Content(schema = Schema())]),
         ],
     )
-    @CrossOrigin(
-        origins = ["http://localhost:3333", "http://192.168.15.3:3333/"],
-        methods = [RequestMethod.DELETE],
-        allowCredentials = "true"
-    )
+
     @DeleteMapping("/{id}")
     fun deletarUsuario(@PathVariable id:Int):ResponseEntity<String>{
         service.desativarUsuario(id)
