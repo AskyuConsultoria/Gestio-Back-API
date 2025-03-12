@@ -31,11 +31,7 @@ class PecaController(
             ApiResponse(responseCode = "404", description = "Usuário não existe.", content = [Content(schema = Schema())])
         ],
     )
-    @CrossOrigin(
-        origins = ["http://localhost:3333", "http://192.168.15.3:3333/"],
-        methods = [RequestMethod.POST],
-        allowCredentials = "true"
-    )
+
     @PostMapping("/{id}")
     fun postByUsuarioId(@Valid @PathVariable id: Int, @RequestBody novaPeca: PecaCadastroRequest): ResponseEntity<Peca>{
      val peca  = pecaService.postByUsuarioId(id, novaPeca)
@@ -51,11 +47,7 @@ class PecaController(
             ApiResponse(responseCode = "404", description = "Usuário não existe.", content = [Content(schema = Schema())])
         ],
     )
-    @CrossOrigin(
-        origins = ["http://localhost:3333", "http://192.168.15.3:3333/"],
-        methods = [RequestMethod.GET],
-        allowCredentials = "true"
-    )
+
     @GetMapping("/{id}")
     fun getAllByUsuarioId(@PathVariable id: Int): ResponseEntity<List<Peca>>{
        val listaPeca = pecaService.getAllByUsuarioId(id)
@@ -70,11 +62,7 @@ class PecaController(
             ApiResponse(responseCode = "404", description = "Usuário ou Peça não existem.", content = [Content(schema = Schema())])
         ],
     )
-    @CrossOrigin(
-        origins = ["http://localhost:3333", "http://192.168.15.3:3333/"],
-        methods = [RequestMethod.GET],
-        allowCredentials = "true"
-    )
+
     @GetMapping("/{usuarioId}/{pecaId}")
     fun getByUsuarioIdAndId(@PathVariable usuarioId: Int, @PathVariable pecaId: Int): ResponseEntity<Peca>{
         val peca = pecaService.getByUsuarioIdAndId(usuarioId, pecaId)
@@ -90,11 +78,7 @@ class PecaController(
             ApiResponse(responseCode = "404", description = "Usuário não existe.", content = [Content(schema = Schema())])
         ],
     )
-    @CrossOrigin(
-        origins = ["http://localhost:3333", "http://192.168.15.3:3333/"],
-        methods = [RequestMethod.GET],
-        allowCredentials = "true"
-    )
+
     @GetMapping("/{id}/filtro-nome")
     fun getByUsuarioIdAndNome(@PathVariable id: Int, @RequestParam nome: String): ResponseEntity<List<Peca>>{
         val listaPeca = pecaService.getByUsuarioIdAndNome(id, nome)
@@ -109,11 +93,7 @@ class PecaController(
             ApiResponse(responseCode = "404", description = "Usuário ou Peça não existem.", content = [Content(schema = Schema())])
         ],
     )
-    @CrossOrigin(
-        origins = ["http://localhost:3333", "http://192.168.15.3:3333/"],
-        methods = [RequestMethod.PUT],
-        allowCredentials = "true"
-    )
+
     @PutMapping("/{usuarioId}/{pecaId}")
     fun putByUsuarioIdAndId(
         @PathVariable usuarioId: Int,
@@ -133,11 +113,7 @@ class PecaController(
             ApiResponse(responseCode = "404", description = "Usuário ou Peça não existem.", content = [Content(schema = Schema())])
         ],
     )
-    @CrossOrigin(
-        origins = ["http://localhost:3333", "http://192.168.15.3:3333/"],
-        methods = [RequestMethod.DELETE],
-        allowCredentials = "true"
-    )
+
     @DeleteMapping("/{usuarioId}/{pecaId}")
     fun deleteByUsuarioIdAndId(@PathVariable usuarioId: Int, @PathVariable pecaId: Int): ResponseEntity<Void>{
         pecaService.deleteByUsuarioIdAndId(usuarioId, pecaId)
@@ -152,11 +128,7 @@ class PecaController(
             ApiResponse(responseCode = "404", description = "Usuário ou Peças não existem.", content = [Content(schema = Schema())])
         ],
     )
-    @CrossOrigin(
-        origins = ["http://localhost:3333", "http://192.168.15.3:3333/"],
-        methods = [RequestMethod.GET],
-        allowCredentials = "true"
-    )
+
     @GetMapping("/view/{usuarioId}")
     fun visualizarPorAno(
         @PathVariable usuarioId: Int,

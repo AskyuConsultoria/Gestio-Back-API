@@ -27,11 +27,7 @@ class ColecaoTecidoController(
             ApiResponse(responseCode = "404", description = "Um dos códigos de identificação utilizados não foram encontrados dentro da base de dados.", content = [Content(schema = Schema())])
         ],
     )
-    @CrossOrigin(
-        origins = ["http://localhost:3333", "http://192.168.15.3:3333/"],
-        methods = [RequestMethod.POST],
-        allowCredentials = "true"
-    )
+
     @PostMapping("/{usuarioId}/{itemPedidoId}/{tecidoId}")
     fun cadastrar(
         @PathVariable usuarioId: Int,
@@ -54,11 +50,7 @@ class ColecaoTecidoController(
             ApiResponse(responseCode = "404", description = "Um dos códigos de identificação utilizados não foram encontrados dentro da base de dados.", content = [Content(schema = Schema())])
         ],
     )
-    @CrossOrigin(
-        origins = ["http://localhost:3333", "http://192.168.15.3:3333/"],
-        methods = [RequestMethod.GET],
-        allowCredentials = "true"
-    )
+
     @GetMapping("/{usuarioId}/{itemPedidoId}")
     fun buscarPorFicha(
         @PathVariable usuarioId: Int,
@@ -77,11 +69,7 @@ class ColecaoTecidoController(
             ApiResponse(responseCode = "404", description = "Usuário ou Coleção de tecido não existem.", content = [Content(schema = Schema())])
         ],
     )
-    @CrossOrigin(
-        origins = ["http://localhost:3333", "http://192.168.15.3:3333/"],
-        methods = [RequestMethod.DELETE],
-        allowCredentials = "true"
-    )
+
     @DeleteMapping("/{usuarioId}/{colecaoTecidoId}")
     fun excluir(
         @PathVariable usuarioId: Int,

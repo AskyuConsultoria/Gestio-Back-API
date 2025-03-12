@@ -9,11 +9,7 @@ import java.nio.charset.StandardCharsets
 @RequestMapping("/api-llm")
 class IaController {
 
-    @CrossOrigin(
-        origins = ["http://localhost:3333", "http://192.168.15.3:3333/"],
-        methods = [RequestMethod.POST],
-        allowCredentials = "true"
-    )
+
     @PostMapping()
     fun processarInput(@RequestBody ia: IA): String {
         val processBuilder = ProcessBuilder("C:/Users/kayky/AppData/Local/Programs/Python/Python312/python.exe", "C:/py/teste_2.py", ia.contexto, ia.etapa, ia.input)

@@ -23,11 +23,7 @@ class TecidoController(
             ApiResponse(responseCode = "400", description = "Cadastro não foi concluido com sucesso!"),
         ],
     )
-    @CrossOrigin(
-        origins = ["http://localhost:3333", "http://192.168.15.3:3333/"],
-        methods = [RequestMethod.POST],
-        allowCredentials = "true"
-    )
+
     @PostMapping("/{usuarioId}/{tecidoId}")
     fun cadastrar(
         @PathVariable usuarioId: Int,
@@ -46,11 +42,7 @@ class TecidoController(
             ApiResponse(responseCode = "204", description = "Não há tecidos cadastrados.")
         ],
     )
-    @CrossOrigin(
-        origins = ["http://localhost:3333", "http://192.168.15.3:3333/"],
-        methods = [RequestMethod.GET],
-        allowCredentials = "true"
-    )
+
     @GetMapping("/{usuarioId}")
     fun listar(@PathVariable usuarioId: Int): ResponseEntity<List<Tecido>>{
        val listaTecido = tecidoService.listar(usuarioId)
@@ -66,11 +58,7 @@ class TecidoController(
             ApiResponse(responseCode = "204", description = "Nenhum tecido foi encotrado com este nome.")
         ],
     )
-    @CrossOrigin(
-        origins = ["http://localhost:3333", "http://192.168.15.3:3333/"],
-        methods = [RequestMethod.GET],
-        allowCredentials = "true"
-    )
+
     @GetMapping("{usuarioId}/filtro-nome")
     fun listarPorNome(@PathVariable usuarioId: Int, @RequestParam nome: String): ResponseEntity<List<Tecido>>{
         val listaTecido = tecidoService.listarPorNome(usuarioId, nome)
@@ -86,11 +74,7 @@ class TecidoController(
             ApiResponse(responseCode = "404", description = "Nenhum tecido foi encontrado pelo código de identificação.")
         ],
     )
-    @CrossOrigin(
-        origins = ["http://localhost:3333", "http://192.168.15.3:3333/"],
-        methods = [RequestMethod.GET],
-        allowCredentials = "true"
-    )
+
 
     @GetMapping("{usuarioId}/{tecidoId}")
     fun buscarTecidoPorId(@PathVariable usuarioId: Int, @PathVariable tecidoId: Int): ResponseEntity<Tecido> {
@@ -106,11 +90,7 @@ class TecidoController(
             ApiResponse(responseCode = "404", description = "Nenhum tecido foi encontrado pelo código de identificação.")
         ],
     )
-    @CrossOrigin(
-        origins = ["http://localhost:3333", "http://192.168.15.3:3333/"],
-        methods = [RequestMethod.PUT],
-        allowCredentials = "true"
-    )
+
     @PutMapping("{usuarioId}/{tecidoId}")
     fun atualizar(
         @PathVariable usuarioId: Int,
@@ -130,11 +110,7 @@ class TecidoController(
         ],
     )
 
-    @CrossOrigin(
-        origins = ["http://localhost:3333", "http://192.168.15.3:3333/"],
-        methods = [RequestMethod.DELETE],
-        allowCredentials = "true"
-    )
+
 
     @DeleteMapping("/{usuarioId}/{tecidoId}")
     fun desativar(@PathVariable usuarioId: Int, @PathVariable tecidoId: Int): ResponseEntity<Void>{

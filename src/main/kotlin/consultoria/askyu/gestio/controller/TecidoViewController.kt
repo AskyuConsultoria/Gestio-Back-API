@@ -17,11 +17,7 @@ class TecidoViewController(
     var tecidoViewService: TecidoViewService
 ):ViewControlador(tecidoViewService) {
 
-    @CrossOrigin(
-        origins = ["http://localhost:3333", "http://192.168.15.3:3333/"],
-        methods = [RequestMethod.GET],
-        allowCredentials = "true"
-    )
+
     @GetMapping("/{usuarioId}")
     fun visualizar(
         @PathVariable usuarioId: Int,
@@ -30,11 +26,7 @@ class TecidoViewController(
         val relatorioTecido = tecidoViewService.visualizar(usuarioId, dataInicio)
         return ResponseEntity.status(200).body(relatorioTecido)
     }
-    @CrossOrigin(
-        origins = ["http://localhost:3333", "http://192.168.15.3:3333/"],
-        methods = [RequestMethod.GET],
-        allowCredentials = "true"
-    )
+
     @GetMapping("/extrair/{usuarioId}")
     fun exportarTecidos(
         @PathVariable usuarioId:Int

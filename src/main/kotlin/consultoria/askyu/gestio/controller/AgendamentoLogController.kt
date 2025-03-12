@@ -25,11 +25,7 @@ class AgendamentoLogController(
             ApiResponse(responseCode = "404", description = "Usuário não foi encontrado.", content = [Content(schema = Schema())]),
         ],
     )
-    @CrossOrigin(
-        origins = ["http://localhost:3333", "http://192.168.15.3:3333/"],
-        methods = [RequestMethod.GET],
-        allowCredentials = "true"
-    )
+
     @GetMapping("/{usuarioId}/{agendamentoId}")
     fun buscarLogs(
         @PathVariable usuarioId: Int,

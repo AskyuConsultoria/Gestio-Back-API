@@ -26,11 +26,7 @@ class EnderecoController(val service: EnderecoService
             ApiResponse(responseCode = "204", description = "Não há endereços cadastradas", content = [Content(schema = Schema())]),
         ],
     )
-    @CrossOrigin(
-        origins = ["http://localhost:3333", "http://192.168.15.3:3333/"],
-        methods = [RequestMethod.GET],
-        allowCredentials = "true"
-    )
+
     @GetMapping
     fun getList(): ResponseEntity<List<Endereco>> {
         val lista = service.listar()
@@ -46,11 +42,7 @@ class EnderecoController(val service: EnderecoService
             ApiResponse(responseCode = "404", description = "Usuário ou endereço não foram encontrados", content = [Content(schema = Schema())]),
         ],
     )
-    @CrossOrigin(
-        origins = ["http://localhost:3333", "http://192.168.15.3:3333/"],
-        methods = [RequestMethod.PUT],
-        allowCredentials = "true"
-    )
+
     @PutMapping("/{usuarioId}/{enderecoId}")
     fun atualizar(
         @PathVariable usuarioId: Int,
@@ -71,11 +63,7 @@ class EnderecoController(val service: EnderecoService
             ApiResponse(responseCode = "404", description = "Usuário ou cliente não existem", content = [Content(schema = Schema())]),
         ],
     )
-    @CrossOrigin(
-        origins = ["http://localhost:3333", "http://192.168.15.3:3333/"],
-        methods = [RequestMethod.GET],
-        allowCredentials = "true"
-    )
+
     @GetMapping("/{usuarioId}/{clienteId}")
     fun listarPorCliente(@PathVariable usuarioId: Int, @PathVariable clienteId: Int): ResponseEntity<List<Endereco>> {
         val lista = service.listarPorCliente(usuarioId, clienteId)
@@ -90,11 +78,7 @@ class EnderecoController(val service: EnderecoService
             ApiResponse(responseCode = "404", description = "Endereço não encontrado.", content = [Content(schema = Schema())]),
         ],
     )
-    @CrossOrigin(
-        origins = ["http://localhost:3333", "http://192.168.15.3:3333/"],
-        methods = [RequestMethod.GET],
-        allowCredentials = "true"
-    )
+
     @GetMapping("/buscar-um/{usuarioId}/{enderecoId}")
     fun buscarPorId(@PathVariable usuarioId: Int, @PathVariable enderecoId: Int): ResponseEntity<Endereco> {
         val endereco = service.buscarPorId(usuarioId, enderecoId)
@@ -110,11 +94,7 @@ class EnderecoController(val service: EnderecoService
             ApiResponse(responseCode = "404", description = "Esse cep não existe", content = [Content(schema = Schema())])
         ],
     )
-    @CrossOrigin(
-        origins = ["http://localhost:3333", "http://192.168.15.3:3333/"],
-        methods = [RequestMethod.POST],
-        allowCredentials = "true"
-    )
+
     @PostMapping("/por-cep")
     fun cadastrarPorCEP(@Valid @RequestParam cep:CepCadastroDTO):ResponseEntity<Endereco> {
         val salvo = service.cadastrarCEP(cep.cep)
@@ -130,11 +110,7 @@ class EnderecoController(val service: EnderecoService
             ApiResponse(responseCode = "404", description = "Usuário não existe", content = [Content(schema = Schema())])
         ],
     )
-    @CrossOrigin(
-        origins = ["http://localhost:3333", "http://192.168.15.3:3333/"],
-        methods = [RequestMethod.POST],
-        allowCredentials = "true"
-    )
+
     @PostMapping("/{usuarioId}")
     fun cadastrar(@PathVariable usuarioId: Int, @RequestBody novoEndereco: Endereco):ResponseEntity<Endereco> {
         val endereco = service.cadastrar(usuarioId, novoEndereco)
@@ -149,11 +125,7 @@ class EnderecoController(val service: EnderecoService
             ApiResponse(responseCode = "404", description = "Esse endereco não está cadastrado", content = [Content(schema = Schema())])
         ],
     )
-    @CrossOrigin(
-        origins = ["http://localhost:3333", "http://192.168.15.3:3333/"],
-        methods = [RequestMethod.GET],
-        allowCredentials = "true"
-    )
+
     @GetMapping("/cep")
     fun getEndereco(@RequestParam cep:String):ResponseEntity<Endereco> {
         return service.buscar(cep)
@@ -167,11 +139,7 @@ class EnderecoController(val service: EnderecoService
             ApiResponse(responseCode = "404", description = "Endereço não foi encontrado.", content = [Content(schema = Schema())])
         ],
     )
-    @CrossOrigin(
-        origins = ["http://localhost:3333", "http://192.168.15.3:3333/"],
-        methods = [RequestMethod.DELETE],
-        allowCredentials = "true"
-    )
+
     @DeleteMapping("{usuarioId}/{enderecoId}")
     fun desativarEndereco(@PathVariable usuarioId: Int, @PathVariable enderecoId: Int): ResponseEntity<Endereco> {
         val endereco = service.desativar(usuarioId, enderecoId)

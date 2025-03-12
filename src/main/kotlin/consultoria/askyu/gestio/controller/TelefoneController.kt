@@ -30,11 +30,7 @@ class TelefoneController(
             ApiResponse(responseCode = "404", description = "Esse Telefone não existe", content = [Content(schema = Schema())])
         ],
     )
-    @CrossOrigin(
-        origins = ["http://localhost:3333", "http://192.168.15.3:3333/"],
-        methods = [RequestMethod.POST],
-        allowCredentials = "true"
-    )
+
     @PostMapping
     fun cadastrarTelefone(@RequestBody @Valid telefone: Telefone) : ResponseEntity<Telefone> {
         val salvo = telefoneService.salvar(telefone)
@@ -49,11 +45,7 @@ class TelefoneController(
             ApiResponse(responseCode = "204", description = "Não há telefones cadastrados", content = [Content(schema = Schema())]),
         ],
     )
-    @CrossOrigin(
-        origins = ["http://localhost:3333", "http://192.168.15.3:3333/"],
-        methods = [RequestMethod.GET],
-        allowCredentials = "true"
-    )
+
     @GetMapping
     fun listar(): ResponseEntity<List<Telefone>>{
         val listaTecido = telefoneService.listar()
@@ -68,11 +60,7 @@ class TelefoneController(
             ApiResponse(responseCode = "404", description = "Usuário ou telefone não existem", content = [Content(schema = Schema())]),
         ],
     )
-    @CrossOrigin(
-        origins = ["http://localhost:3333", "http://192.168.15.3:3333/"],
-        methods = [RequestMethod.GET],
-        allowCredentials = "true"
-    )
+
     @GetMapping("/buscar-um/{usuarioId}/{telefoneId}")
     fun buscarPorId(@PathVariable usuarioId: Int, @PathVariable telefoneId: Int): ResponseEntity<Telefone>{
         val telefone = telefoneService.buscarPorId(usuarioId, telefoneId)
@@ -87,11 +75,7 @@ class TelefoneController(
             ApiResponse(responseCode = "204", description = "Nenhum telefone foi encontrado com este número")
         ],
     )
-    @CrossOrigin(
-        origins = ["http://localhost:3333", "http://192.168.15.3:3333/"],
-        methods = [RequestMethod.GET],
-        allowCredentials = "true"
-    )
+
     @GetMapping("/{usuarioId}/{clienteId}")
     fun listarPorCliente(@PathVariable usuarioId: Int, @PathVariable clienteId: Int): ResponseEntity<List<Telefone>>{
         val listaTelefone = telefoneService.listarPorCliente(usuarioId, clienteId)
@@ -106,11 +90,7 @@ class TelefoneController(
             ApiResponse(responseCode = "204", description = "Nenhum telefone foi encontrado com este número")
         ],
     )
-    @CrossOrigin(
-        origins = ["http://localhost:3333", "http://192.168.15.3:3333/"],
-        methods = [RequestMethod.GET],
-        allowCredentials = "true"
-    )
+
     @GetMapping("/numero")
     fun listarPorNumero(@RequestParam numero: String): ResponseEntity<List<Telefone>>{
         val listaTelefone = telefoneService.listarPorNumero(numero)
@@ -126,22 +106,13 @@ class TelefoneController(
             ApiResponse(responseCode = "404", description = "Usuário ou telefone não foram encontrados")
         ],
     )
-    @CrossOrigin(
-        origins = ["http://localhost:3333", "http://192.168.15.3:3333/"],
-        methods = [RequestMethod.PATCH],
-        allowCredentials = "true"
-    )
     @PatchMapping("/{usuarioId}/{telefoneId}")
     fun atualizarNumero(@PathVariable usuarioId: Int, @PathVariable telefoneId: Int, @RequestParam numero: String): ResponseEntity<Telefone>{
         val telefone = telefoneService.atualizarTelefone(usuarioId, telefoneId, numero)
         return ResponseEntity.status(200).body(telefone)
     }
 
-    @CrossOrigin(
-        origins = ["http://localhost:3333", "http://192.168.15.3:3333/"],
-        methods = [RequestMethod.DELETE],
-        allowCredentials = "true"
-    )
+
     @DeleteMapping("/{usuarioId}/{telefoneId}")
     fun deletarTelefone(
         @PathVariable usuarioId: Int,

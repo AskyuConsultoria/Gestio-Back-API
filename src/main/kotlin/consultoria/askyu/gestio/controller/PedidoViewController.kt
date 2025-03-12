@@ -33,11 +33,7 @@ class PedidoViewController(
             ApiResponse(responseCode = "404", description = "Usuário ou Peça não existem.", content = [Content(schema = Schema())])
         ],
     )
-    @CrossOrigin(
-        origins = ["http://localhost:3333", "http://192.168.15.3:3333/"],
-        methods = [RequestMethod.GET],
-        allowCredentials = "true"
-    )
+
     @GetMapping("/{usuarioId}")
     fun visualizar(
         @PathVariable usuarioId: Int,
@@ -47,11 +43,7 @@ class PedidoViewController(
         return ResponseEntity.status(200).body(relatorioPedido)
     }
 
-    @CrossOrigin(
-        origins = ["http://localhost:3333", "http://192.168.15.3:3333/"],
-        methods = [RequestMethod.GET],
-        allowCredentials = "true"
-    )
+
     @GetMapping("/extrair/{usuarioId}")
     fun exportarClientesPedidos(
         @PathVariable usuarioId:Int
@@ -72,11 +64,7 @@ class PedidoViewController(
             ApiResponse(responseCode = "404", description = "Usuário ou Peça não existem.", content = [Content(schema = Schema())])
         ],
     )
-    @CrossOrigin(
-        origins = ["http://localhost:3333", "http://192.168.15.3:3333/"],
-        methods = [RequestMethod.GET],
-        allowCredentials = "true"
-    )
+
     @GetMapping("/mes/{usuarioId}")
     fun visualizarPorMes(
         @PathVariable usuarioId: Int,
@@ -86,11 +74,7 @@ class PedidoViewController(
         return ResponseEntity.status(200).body(relatorioPedido)
     }
 
-    @CrossOrigin(
-        origins = ["http://localhost:3333", "http://192.168.15.3:3333/"],
-        methods = [RequestMethod.GET],
-        allowCredentials = "true"
-    )
+
     @GetMapping("/mes/extrair/{usuarioId}")
     fun exportarPedidosPorMes(
         @PathVariable usuarioId:Int

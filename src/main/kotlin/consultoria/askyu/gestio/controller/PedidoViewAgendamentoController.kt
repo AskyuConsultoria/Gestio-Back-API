@@ -10,11 +10,7 @@ import org.springframework.web.bind.annotation.*
 class PedidoViewAgendamentoController(
     val service: PedidoViewAgendamentoService
 ) {
-    @CrossOrigin(
-        origins = ["http://localhost:3333", "http://192.168.15.3:3333/"],
-        methods = [RequestMethod.GET],
-        allowCredentials = "true"
-    )
+
     @GetMapping("/por-peca/{usuarioId}")
     fun visualizar(@PathVariable usuarioId: Int, @RequestParam nome: String): ResponseEntity<List<PedidoViewAgendamento>> {
         val listaAgendamento =
@@ -22,11 +18,7 @@ class PedidoViewAgendamentoController(
         return ResponseEntity.status(200).body(listaAgendamento)
     }
 
-    @CrossOrigin(
-        origins = ["http://localhost:3333", "http://192.168.15.3:3333/"],
-        methods = [RequestMethod.GET],
-        allowCredentials = "true"
-    )
+
     @GetMapping("/por-tecido/{usuarioId}")
     fun visualizarPorNomeTecido(@PathVariable usuarioId: Int, @RequestParam nome: String): ResponseEntity<List<PedidoViewAgendamento>> {
         val listaAgendamento =

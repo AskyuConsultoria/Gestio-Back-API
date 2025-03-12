@@ -29,11 +29,7 @@ class AgendamentoController(
             ApiResponse(responseCode = "204", description = "Não foi possível criar esse agendamento.", content = [Content(schema = Schema())]),
         ],
     )
-    @CrossOrigin(
-        origins = ["http://localhost:3333", "http://192.168.15.3:3333/"],
-        methods = [RequestMethod.POST],
-        allowCredentials = "true"
-    )
+
     @PostMapping
     fun cadastro(@Valid @RequestBody novoAgendamento: AgendamentoCadastroDTO): ResponseEntity<Agendamento> {
         val service = service.cadastrar(novoAgendamento)
@@ -49,11 +45,7 @@ class AgendamentoController(
             ApiResponse(responseCode = "404", description = "Usuário não foi encontrado.", content = [Content(schema = Schema())]),
         ],
     )
-    @CrossOrigin(
-        origins = ["http://localhost:3333", "http://192.168.15.3:3333/"],
-        methods = [RequestMethod.GET],
-        allowCredentials = "true"
-    )
+
     @GetMapping("/{idUsuario}")
     fun buscar(@PathVariable idUsuario: Int): ResponseEntity<List<Agendamento>>{
         val listaAgendamento = service.buscar(idUsuario)
@@ -69,11 +61,7 @@ class AgendamentoController(
             ApiResponse(responseCode = "404", description = "Usuário ou etapa não foi encontrada.", content = [Content(schema = Schema())]),
         ],
     )
-    @CrossOrigin(
-        origins = ["http://localhost:3333", "http://192.168.15.3:3333/"],
-        methods = [RequestMethod.GET],
-        allowCredentials = "true"
-    )
+
     @GetMapping("/etapa-ativo/{usuarioId}/{etapaId}")
     fun buscarPorEtapaAtivo(@PathVariable usuarioId: Int, @PathVariable etapaId:Int): ResponseEntity<List<Agendamento>>{
         val listaAgendamento = service.buscarPorEtapaAtivo(usuarioId, etapaId)
@@ -90,11 +78,7 @@ class AgendamentoController(
             ApiResponse(responseCode = "404", description = "Usuário ou etapa não foi encontrada.", content = [Content(schema = Schema())]),
         ],
     )
-    @CrossOrigin(
-        origins = ["http://localhost:3333", "http://192.168.15.3:3333/"],
-        methods = [RequestMethod.GET],
-        allowCredentials = "true"
-    )
+
     @GetMapping("/etapa-inativo/{usuarioId}/{etapaId}")
     fun buscarPorEtapaInativo(@PathVariable usuarioId: Int, @PathVariable etapaId:Int): ResponseEntity<List<Agendamento>>{
         val listaAgendamento = service.buscarPorEtapaInativo(usuarioId, etapaId)
@@ -110,11 +94,7 @@ class AgendamentoController(
             ApiResponse(responseCode = "404", description = "Usuário ou etapa não foi encontrada.", content = [Content(schema = Schema())]),
         ],
     )
-    @CrossOrigin(
-        origins = ["http://localhost:3333", "http://192.168.15.3:3333/"],
-        methods = [RequestMethod.GET],
-        allowCredentials = "true"
-    )
+
     @GetMapping("/etapa-filtro-nome/{usuarioId}/{etapaId}")
     fun buscarPorEtapaENome(
         @PathVariable usuarioId: Int,
@@ -134,11 +114,7 @@ class AgendamentoController(
             ApiResponse(responseCode = "404", description = "Usuário ou agendamento não foi encontrado.", content = [Content(schema = Schema())]),
         ],
     )
-    @CrossOrigin(
-        origins = ["http://localhost:3333", "http://192.168.15.3:3333/"],
-        methods = [RequestMethod.GET],
-        allowCredentials = "true"
-    )
+
     @GetMapping("/{idUsuario}/{idAgendamento}")
     fun buscarUm(@PathVariable idUsuario: Int, @PathVariable idAgendamento: Int): ResponseEntity<Agendamento>{
         val agendamento = service.buscarUm(idUsuario, idAgendamento)
@@ -154,11 +130,7 @@ class AgendamentoController(
             ApiResponse(responseCode = "404", description = "Usuário não foi encontrado.", content = [Content(schema = Schema())]),
         ],
     )
-    @CrossOrigin(
-        origins = ["http://localhost:3333", "http://192.168.15.3:3333/"],
-        methods = [RequestMethod.GET],
-        allowCredentials = "true"
-    )
+
     @GetMapping("/{idUsuario}/intervalo-tempo")
     fun buscarPorIntervaloDeTempo(
         @PathVariable idUsuario: Int,
@@ -180,11 +152,7 @@ class AgendamentoController(
             ApiResponse(responseCode = "404", description = "Usuário não foi encontrado.", content = [Content(schema = Schema())]),
         ],
     )
-    @CrossOrigin(
-        origins = ["http://localhost:3333", "http://192.168.15.3:3333/"],
-        methods = [RequestMethod.GET],
-        allowCredentials = "true"
-    )
+
     @GetMapping("/{idUsuario}/ultimos")
     fun buscarUltimos7Pedidos(
         @PathVariable idUsuario: Int,
@@ -203,11 +171,7 @@ class AgendamentoController(
             ApiResponse(responseCode = "404", description = "Usuário não foi encontrado.", content = [Content(schema = Schema())]),
         ],
     )
-    @CrossOrigin(
-        origins = ["http://localhost:3333", "http://192.168.15.3:3333/"],
-        methods = [RequestMethod.GET],
-        allowCredentials = "true"
-    )
+
     @GetMapping("/filtro-cliente-nome/{idUsuario}")
     fun buscarPorClienteNome(
         @PathVariable idUsuario: Int,
@@ -228,11 +192,7 @@ class AgendamentoController(
             ApiResponse(responseCode = "404", description = "Usuário não foi encontrado.", content = [Content(schema = Schema())]),
         ],
     )
-    @CrossOrigin(
-        origins = ["http://localhost:3333", "http://192.168.15.3:3333/"],
-        methods = [RequestMethod.GET],
-        allowCredentials = "true"
-    )
+
     @GetMapping("/filtro-cliente-email/{idUsuario}")
     fun buscarPorClienteEmail(
         @PathVariable idUsuario: Int,
@@ -251,11 +211,7 @@ class AgendamentoController(
             ApiResponse(responseCode = "404", description = "Usuário ou agendamento não foi encontrado.", content = [Content(schema = Schema())]),
         ],
     )
-    @CrossOrigin(
-        origins = ["http://localhost:3333", "http://192.168.15.3:3333/"],
-        methods = [RequestMethod.PUT],
-        allowCredentials = "true"
-    )
+
     @PutMapping("/{idUsuario}/{idAgendamento}")
     fun atualizar(
         @PathVariable idUsuario: Int,
@@ -275,11 +231,7 @@ class AgendamentoController(
             ApiResponse(responseCode = "404", description = "Usuário ou agendamento não foi encontrado.", content = [Content(schema = Schema())]),
         ],
     )
-    @CrossOrigin(
-        origins = ["http://localhost:3333", "http://192.168.15.3:3333/"],
-        methods = [RequestMethod.PATCH],
-        allowCredentials = "true"
-    )
+
     @PatchMapping("atualizar-endereco/{idUsuario}/{idAgendamento}/{idEndereco}")
     fun atualizarEndereco(
         @PathVariable idUsuario: Int,
@@ -298,11 +250,7 @@ class AgendamentoController(
             ApiResponse(responseCode = "404", description = "Usuário ou agendamento não foi encontrado.", content = [Content(schema = Schema())]),
         ],
     )
-    @CrossOrigin(
-        origins = ["http://localhost:3333", "http://192.168.15.3:3333/"],
-        methods = [RequestMethod.PATCH],
-        allowCredentials = "true"
-    )
+
     @PatchMapping("/atualizar-telefone/{idUsuario}/{idAgendamento}/{idTelefone}")
     fun atualizarTelefone(
         @PathVariable idUsuario: Int,
@@ -324,11 +272,7 @@ class AgendamentoController(
         ],
     )
   
-    @CrossOrigin(
-        origins = ["http://localhost:3333", "http://192.168.15.3:3333/"],
-        methods = [RequestMethod.DELETE],
-        allowCredentials = "true"
-    )
+
     @DeleteMapping("/{idUsuario}/{idAgendamento}")
     fun excluir(
         @PathVariable idUsuario: Int,

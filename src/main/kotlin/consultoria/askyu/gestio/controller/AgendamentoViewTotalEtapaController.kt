@@ -13,11 +13,7 @@ class AgendamentoViewTotalEtapaController (
     val agendamentoViewTotalEtapaService: AgendamentoViewTotalEtapaServico
 ):ViewControlador(agendamentoViewTotalEtapaService) {
 
-    @CrossOrigin(
-        origins = ["http://localhost:3333", "http://192.168.15.3:3333/"],
-        methods = [RequestMethod.GET],
-        allowCredentials = "true"
-    )
+
     @GetMapping("/{usuarioId}")
     fun visualizar(@PathVariable usuarioId: Int): ResponseEntity<List<AgendamentoViewTotalEtapa>> {
         val contagemAgendamento = agendamentoViewTotalEtapaService.visualizar(usuarioId)

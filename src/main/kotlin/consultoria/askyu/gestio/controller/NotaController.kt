@@ -32,11 +32,7 @@ class NotaController(
     }
 
 
-    @CrossOrigin(
-        origins = ["http://localhost:3333", "http://192.168.15.3:3333/"],
-        methods = [RequestMethod.GET],
-        allowCredentials = "true"
-    )
+
     @Operation(summary = "Busca todas as notas com base em um usuário.",
         description = "Busca todas as notas com base em um usuário.")
     @ApiResponses(
@@ -54,11 +50,7 @@ class NotaController(
 
 
 
-    @CrossOrigin(
-        origins = ["http://localhost:3333", "http://192.168.15.3:3333/"],
-        methods = [RequestMethod.GET],
-        allowCredentials = "true"
-    )
+
     @Operation(summary = "Busca todas as notas com base em um usuário e um cliente.",
         description = "Busca todas as notas com base em um usuário e um cliente.")
     @ApiResponses(
@@ -75,11 +67,7 @@ class NotaController(
     }
 
 
-    @CrossOrigin(
-        origins = ["http://localhost:3333", "http://192.168.15.3:3333/"],
-        methods = [RequestMethod.GET],
-        allowCredentials = "true"
-    )
+
     @Operation(summary = "Busca todas as notas com base em um usuário e o titulo da nota.",
         description = "Busca todas as notas com base em um usuário e o titulo da nota.")
     @ApiResponses(
@@ -96,11 +84,7 @@ class NotaController(
     }
 
 
-    @CrossOrigin(
-        origins = ["http://localhost:3333", "http://192.168.15.3:3333/"],
-        methods = [RequestMethod.GET],
-        allowCredentials = "true"
-    )
+
     @Operation(summary = "Busca uma nota específica com base em um usuário e no id da própria nota.",
         description = "Busca uma nota específica com base em um usuário e no id da própria nota.")
     @ApiResponses(
@@ -117,11 +101,7 @@ class NotaController(
     }
 
 
-    @CrossOrigin(
-        origins = ["http://localhost:3333", "http://192.168.15.3:3333/"],
-        methods = [RequestMethod.PUT],
-        allowCredentials = "true"
-    )
+
     @Operation(summary = "Atualiza uma nota específica com base em um usuário e no id da própria nota.",
         description = "Atualiza uma nota específica com base em um usuário e no id da própria nota.")
     @ApiResponses(
@@ -149,11 +129,7 @@ class NotaController(
             ApiResponse(responseCode = "404", description = "Usuário ou nota não foi encontrado.", content = [Content(schema = Schema())]),
         ],
     )
-    @CrossOrigin(
-        origins = ["http://localhost:3333", "http://192.168.15.3:3333/"],
-        methods = [RequestMethod.DELETE],
-        allowCredentials = "true"
-    )
+
     @DeleteMapping("/{usuarioId}/{notaId}")
     fun desativar(@PathVariable usuarioId: Int, @PathVariable notaId: Int): ResponseEntity<Nota>{
         val nota = service.desativar(usuarioId, notaId)

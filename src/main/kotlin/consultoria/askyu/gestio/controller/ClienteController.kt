@@ -33,11 +33,7 @@ class ClienteController (
             ApiResponse(responseCode = "204", description = "Não foi possível cadastrar esse cliente.", content = [Content(schema = Schema())]),
         ],
     )
-    @CrossOrigin(
-        origins = ["http://localhost:3333", "http://192.168.15.3:3333/"],
-        methods = [RequestMethod.POST],
-        allowCredentials = "true"
-    )
+
     @PostMapping
         fun cadastro(@Valid @RequestBody novoCliente: ClienteCadastroDTO): ResponseEntity<Cliente>{
         val service = service.cadastrar(novoCliente)
@@ -55,11 +51,7 @@ class ClienteController (
             ApiResponse(responseCode = "400", description = "Erro ao processar o arquivo.", content = [Content(schema = Schema())]),
         ]
     )
-    @CrossOrigin(
-        origins = ["http://localhost:3333", "http://192.168.15.3:3333/"],
-        methods = [RequestMethod.POST],
-        allowCredentials = "true"
-    )
+
     @PostMapping("/txt", consumes = ["multipart/form-data"])
     fun cadastroTxt(@RequestParam("file") novoCliente: MultipartFile): ResponseEntity<List<Cliente>> {
         if (novoCliente.isEmpty) {
@@ -83,11 +75,7 @@ class ClienteController (
             ApiResponse(responseCode = "204", description = "Não foi possível exibir esse cliente.", content = [Content(schema = Schema())]),
         ],
     )
-    @CrossOrigin(
-        origins = ["http://localhost:3333", "http://192.168.15.3:3333/"],
-        methods = [RequestMethod.GET],
-        allowCredentials = "true"
-    )
+
     @GetMapping("/{idCliente}/buscarUm")
     fun getUmCliente (@PathVariable idCliente: Int): ResponseEntity<Cliente>{
         val cliente = service.buscarUmCliente(idCliente)
@@ -103,11 +91,7 @@ class ClienteController (
             ApiResponse(responseCode = "204", description = "Não foi possível exibir essa lista de cliente.", content = [Content(schema = Schema())]),
         ],
     )
-    @CrossOrigin(
-        origins = ["http://localhost:3333", "http://192.168.15.3:3333/"],
-        methods = [RequestMethod.GET],
-        allowCredentials = "true"
-    )
+
     @GetMapping("/{idUsuario}")
     fun getTodosOsClientes (@PathVariable idUsuario: Int): ResponseEntity<List<ClienteResponse>>{
         val listaCliente = service.buscarClientes(idUsuario)
@@ -123,22 +107,14 @@ class ClienteController (
             ApiResponse(responseCode = "204", description = "Não foi possível exibir essa lista de cliente.", content = [Content(schema = Schema())]),
         ],
     )
-    @CrossOrigin(
-        origins = ["http://localhost:3333", "http://192.168.15.3:3333/"],
-        methods = [RequestMethod.GET],
-        allowCredentials = "true"
-    )
+
     @GetMapping("/{idUsuario}/filtro-nome")
     fun buscarPorClientesPorNome (@PathVariable idUsuario: Int, @RequestParam nome: String): ResponseEntity<List<Cliente>>{
         val listaCliente = service.buscarClientesPorNome(idUsuario, nome)
         return ResponseEntity.status(200).body(listaCliente)
     }
 
-    @CrossOrigin(
-        origins = ["http://localhost:3333", "http://192.168.15.3:3333/"],
-        methods = [RequestMethod.GET],
-        allowCredentials = "true"
-    )
+
     @GetMapping("/por-responsavel/{usuarioId}/{responsavelId}")
     fun buscarClientesPorResponsavel(@PathVariable usuarioId: Int, @PathVariable responsavelId: Int): ResponseEntity<List<Cliente>> {
         val listaCliente = service.buscarClientesPorResponsavel(usuarioId, responsavelId)
@@ -146,11 +122,7 @@ class ClienteController (
     }
 
 
-    @CrossOrigin(
-        origins = ["http://localhost:3333", "http://192.168.15.3:3333/"],
-        methods = [RequestMethod.GET],
-        allowCredentials = "true"
-    )
+
     @GetMapping("relatorio-kpi/{usuarioId}")
     fun buscarRelatorioPedido(@PathVariable usuarioId: Int, @RequestParam anoEscolhido: Int, @RequestParam mesEscolhido: Int, @RequestParam periodo: Int): ResponseEntity<ClienteRelatorioResponse> {
         val relatorioPedido = clienteRelatorioService.getComparacaoClientes(usuarioId, anoEscolhido, mesEscolhido, periodo)
@@ -165,11 +137,7 @@ class ClienteController (
             ApiResponse(responseCode = "404", description = "Não foi possível desativar esse cliente.", content = [Content(schema = Schema())]),
         ],
     )
-    @CrossOrigin(
-        origins = ["http://localhost:3333", "http://192.168.15.3:3333/"],
-        methods = [RequestMethod.DELETE],
-        allowCredentials = "true"
-    )
+
     @DeleteMapping("/{usuarioId}/{clienteId}")
     fun desativarCliente(@PathVariable usuarioId: Int, @PathVariable clienteId: Int ): ResponseEntity<Cliente> {
         val cliente = service.desativarClientePorId(usuarioId, clienteId)
@@ -184,11 +152,7 @@ class ClienteController (
             ApiResponse(responseCode = "204", description = "Não foi possível atualizar esse cliente.", content = [Content(schema = Schema())]),
         ],
     )
-    @CrossOrigin(
-        origins = ["http://localhost:3333", "http://192.168.15.3:3333/"],
-        methods = [RequestMethod.PUT],
-        allowCredentials = "true"
-    )
+
     @PutMapping("/{idCliente}")
     fun atualizarCliente(@Valid @PathVariable idCliente: Int, @RequestBody dados: ClienteAtualizarDTO): ResponseEntity<Cliente>{
         val clienteAtualizado = service.atualizarCliente(idCliente, dados)
@@ -196,11 +160,7 @@ class ClienteController (
         return ResponseEntity.status(200).body(clienteAtualizado)
     }
 
-    @CrossOrigin(
-        origins = ["http://localhost:3333", "http://192.168.15.3:3333/"],
-        methods = [RequestMethod.PATCH],
-        allowCredentials = "true"
-    )
+
     @PatchMapping("/{usuarioId}/{clienteId}/{responsavelId}")
     fun atualizarResponsavel(
         @PathVariable usuarioId: Int,
@@ -211,11 +171,7 @@ class ClienteController (
         return ResponseEntity.status(200).body(cliente)
     }
 
-    @CrossOrigin(
-        origins = ["http://localhost:3333", "http://192.168.15.3:3333/"],
-        methods = [RequestMethod.PATCH],
-        allowCredentials = "true"
-    )
+
     @PatchMapping("/{usuarioId}/{clienteId}")
     fun retirarResponsavel(
         @PathVariable usuarioId: Int,
